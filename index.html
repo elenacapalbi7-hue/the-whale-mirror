@@ -1,8 +1,9 @@
-<div class="main-container">
-    <h3 style="color: var(--gold); margin-bottom: 5px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
-    <p style="font-size: 0.65rem; color: #666; margin: 0;">Actualización PRO: En vivo | Gratis: 05:00</p>
+<div class="app-container">
+    <h2 style="color:var(--gold); text-align:center;">THE WHALE MIRROR 🐋</h2>
+    
+    <h3 style="color: var(--gold); margin-top:30px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
 
-    <div class="table-scroll-area">
+    <div class="whale-scroll-box">
         <table>
             <thead>
                 <tr>
@@ -19,7 +20,15 @@
         </table>
     </div>
 
-    <button class="btn-pro" onclick="verMasMonedas()">
+    <button class="btn-market-pro" onclick="verMasMonedas()">
         VER TODO EL MERCADO (PRO) ↓
     </button>
+</div>
+
+<div id="detail-modal" class="modal">
+    <div class="modal-content">
+        <div id="modal-data"></div>
+        <button onclick="document.getElementById('detail-modal').style.display='none'" 
+                style="width:100%; margin-top:20px; padding:12px; background:var(--gold); border:none; font-weight:bold; border-radius:8px;">CERRAR</button>
+    </div>
 </div>
