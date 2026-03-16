@@ -1,40 +1,42 @@
 <style>
     :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
     
-    /* Configuración Base para evitar que nada se salga */
+    /* Reset total para evitar que se hereden errores */
+    * { box-sizing: border-box; }
     body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; overflow-x: hidden; }
-    .container { max-width: 100%; margin: auto; }
+    
+    /* Contenedor principal que mantiene todo centrado */
+    .main-container { max-width: 500px; margin: auto; }
 
-    /* Contenedor de Tabla: La clave de la solución */
-    .table-wrapper { 
+    /* EL ESCUDO: Esto evita que la tabla rompa el diseño */
+    .table-scroll-area { 
         width: 100%; 
-        overflow-x: auto; /* Permite scroll lateral solo en la tabla */
+        overflow-x: auto; 
         background: var(--card); 
-        border-radius: 10px; 
+        border-radius: 12px; 
         border: 1px solid #222;
-        margin-top: 10px;
-        -webkit-overflow-scrolling: touch; /* Scroll suave en iPhone */
+        margin: 20px 0;
+        -webkit-overflow-scrolling: touch; 
     }
 
     table { 
         width: 100%; 
         border-collapse: collapse; 
-        font-size: 0.7rem; /* Texto más pequeño para móvil */
-        min-width: 600px; /* Asegura que las columnas tengan espacio */
+        min-width: 650px; /* Obliga a la tabla a tener espacio para las 6 columnas */
+        font-size: 0.75rem; 
     }
 
-    th { background: #1a1a1a; color: #888; padding: 12px 8px; text-align: left; text-transform: uppercase; }
-    td { padding: 12px 8px; border-bottom: 1px solid #222; white-space: nowrap; }
+    th { background: #1a1a1a; color: #888; padding: 15px 10px; text-align: left; text-transform: uppercase; }
+    td { padding: 15px 10px; border-bottom: 1px solid #222; white-space: nowrap; }
 
-    /* Estilo del Modal PRO */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
-    .modal-content { 
-        background: #111; 
-        margin: 10% auto; 
-        padding: 20px; 
-        width: 85%; 
-        max-width: 500px; 
-        border-radius: 15px; 
-        border: 1px solid var(--gold); 
+    /* Botón PRO llamativo */
+    .btn-pro {
+        width: 100%; background: transparent; color: var(--gold); 
+        border: 1px solid var(--gold); padding: 15px; border-radius: 8px; 
+        font-weight: bold; cursor: pointer; margin-top: 10px;
     }
+
+    /* Modal PRO (Igual al que te gustó) */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; padding: 20px; }
+    .modal-content { background: #111; margin: 10% auto; padding: 25px; border-radius: 15px; border: 1px solid var(--gold); max-width: 450px; }
 </style>
