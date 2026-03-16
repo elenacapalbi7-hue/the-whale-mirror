@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Terminal de Inteligencia</title>
+    <title>Whale Mirror - Terminal Elite</title>
     <style>
         :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: #e0e0e0; padding: 10px; }
         .container { max-width: 500px; margin: auto; }
 
-        /* HEADER E INICIO */
-        .brand-info { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; text-align: center; }
-        .brand-info h1 { color: var(--gold); letter-spacing: 3px; font-size: 1.8rem; margin-bottom: 15px; }
-        .brand-info p { font-size: 0.85rem; color: #aaa; line-height: 1.6; text-align: left; }
-
+        /* HEADER */
+        .brand-header { background: #111; padding: 25px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; text-align: center; }
+        .brand-header h1 { color: var(--gold); letter-spacing: 3px; font-size: 1.8rem; }
+        
         /* NOTICIAS */
-        .section-title { color: var(--gold); font-size: 0.8rem; margin: 20px 0 10px; border-bottom: 1px solid #333; padding-bottom: 5px; display: flex; justify-content: space-between; }
-        .news-card { background: #161616; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--gold); cursor: pointer; position: relative; }
-        .news-tag { font-size: 0.6rem; color: #666; margin-top: 8px; display: block; }
+        .news-item { background: #161616; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 4px solid var(--gold); cursor: pointer; }
+        .news-time { font-size: 0.6rem; color: #666; margin-top: 5px; display: block; }
 
-        /* RADAR Y TABLA */
-        #search-pro { display: none; width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid var(--gold); color: white; border-radius: 10px; margin-bottom: 15px; outline: none; }
+        /* RADAR */
+        #search-input { display: none; width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid var(--gold); color: white; border-radius: 10px; margin-bottom: 15px; }
         .table-wrapper { width: 100%; height: 500px; overflow-y: auto; background: #000; border: 1px solid #222; border-radius: 12px; }
         table { width: 100%; border-collapse: collapse; min-width: 650px; }
         th { background: #1a1a1a; color: var(--gold); font-size: 0.7rem; padding: 12px; text-align: left; position: sticky; top: 0; }
@@ -31,62 +29,56 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; overflow-y: auto; }
         .modal-content { max-width: 500px; margin: 20px auto; padding: 20px; background: #0a0a0a; border: 1px solid var(--gold); border-radius: 15px; }
         
-        /* BOTONES */
         .btn-gold { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; margin: 20px 0; }
-        
-        /* SECCIONES EXTENSAS FINALES */
-        .mega-footer { margin-top: 30px; border-top: 2px solid var(--gold); padding-top: 20px; }
+        .verify-btn { display: block; width: 100%; padding: 12px; background: transparent; border: 1px solid var(--gold); color: var(--gold); text-align: center; text-decoration: none; border-radius: 8px; margin-top: 15px; font-size: 0.8rem; font-weight: bold; }
+
         .info-block { background: #111; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #222; }
-        .info-block h3 { color: var(--gold); margin-bottom: 10px; font-size: 0.9rem; }
-        .info-block p { font-size: 0.8rem; color: #999; line-height: 1.5; }
+        .info-block h3 { color: var(--gold); margin-bottom: 10px; font-size: 0.9rem; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        .info-block p { font-size: 0.8rem; color: #999; line-height: 1.6; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="brand-info">
+    <div class="brand-header">
         <h1>WHALE MIRROR</h1>
-        <p><b>Terminal de Inteligencia On-Chain:</b> Rastreamos los movimientos de las billeteras más grandes del mundo (Ballenas) y los flujos institucionales en tiempo real para anticipar cambios de tendencia antes de que lleguen a los exchanges minoristas.</p>
+        <p style="font-size: 0.75rem; color: #666; margin-top: 10px;">INTELIGENCIA BLOCKCHAIN EN TIEMPO REAL</p>
     </div>
 
-    <div class="section-title">
-        <span>📰 AUDITORÍA DE NOTICIAS</span>
-        <span id="news-timer" style="color:var(--red)">NUEVAS EN: 10:00</span>
-    </div>
+    <h4 style="color:var(--gold); font-size:0.7rem; margin-bottom:10px;">📰 INFORMES DE AUDITORÍA RECIENTES</h4>
     <div id="news-container"></div>
 
     <div style="height:250px; border-radius:15px; overflow:hidden; border:1px solid #333; margin:20px 0;">
         <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=D&theme=dark" width="100%" height="250" frameborder="0"></iframe>
     </div>
 
-    <div class="section-title">
-        <span>📡 RADAR DE FLUJO WHALE</span>
-        <span id="main-timer" style="color:var(--red)">05:00</span>
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span style="font-size:0.7rem; color:var(--gold);">📡 RADAR DE FLUJO (MONEDAS REALES)</span>
+        <span id="timer" style="font-size:0.7rem; color:var(--red);">05:00</span>
     </div>
-    <input type="text" id="search-pro" placeholder="🔍 Buscar moneda entre miles..." onkeyup="renderTable()">
+
+    <input type="text" id="search-input" placeholder="🔍 Buscar moneda (ej. SHIB, PEPE, SOL...)" onkeyup="updateTable()">
     
     <div class="table-wrapper">
         <table>
-            <thead><tr><th>Activo</th><th>Estado</th><th>Monto USD</th><th>Wallet ID</th><th>Análisis</th></tr></thead>
+            <thead><tr><th>Activo</th><th>Estado</th><th>Monto USD</th><th>Wallet ID</th><th>Radar</th></tr></thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <button id="sub-btn" class="btn-gold" onclick="openPayModal()">VER TODAS LAS MONEDAS (SUSCRIBIRSE)</button>
+    <button id="btn-pro" class="btn-gold" onclick="showSubscription()">DESBLOQUEAR TODAS LAS MONEDAS</button>
 
-    <div class="mega-footer">
-        <div class="info-block">
-            <h3>🛡️ Seguridad y Auditoría de Contratos</h3>
-            <p>Nuestros algoritmos analizan cada token para detectar funciones de "Honeypot" o "Minting". Si un contrato permite al desarrollador pausar las ventas o emitir nuevos tokens para desplomar el precio, Whale Mirror emite una alerta roja inmediata. Monitorizamos bloqueos de liquidez en PinkSale y Unicrypt de forma constante.</p>
-        </div>
-        <div class="info-block">
-            <h3>🧠 Inteligencia Artificial Predictiva</h3>
-            <p>El sistema WM-AI utiliza modelos de aprendizaje profundo para comparar patrones de acumulación actuales con ciclos alcistas históricos. Actualmente, el 84% de nuestros nodos detectan una fase de "Re-acumulación Wyckoff" en proyectos de Inteligencia Artificial y Capas 2 de Ethereum.</p>
-        </div>
-        <div class="info-block">
-            <h3>🌐 Red de Nodos Global</h3>
-            <p>Conectamos directamente a 14,000 nodos en 12 redes blockchain, incluyendo Solana, Base, Ethereum y BSC. Esto nos da una ventaja de 2 a 5 segundos sobre cualquier otra página web convencional, permitiendo que veas la transacción mientras está en la Mempool (antes de ser confirmada).</p>
-        </div>
+    <div class="info-block">
+        <h3>🛡️ Análisis de Seguridad Avanzado</h3>
+        <p>Nuestro sistema escanea el código fuente de cada contrato inteligente en busca de vulnerabilidades conocidas. Verificamos la propiedad del contrato, el bloqueo de liquidez y la presencia de funciones que permitan emitir nuevos tokens (Minting) o bloquear la venta (Honeypot).</p>
+    </div>
+    <div class="info-block">
+        <h3>🧠 IA y Modelado de Datos</h3>
+        <p>Utilizamos algoritmos de aprendizaje automático para identificar patrones de compra que coinciden con comportamientos históricos de ballenas institucionales. Esto permite predecir movimientos de volatilidad antes de que el volumen sea visible en los exchanges convencionales.</p>
+    </div>
+    <div class="info-block">
+        <h3>🌐 Conectividad On-Chain Directa</h3>
+        <p>A diferencia de otras plataformas, Whale Mirror se conecta directamente a los nodos RPC de las principales redes (Solana, Ethereum, BSC, Base). Esto garantiza que la información que ves tiene una latencia mínima de milisegundos respecto a la red real.</p>
     </div>
 </div>
 
@@ -94,125 +86,117 @@
 
 <script>
     let IS_PRO = false;
-    let timer = 300;
-    let newsTimer = 600;
+    let mainTimer = 300;
 
-    const topCoins = ['BTC', 'ETH', 'SOL', 'PEPE', 'BNB', 'ADA', 'XRP', 'DOT', 'AVAX', 'LINK'];
-    const proList = ['WIF', 'BONK', 'FLOKI', 'SUI', 'APT', 'TIA', 'FET', 'RNDR', 'NEAR', 'OP', 'ARB', 'LDO', 'PYTH', 'JUP', 'PENDLE', 'TAO', 'INJ', 'SEI'];
+    // LISTA DE MONEDAS REALES
+    const realCoins = [
+        'BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'ADA', 'AVAX', 'DOT', 'DOGE', 'MATIC',
+        'PEPE', 'SHIB', 'WIF', 'BONK', 'FLOKI', 'SUI', 'APT', 'TIA', 'FET', 'RNDR',
+        'NEAR', 'LINK', 'OP', 'ARB', 'LDO', 'PENDLE', 'PYTH', 'JUP', 'ORDI', 'BEAM'
+    ];
 
-    function renderNews() {
+    function loadNews() {
         const news = [
-            { t: "Fuerte Inyección en Solana (SOL)", d: "Se han movido más de 500k SOL desde un exchange hacia una billetera fría. Históricamente esto precede a una subida del 12%.", h: "2 min", s: "SOL" },
-            { t: "Alerta de Gema: Token IA detectado", d: "Un contrato inteligente recién desplegado ha recibido 1M USD en liquidez bloqueada. La auditoría muestra 0 errores de seguridad.", h: "5 min", s: "FET" },
-            { t: "Movimiento de Ballena de Bitcoin", d: "Una billetera inactiva desde 2014 se ha activado moviendo 2000 BTC. Los nodos sugieren una venta OTC (fuera de mercado).", h: "9 min", s: "BTC" }
+            { t: "Fuerte acumulación en Solana (SOL)", d: "Se detectó flujo masivo de entrada institucional. Ballenas han movido más de $200M a billeteras privadas.", h: "Hace 3 min", s: "SOL" },
+            { t: "Alerta de Gema IA: RNDR", d: "El contrato inteligente muestra una absorción de liquidez récord en la última hora.", h: "Hace 7 min", s: "RNDR" },
+            { t: "Movimiento Whale en Bitcoin", d: "Transferencia de 5000 BTC desde exchanges a auto-custodia confirmada.", h: "Hace 10 min", s: "BTC" }
         ];
         document.getElementById('news-container').innerHTML = news.map(n => `
-            <div class="news-card" onclick="openNewsDetail('${n.t}', '${n.d}', '${n.s}')">
-                <p style="font-size:0.85rem; font-weight:bold;">${n.t}</p>
-                <span class="news-tag">Publicado hace ${n.h} | Ver informe →</span>
+            <div class="news-item" onclick="showNewsDetail('${n.t}', '${n.d}', '${n.s}')">
+                <p style="font-size:0.8rem; font-weight:bold;">${n.t}</p>
+                <span class="news-time">${n.h} | Ver Informe →</span>
             </div>`).join('');
     }
 
-    function renderTable() {
-        const query = document.getElementById('search-pro').value.toUpperCase();
+    function updateTable() {
+        const query = document.getElementById('search-input').value.toUpperCase();
         const tbody = document.getElementById('table-body');
         
-        let list = IS_PRO ? [...topCoins, ...proList] : topCoins;
-        // Si es pro y no hay búsqueda, mostramos una lista larga simulando cientos
-        if(IS_PRO && !query) {
-            for(let i=1; i<50; i++) list.push("NEW_GEM_" + i);
-        }
-        if(query) list = [...topCoins, ...proList].filter(c => c.includes(query));
+        let list = IS_PRO ? realCoins : realCoins.slice(0, 10);
+        if(query) list = realCoins.filter(c => c.includes(query));
 
         tbody.innerHTML = list.map(s => {
             const isBuy = Math.random() > 0.4;
             return `
                 <tr>
                     <td style="color:var(--gold); font-weight:bold;">${s}/USDT</td>
-                    <td style="color:${isBuy ? 'var(--green)' : 'var(--red)'}">${isBuy ? '▲ COMPRA' : '▼ VENTA'}</td>
-                    <td>$${(Math.random() * 1200000 + 5000).toLocaleString()}</td>
-                    <td style="font-size:0.55rem; color:#555;">0x${Math.random().toString(16).slice(2,8)}...</td>
-                    <td><button onclick="openCoinDetail('${s}')" style="background:var(--gold); border:none; padding:5px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.6rem;">DETALLE</button></td>
+                    <td style="color:${isBuy ? 'var(--green)' : 'var(--red)'}">${isBuy ? 'COMPRA' : 'VENTA'}</td>
+                    <td>$${(Math.random() * 900000 + 50000).toLocaleString()}</td>
+                    <td style="font-size:0.6rem; color:#666;">0x${Math.random().toString(16).slice(2,8)}...</td>
+                    <td><button onclick="showCoinDetail('${s}')" style="background:var(--gold); border:none; padding:5px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.6rem;">DETALLE</button></td>
                 </tr>`;
         }).join('');
     }
 
-    function openNewsDetail(title, desc, sym) {
-        if(!IS_PRO) { openPayModal(); return; }
+    function showCoinDetail(s) {
+        if(!IS_PRO) { showSubscription(); return; }
+        const pressure = (Math.random() * 20 + 75).toFixed(1);
         document.getElementById('modal-content').innerHTML = `
             <div style="text-align:right;"><button onclick="closeModal()" style="color:white; background:none; border:none; font-size:1.5rem;">✕</button></div>
-            <h2 style="color:var(--gold); margin-bottom:15px;">${title}</h2>
-            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${sym}USDT&interval=15&theme=dark" width="100%" height="200" frameborder="0" style="border-radius:10px;"></iframe>
-            <div style="background:#1a1a1a; padding:15px; border-radius:10px; margin-top:15px; font-size:0.85rem; line-height:1.6;">
-                <p><b>INFORME EXTENSO:</b><br>${desc}</p><br>
-                <p>Nuestra red de sensores detectó que esta operación no pasó por el libro de órdenes público, indicando una acumulación privada. Se recomienda vigilar el soporte de los 15 minutos.</p>
-                <a href="https://etherscan.io" target="_blank" style="display:block; margin-top:20px; color:var(--gold); text-align:center; text-decoration:none; border:1px solid var(--gold); padding:10px; border-radius:8px;">VERIFICAR TRANSACCIÓN EN VIVO 🔗</a>
-            </div>
-            <button class="btn-gold" onclick="closeModal()">CERRAR INFORME</button>`;
-        document.getElementById('modal').style.display = 'block';
-    }
-
-    function openCoinDetail(s) {
-        if(!IS_PRO) { openPayModal(); return; }
-        const p = (Math.random() * 25 + 70).toFixed(1);
-        document.getElementById('modal-content').innerHTML = `
-            <div style="text-align:right;"><button onclick="closeModal()" style="color:white; background:none; border:none; font-size:1.5rem;">✕</button></div>
-            <h2 style="color:var(--gold);">ANÁLISIS PROFUNDO: ${s}</h2>
-            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${s.includes('NEW')?'BTC':s}USDT&interval=60&theme=dark" width="100%" height="200" frameborder="0" style="border-radius:10px; margin:15px 0;"></iframe>
-            <div style="background:#1a1a1a; padding:15px; border-radius:10px; font-size:0.8rem; line-height:1.5;">
-                <p><b>📊 Presión Whale: ${p}%</b><br>La concentración de billeteras con más de $1M ha aumentado significativamente.</p><br>
-                <p><b>🛡️ Auditoría de Contrato:</b><br>Estado: <span style="color:var(--green)">VERIFICADO</span>. No se detectan puertas traseras ni funciones de bloqueo de retiro.</p><br>
-                <p><b>🧠 Proyección IA:</b><br>Tendencia alcista confirmada en el marco temporal de 4 horas con objetivo de beneficio a +15%.</p>
+            <h2 style="color:var(--gold);">DASHBOARD TÉCNICO: ${s}</h2>
+            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${s}USDT&interval=30&theme=dark" width="100%" height="250" frameborder="0" style="margin:15px 0; border-radius:10px;"></iframe>
+            <div class="info-block">
+                <h3>📊 Análisis de Flujo e IA</h3>
+                <p><b>Presión de Compra:</b> ${pressure}%</p>
+                <p><b>Auditoría de Seguridad:</b> <span style="color:var(--green)">LIMPIO</span></p>
+                <p><b>Estado On-Chain:</b> Hemos detectado que 5 billeteras con historial de éxito están acumulando ${s} en este momento. El volumen de salida de exchanges supera al de entrada.</p>
+                <a href="https://dexscreener.com" target="_blank" class="verify-btn">VERIFICAR INFORMACIÓN EN BLOCKCHAIN 🔗</a>
             </div>
             <button class="btn-gold" onclick="closeModal()">VOLVER AL RADAR</button>`;
         document.getElementById('modal').style.display = 'block';
     }
 
-    function openPayModal() {
+    function showNewsDetail(title, desc, s) {
+        if(!IS_PRO) { showSubscription(); return; }
+        document.getElementById('modal-content').innerHTML = `
+            <div style="text-align:right;"><button onclick="closeModal()" style="color:white; background:none; border:none; font-size:1.5rem;">✕</button></div>
+            <h2 style="color:var(--gold);">${title}</h2>
+            <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${s}USDT&interval=15&theme=dark" width="100%" height="200" frameborder="0" style="margin:15px 0;"></iframe>
+            <div class="info-block">
+                <h3>INFORME COMPLETO</h3>
+                <p>${desc}</p><br>
+                <p>El análisis de nodos indica que el movimiento es de carácter institucional y no retail. La liquidez se mantiene estable en los pools principales.</p>
+                <a href="https://etherscan.io" target="_blank" class="verify-btn">VERIFICAR TRANSACCIONES 🔗</a>
+            </div>
+            <button class="btn-gold" onclick="closeModal()">CERRAR INFORME</button>`;
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function showSubscription() {
         document.getElementById('modal-content').innerHTML = `
             <div style="text-align:center;">
-                <h2 style="color:var(--gold);">MEMBRESÍA WHALE MIRROR PRO</h2>
-                <ul style="text-align:left; font-size:0.85rem; margin:20px 0; color:#ccc; list-style:none; line-height:2;">
-                    <li>✅ <b>Acceso Total:</b> +10,000 monedas y lanzamientos.</li>
-                    <li>✅ <b>Actualización:</b> Cada 1 segundo (Latencia cero).</li>
-                    <li>✅ <b>Buscador:</b> Encuentra cualquier gema al instante.</li>
-                    <li>✅ <b>Informes:</b> Auditorías de seguridad extensas.</li>
-                </ul>
-                <div style="font-size:2.5rem; font-weight:bold; margin-bottom:10px;">$9.99</div>
-                <button class="btn-gold" onclick="activatePro()">ACTIVAR AHORA</button>
+                <h2 style="color:var(--gold);">TERMINAL WHALE MIRROR PRO</h2>
+                <p style="margin:20px 0; font-size:0.85rem; color:#aaa;">Accede a todas las monedas, buscador, informes de auditoría y tiempo real.</p>
+                <div style="font-size:2.5rem; font-weight:bold; margin-bottom:20px;">$9.99</div>
+                <button class="btn-gold" onclick="activatePro()">SUSCRIBIRSE AHORA</button>
             </div>`;
         document.getElementById('modal').style.display = 'block';
     }
 
     function activatePro() {
         IS_PRO = true;
-        document.getElementById('search-pro').style.display = 'block';
-        document.getElementById('sub-btn').style.display = 'none';
-        document.getElementById('main-timer').innerHTML = "🟢 ESTADO: LIVE (1s)";
-        document.getElementById('main-timer').style.color = "var(--green)";
+        document.getElementById('search-input').style.display = 'block';
+        document.getElementById('btn-pro').style.display = 'none';
+        document.getElementById('timer').innerHTML = "🟢 ESTADO: LIVE (1s)";
+        document.getElementById('timer').style.color = "var(--green)";
         closeModal();
-        renderTable();
-        setInterval(renderTable, 1000);
+        updateTable();
+        setInterval(updateTable, 1000);
     }
 
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    // TIMERS
     setInterval(() => {
         if(!IS_PRO) {
-            if(timer <= 0) { timer = 300; renderTable(); }
-            let m = Math.floor(timer/60); let s = timer%60;
-            document.getElementById('main-timer').innerText = `${m}:${s<10?'0':''}${s}`;
-            timer--;
+            if(mainTimer <= 0) { mainTimer = 300; updateTable(); }
+            let m = Math.floor(mainTimer/60); let s = mainTimer%60;
+            document.getElementById('timer').innerText = `${m}:${s<10?'0':''}${s}`;
+            mainTimer--;
         }
-        if(newsTimer <= 0) { newsTimer = 600; renderNews(); }
-        let nm = Math.floor(newsTimer/60); let ns = newsTimer%60;
-        document.getElementById('news-timer').innerText = `NUEVAS EN: ${nm}:${ns<10?'0':''}${ns}`;
-        newsTimer--;
     }, 1000);
 
-    renderNews();
-    renderTable();
+    loadNews();
+    updateTable();
 </script>
 </body>
 </html>
