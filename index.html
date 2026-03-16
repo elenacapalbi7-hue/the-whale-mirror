@@ -1,78 +1,20 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Whale Mirror - Smart Money</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://unpkg.com/lucide@latest"></script>
-</head>
-<body>
-    <header>
-        <div class="logo-container">
-            <span class="badge">Gratis</span>
-            <h1>The Whale Mirror</h1>
-        </div>
-        <p class="hero-text">Sigue el rastro del dinero inteligente en tiempo real.</p>
-    </header>
-
-    <div class="container">
-        <section class="market-overview">
-            <div class="stat-card">
-                <span class="stat-title">Volumen 24h</span>
-                <span class="stat-value">$2.4M</span>
-            </div>
-            <div class="stat-card">
-                <span class="stat-title">Ballenas Activas</span>
-                <span class="stat-value">47</span>
-            </div>
-        </section>
-
-        <section class="flash-news">
-            <div class="news-label">Noticias Flash:</div>
-            <marquee>🔥 Ballena de BTC movió $50M a Binance... 🚀 ETH muestra señales de acumulación masiva... 🐳 Nueva billetera Pro detectada...</marquee>
-        </section>
-
-        <section id="tabla-seccion">
-            <h2>Movimientos de ballenas en vivo <span class="dot"></span></h2>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ACTIVO</th>
-                            <th>TIPO</th>
-                            <th>CANTIDAD USD</th>
-                            <th>VERIFICAR</th>
-                        </tr>
-                    </thead>
-                    <tbody id="table-body">
-                        </tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="pricing">
-            <div class="card-pro">
-                <h3>Whale Mirror PRO 🏆</h3>
-                <p class="price">$9.99 <span>/mes</span></p>
-                <ul class="pro-features">
-                    <li>✅ Gráficos de TradingView en vivo</li>
-                    <li>✅ Enlaces directos a la Blockchain</li>
-                    <li>✅ Sin anuncios ni límites</li>
-                </ul>
-                <a href="https://s.binance.com/CG8zHTCm" class="btn-pay">Suscribirse con Binance</a>
-            </div>
-        </section>
+<section class="market-overview">
+    <div class="stat-card">
+        <span class="stat-title">Sentimiento</span>
+        <span class="stat-value" style="color: #27ae60;">CODICIA</span>
+        <div style="width: 100%; background: #333; height: 5px; margin-top: 5px;"><div style="width: 75%; background: var(--gold); height: 100%;"></div></div>
     </div>
-
-    <div id="modal-detalle" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modal-info">
-                </div>
-        </div>
+    <div class="stat-card">
+        <span class="stat-title">Volumen 24h</span>
+        <span class="stat-value">$2.4M</span>
     </div>
+</section>
 
-    <script src="script.js"></script>
-</body>
-</html>
+<section class="news-container" style="padding: 20px; text-align: left;">
+    <h3 style="color: var(--gold); font-size: 0.9rem; border-left: 3px solid var(--gold); padding-left: 10px;">NOTICIAS RELEVANTES</h3>
+    <div style="background: var(--card); padding: 15px; border-radius: 10px; margin-top: 10px; border: 1px solid #222;">
+        <p style="font-size: 0.85rem; margin: 0;">📢 <strong>Ballenas de Ethereum:</strong> Se detectó un movimiento de 15,000 ETH hacia billeteras frías. Posible señal alcista.</p>
+        <hr style="border: 0; border-top: 1px solid #222; margin: 10px 0;">
+        <p style="font-size: 0.85rem; margin: 0;">⚠️ <strong>Alerta:</strong> Billetera inactiva desde 2012 movió 400 BTC hace instantes.</p>
+    </div>
+</section>
