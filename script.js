@@ -1,115 +1,41 @@
-class WhaleTracker {
-    constructor() {
-        this.isPro = false;
-        this.assets = ['BTC', 'ETH', 'SOL', 'BNB', 'AVAX', 'LINK', 'UNI', 'AAVE', 'MATIC', 'DOGE'];
-        this.newsItems = [
-            "🐋 Ballena acumula 500 ETH en 2 horas",
-            "🚀 SOL rompe resistencia - $150 próximo?",
-            "⚠️ Grandes ventas de BTC detectadas",
-            "💎 Ballena compra 2M $PEPE tokens",
-            "📈 Volumen de LINK sube 300% en 24h"
-        ];
-        this.initElements();
-        this.init();
-    }
+const tableBody = document.getElementById('table-body');
+const modal = document.getElementById('modal-detalle');
+const modalInfo = document.getElementById('modal-info');
+const closeModal = document.querySelector('.close-modal');
 
-    initElements() {
-        this.tableBody = document.getElementById('tableBody');
-        this.connectBtn = document.getElementById('connectWallet');
-        this.upgradeProBtn = document.getElementById('upgradePro');
-        this.userStatus = document.getElementById('userStatus');
-        this.newsFlash = document.getElementById('newsFlash');
-        this.chartModal = document.getElementById('chartModal');
-        this.proModal = document.getElementById('proModal');
-        this.closeModalBtn = document.getElementById('closeModal');
-        this.totalVolume = document.getElementById('totalVolume');
-        this.activeWhales = document.getElementById('activeWhales');
-        this.txnCount = document.getElementById('txnCount');
-        this.transactions = [];
-    }
+const data = [
+    { activo: 'ETH', tipo: 'COMPRAR', cantidad: '$2,501,307', hash: '0x71c...8f9' },
+    { activo: 'BTC', tipo: 'VENDER', cantidad: '$4,527,290', hash: '0x32a...1e2' },
+    { activo: 'AVAX', tipo: 'COMPRAR', cantidad: '$825,177', hash: '0x99b...4d3' }
+];
 
-    init() {
-        this.simulateProStatus();
-        this.generateInitialData();
-        this.renderTable();
-        this.bindEvents();
-        this.startLiveUpdates();
-        this.startNewsRotation();
-        this.startStatsAnimation();
-    }
+function loadTable() {
+    tableBody.innerHTML = data.map(item => `
+        <tr onclick="showDetails('${item.activo}')">
+            <td>🟡 ${item.activo}</td>
+            <td style="color: ${item.tipo === 'COMPRAR' ? '#27ae60' : '#e74c3c'}">${item.tipo}</td>
+            <td style="color: var(--gold)">${item.cantidad}</td>
+            <td><span class="btn-verify">Verificar</span></td>
+        </tr>
+    `).join('');
+}
 
-    simulateProStatus() {
-        // 30% chance de simular usuario Pro
-        this.isPro = Math.random() > 0.7;
-        this.updateUserStatus();
-    }
+function showDetails(coin) {
+    modalInfo.innerHTML = `
+        <h2>Análisis de ${coin}</h2>
+        <div style="background: #000; height: 200px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin: 20px 0;">
+            <p style="color: #666; text-align: center; padding: 20px;">
+                🔒 Gráfico de TradingView bloqueado.<br>
+                <small>Disponible solo para usuarios PRO.</small>
+            </p>
+        </div>
+        <p>Esta ballena ha movido grandes cantidades de ${coin} en las últimas 24h.</p>
+        <a href="https://s.binance.com/CG8zHTCm" class="btn-pay">Desbloquear con Plan Pro</a>
+    `;
+    modal.style.display = 'block';
+}
 
-    updateUserStatus() {
-        if (this.isPro) {
-            this.userStatus.textContent = 'PRO';
-            this.userStatus.classList.add('pro');
-            this.upgradeProBtn.classList.remove('hidden');
-        }
-    }
+closeModal.onclick = () => modal.style.display = 'none';
+window.onclick = (event) => { if (event.target == modal) modal.style.display = 'none'; };
 
-    bindEvents() {
-        this.connectBtn.addEventListener('click', () => this.connectWallet());
-        this.upgradeProBtn.addEventListener('click', () => this.showProModal());
-        this.closeModalBtn.addEventListener('click', () => this.hideChartModal());
-        this.chartModal.addEventListener('click', (e) => {
-            if (e.target === this.chartModal) this.hideChartModal();
-        });
-        this.proModal.addEventListener('click', (e) => {
-            if (e.target === this.proModal) this.hideProModal();
-        });
-    }
-
-    generateTransaction() {
-        const asset = this.assets[Math.floor(Math.random() * this.assets.length)];
-        const isBuy = Math.random() > 0.4;
-        const amount = (Math.random() * 2500000 + 75000).toLocaleString();
-        const time = new Date(Date.now() - Math.random() * 7200000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-        const fullAddress = '0x' + Array(40).fill(0).map(() => Math.floor(Math.random()*16).toString(16)).join('');
-        const shortAddress = fullAddress.slice(0, 10) + '...' + fullAddress.slice(-4);
-
-        return { asset, type: isBuy ? 'BUY' : 'SELL', amount, time, fullAddress, shortAddress };
-    }
-
-    generateInitialData() {
-        for (let i = 0; i < 12; i++) {
-            setTimeout(() => {
-                this.transactions.unshift(this.generateTransaction());
-                this.renderTable();
-            }, i * 200);
-        }
-    }
-
-    renderTable() {
-        this.tableBody.innerHTML = '';
-        this.transactions.slice(0, 15).forEach((tx, index) => {
-            const row = document.createElement('tr');
-            row.className = 'group transition-all duration-300 hover:bg-coal-light/50 cursor-pointer';
-            row.innerHTML = `
-                <td class="px-6 py-4 font-mono">
-                    <div class="flex items-center space-x-3 cursor-pointer" onclick="${this.isPro ? `window.tracker.showChart('${tx.asset}')` : 'window.tracker.showProModal()'}">
-                        <span class="w-3 h-3 bg-gradient-to-r from-gold to-yellow-400 rounded-full ${this.isPro ? 'animate-pulse' : ''}"></span>
-                        <span class="font-bold text-lg hover:text-gold transition-colors">${tx.asset}</span>
-                    </div>
-                </td>
-                <td class="px-6 py-4">
-                    <span class="px-4 py-2 rounded-full text-xs font-bold ${
-                        tx.type === 'BUY' 
-                            ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
-                            : 'bg-red-500/20 text-red-400 border border-red-500/30'
-                    }">${tx.type}</span>
-                </td>
-                <td class="px-6 py-4 text-right font-mono font-bold text-2xl text-gold">$${tx.amount}</td>
-                <td class="px-6 py-4 text-right text-sm text-gray-400 font-mono">${tx.time}</td>
-                <td class="px-6 py-4 text-right">
-                    <span class="text-sm font-mono text-gray-300 hover:text-white transition-colors">${tx.shortAddress}</span>
-                </td>
-                <td class="px-4 py-4 text-center">
-                    ${this.isPro ? 
-                        `<a href="https://etherscan.io/address/${tx.fullAddress}" target="_blank" class="text-gold hover:text-yellow-400 font-medium text-sm flex items-center justify-center space-x-1 group">
-                            <span>Verificar</span>
-                            <svg class="w-4 h-4 group-hover
+loadTable();
