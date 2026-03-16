@@ -1,24 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Whale Mirror</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilo de emergencia para que nunca se vea blanco */
+        body { background-color: #080808 !important; color: white; font-family: 'Inter', sans-serif; margin: 0; }
+        .container { padding: 15px; }
+        .section-title { color: #d4af37; border-left: 3px solid #d4af37; padding-left: 10px; font-weight: bold; margin: 20px 0; }
+        
+        /* Diseño de Noticias Bomba solicitado */
+        .news-card {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #d4af37;
+        }
+        .tag-alerta { background: #d4af37; color: black; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; }
+        
+        /* Tabla estilo Terminal */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th { text-align: left; color: #666; font-size: 0.8rem; border-bottom: 1px solid #222; padding: 10px 5px; }
+        td { padding: 12px 5px; border-bottom: 1px solid #111; font-size: 0.9rem; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>THE WHALE MIRROR</h1>
-        <p>PLAN: <span style="color:#d4af37">GRATUITO</span></p>
-    </header>
-
     <div class="container">
+        <header>
+            <h1 style="font-size: 1.5rem; margin: 0;">THE WHALE MIRROR</h1>
+            <p style="font-size: 0.8rem; color: #d4af37; margin: 5px 0;">PLAN: GRATUITO</p>
+        </header>
+
+        <section>
+            <div class="section-title">ANÁLISIS DE MERCADO GLOBAL</div>
+            <div id="tradingview_widget" style="height: 300px;"></div>
+        </section>
+
         <section class="news-terminal">
             <div class="section-title">THE WHALE MIRROR NEWS</div>
             <div id="news-bomb-container"></div>
         </section>
 
         <section class="tracker-section">
-            <div class="section-title">RADAR DE BALLENAS</div>
-            <p>Próxima actualización en: <span id="update-timer">05:00</span></p>
+            <div class="section-title">RADAR DE BALLENAS (SMART MONEY)</div>
+            <p style="font-size: 0.8rem; color: #888;">Próxima actualización en: <span id="update-timer" style="color: white; font-weight: bold;">05:00</span></p>
             <table>
                 <thead>
                     <tr>
@@ -33,5 +60,7 @@
         </section>
     </div>
 
+    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
     <script src="script.js"></script>
 </body>
+</html>
