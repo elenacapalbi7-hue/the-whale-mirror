@@ -1,24 +1,25 @@
-<h3 style="color: var(--gold); margin-top: 30px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
+<div class="main-container">
+    <h3 style="color: var(--gold); margin-bottom: 5px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
+    <p style="font-size: 0.65rem; color: #666; margin: 0;">Actualización PRO: En vivo | Gratis: 05:00</p>
 
-<div class="table-wrapper">
-    <table>
-        <thead>
-            <tr>
-                <th>Activo</th>
-                <th>Operación</th>
-                <th>Cantidad USD</th>
-                <th>Precio Act.</th>
-                <th>Hora</th>
-                <th>Info</th>
-            </tr>
-        </thead>
-        <tbody id="whale-table">
-            </tbody>
-    </table>
-</div>
+    <div class="table-scroll-area">
+        <table>
+            <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Operación</th>
+                    <th>Cantidad USD</th>
+                    <th>Precio Act.</th>
+                    <th>Hora</th>
+                    <th>Info</th>
+                </tr>
+            </thead>
+            <tbody id="whale-table">
+                </tbody>
+        </table>
+    </div>
 
-<div style="margin-top: 15px;">
-    <button onclick="verMasMonedas()" style="width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+    <button class="btn-pro" onclick="verMasMonedas()">
         VER TODO EL MERCADO (PRO) ↓
     </button>
 </div>
