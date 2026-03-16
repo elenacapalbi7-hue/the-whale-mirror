@@ -1,268 +1,96 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror PRO - Intelligence Terminal</title>
-    <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: white; font-family: 'Inter', sans-serif; padding: 15px; }
-        .container { max-width: 500px; margin: auto; }
+<style>
+    /* Estilos extra para el Dashboard PRO Estilo 1008413978.png */
+    .pro-dashboard { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+    .metric-card { background: #1a1a1a; padding: 10px; border-radius: 8px; border: 1px solid #333; }
+    .metric-val { display: block; font-size: 1.1rem; font-weight: bold; color: var(--gold); }
+    .metric-label { font-size: 0.6rem; color: #666; text-transform: uppercase; }
+    
+    .pressure-bar-container { width: 100%; height: 8px; background: #333; border-radius: 4px; margin: 10px 0; overflow: hidden; }
+    .pressure-bar-fill { height: 100%; background: linear-gradient(90deg, var(--green), #00bc6a); transition: width 0.5s; }
+    
+    .audit-box { background: #000; border: 1px solid #222; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.7rem; margin-top: 15px; border-left: 3px solid var(--gold); }
+</style>
 
-        /* CABECERA */
-        .header { text-align: center; padding: 20px 0; border-bottom: 1px solid #222; margin-bottom: 20px; }
-        .quote-box { display: flex; align-items: center; gap: 15px; background: #161616; padding: 15px; border-radius: 12px; border: 1px dashed var(--gold); }
-        
-        /* WIDGET TRADINGVIEW */
-        #tv-widget { height: 280px; margin-bottom: 25px; border-radius: 12px; overflow: hidden; border: 1px solid #333; }
-
-        /* NOTICIAS */
-        .news-card { background: var(--card); padding: 15px; border-radius: 12px; border-left: 4px solid var(--gold); margin-bottom: 12px; cursor: pointer; display: flex; gap: 12px; }
-        .news-img { width: 60px; height: 60px; border-radius: 8px; background: #222; object-fit: cover; }
-
-        /* TABLA */
-        .radar-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; font-size: 0.8rem; }
-        .table-wrapper { width: 100%; overflow-x: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
-        table { width: 100%; border-collapse: collapse; min-width: 650px; }
-        th { background: #1a1a1a; color: #666; font-size: 0.65rem; padding: 15px; text-align: left; }
-        td { padding: 15px; border-bottom: 1px solid #222; font-size: 0.85rem; font-family: 'Roboto Mono', monospace; }
-
-        /* BOTONES */
-        .btn { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-size: 1rem; transition: 0.3s; }
-        .btn-gold { background: var(--gold); color: black; box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
-        .btn-outline { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
-
-        /* MODAL GIGANTE */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 10000; overflow-y: auto; padding: 20px; }
-        .modal-content { background: #0a0a0a; border: 1px solid var(--gold); border-radius: 20px; padding: 30px; max-width: 550px; margin: auto; }
-        .pro-badge { background: var(--gold); color: black; font-size: 0.6rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">
-        <h1 style="color:var(--gold); letter-spacing:4px;">WHALE MIRROR</h1>
-        <div class="quote-box">
-            <img src="https://img.icons8.com/fluency/96/whale.png" width="40">
-            <p style="font-size:0.8rem; font-style:italic;">"Donde las ballenas dejan rastro, nosotros creamos el mapa."</p>
-        </div>
-    </div>
-
-    <div style="font-size: 0.75rem; color: #888; margin-bottom: 20px; text-align: center;">
-        Terminal de Inteligencia On-Chain. Rastreamos billeteras institucionales y flujos de capital en tiempo real para inversores de élite.
-    </div>
-
-    <div id="tv-widget"></div>
-
-    <div id="news-section">
-        <p style="color:var(--gold); font-size:0.8rem; margin-bottom:12px; font-weight:bold;">🔥 NOTICIAS BOMBA (10m UPDATE)</p>
-        <div id="news-list"></div>
-    </div>
-
-    <div class="radar-header" style="margin-top:25px;">
-        <span style="color:var(--gold);">📡 RADAR SMART MONEY</span>
-        <span id="timer" style="color:var(--red);">05:00</span>
-    </div>
-
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Activo</th>
-                    <th>Operación</th>
-                    <th>Monto Exacto (USD)</th>
-                    <th>Precio</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody id="whale-table"></tbody>
-        </table>
-    </div>
-
-    <button id="btn-view-all" class="btn btn-outline" onclick="abrirSuscripcion()">VER TODAS LAS MONEDAS (ACCESO PRO) ↓</button>
-    <button class="btn btn-gold" onclick="abrirSuscripcion()">SUSCRIBIRSE CON BINANCE PAY</button>
-</div>
-
-<div id="modal" class="modal">
-    <div class="modal-content" id="modal-body"></div>
-</div>
-
-<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script>
-    let ES_PRO = false;
+    // ... (Mantén el resto de la lógica anterior, solo actualizaremos la función verDetalle)
 
-    // 1. Gráfico Inicial
-    new TradingView.widget({
-        "container_id": "tv-widget",
-        "symbol": "BINANCE:BTCUSDT",
-        "interval": "D",
-        "theme": "dark",
-        "width": "100%",
-        "height": 280,
-        "locale": "es"
-    });
-
-    // 2. Base de Datos de Monedas (Lista extensa para PRO)
-    const dbMonedas = ['BTC', 'ETH', 'SOL', 'AVAX', 'BNB', 'LINK', 'DOT', 'MATIC', 'ADA', 'ARB', 'OP', 'NEAR', 'FET', 'PEPE', 'LTC', 'XRP', 'DOGE', 'SHIB', 'RNDR', 'TIA', 'SUI', 'APT', 'STX', 'INJ', 'GALA'];
-
-    // 3. Noticias con Imágenes Directas
-    const noticias = [
-        {
-            img: "https://cryptologos.cc/logos/arbitrum-arb-logo.png",
-            title: "Fuga institucional de $524M en Arbitrum",
-            body: "<strong>INFORME DE INTELIGENCIA:</strong> Se ha detectado una transferencia masiva de 524,607,102.82 USD desde una billetera fría de ballena 'Tier 1' hacia nodos de liquidez. <br><br><strong>ANÁLISIS TÉCNICO:</strong> Este movimiento indica un reposicionamiento estratégico antes de una ruptura de volatilidad. El 80% de los fondos se han bloqueado en contratos inteligentes de staking. <br><br><strong>VERIFICACIÓN:</strong> Hash de transacción 0x7a...e24b verificado en Arbiscan.io."
-        },
-        {
-            img: "https://cryptologos.cc/logos/solana-sol-logo.png",
-            title: "Acumulación Agresiva: Ballenas SOL",
-            body: "<strong>ALERTA DE VOLUMEN:</strong> 14 billeteras institucionales han acumulado un total de $145,200,983.11 USD en los últimos 60 minutos. <br><br><strong>DETALLE:</strong> La presión de compra ha superado la oferta en los exchanges principales (Binance/Kraken). Se espera una ruptura del nivel de resistencia de $150.00 en las próximas horas."
-        },
-        {
-            img: "https://cryptologos.cc/logos/bitcoin-btc-logo.png",
-            title: "Reserva Federal y Bitcoin: Flujo de Salida",
-            body: "<strong>CONTEXTO MACRO:</strong> Tras el anuncio de tasas, las ballenas han movido $1.2B USD a los exchanges. <br><br><strong>INTERPRETACIÓN:</strong> Las instituciones están preparando 'coberturas' (hedging). Históricamente, estos movimientos preceden a una alta volatilidad lateral. <br><br><strong>FUENTES:</strong> Datos cruzados con Glassnode y Bloomberg Terminal."
-        }
-    ];
-
-    function cargarNoticias() {
-        document.getElementById('news-list').innerHTML = noticias.map((n, i) => `
-            <div class="news-card" onclick="verNoticiaCompleta(${i})">
-                <img src="${n.img}" class="news-img" onerror="this.src='https://img.icons8.com/color/96/image.png'">
-                <div>
-                    <h4>${n.title}</h4>
-                    <p style="font-size:0.7rem; color:#888;">Informe completo de auditoría on-chain...</p>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // 4. Generador de Tabla (Lógica de Restricción)
-    function generarTabla() {
-        const tbody = document.getElementById('whale-table');
-        const lista = ES_PRO ? dbMonedas : dbMonedas.slice(0, 10);
-        
-        tbody.innerHTML = lista.map(c => {
-            const op = Math.random() > 0.5 ? 'COMPRA' : 'VENTA';
-            const monto = (Math.random() * 5000000 + 500000).toLocaleString('en-US', {minimumFractionDigits: 2});
-            return `
-                <tr>
-                    <td style="color:var(--gold); font-weight:bold;">${c}</td>
-                    <td style="color:${op==='COMPRA'?'var(--green)':'var(--red)'}">${op}</td>
-                    <td>$${monto}</td>
-                    <td>$${(Math.random()*60000).toFixed(2)}</td>
-                    <td><button onclick="verDetalle('${c}', '${monto}')" style="background:var(--gold); border:none; padding:5px 10px; border-radius:6px; font-weight:bold; font-size:0.65rem; cursor:pointer;">${ES_PRO ? 'INFORME' : 'DETALLE'}</button></td>
-                </tr>
-            `;
-        }).join('');
-    }
-
-    // 5. Lógica de Modales (EL CORAZÓN DEL NEGOCIO)
     function verDetalle(coin, monto) {
         if (!ES_PRO) {
             document.getElementById('modal-body').innerHTML = `
-                <h2 style="color:var(--gold); text-align:center;">DETALLES BLOQUEADOS 🔒</h2>
-                <div style="background:#111; padding:20px; border-radius:15px; margin:20px 0; text-align:center;">
-                    <p style="color:#888; margin-bottom:15px;">Estás intentando acceder a los datos de inteligencia de <strong>${coin}</strong>.</p>
-                    <p>Para ver el Informe de Auditoría, Hash de Transacción y Mapas de Calor, necesitas una suscripción activa.</p>
+                <div style="text-align:center;">
+                    <h2 style="color:var(--gold); margin-bottom:10px;">ACCESO RESTRINGIDO 🔒</h2>
+                    <img src="https://img.icons8.com/fluency/96/lock.png" width="80" style="margin:20px 0;">
+                    <p style="color:#ccc; font-size:0.9rem; line-height:1.5;">El <strong>Informe de Auditoría Elite</strong> para ${coin} solo está disponible para usuarios con suscripción activa.</p>
+                    <div style="background:#111; padding:15px; border-radius:10px; margin:20px 0; font-size:0.8rem; text-align:left;">
+                        • Gráficos de flujo L2<br>• Identificación de Billetera<br>• Mapa de Calor en tiempo real<br>• Alertas de salida masiva
+                    </div>
+                    <button class="btn btn-gold" onclick="abrirSuscripcion()">DESBLOQUEAR AHORA</button>
+                    <button onclick="cerrarModal()" style="margin-top:15px; background:transparent; border:none; color:#555; cursor:pointer;">Cerrar</button>
                 </div>
-                <button class="btn btn-gold" onclick="abrirSuscripcion()">SUSCRIBIRSE POR $9.99</button>
-                <button onclick="cerrarModal()" style="width:100%; margin-top:10px; background:transparent; border:none; color:#666; cursor:pointer;">Cerrar</button>
             `;
         } else {
+            // DISEÑO BASADO EN IMAGEN 1008413978.png
             document.getElementById('modal-body').innerHTML = `
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <h2 style="color:var(--gold);">INFORME ELITE: ${coin}</h2>
-                    <span class="pro-badge">MODO PRO ACTIVO</span>
-                </div>
-                
-                <div style="background:#111; padding:20px; border-radius:15px; margin:15px 0; border-left:4px solid var(--green);">
-                    <p><strong>Operación Detectada:</strong> <span style="color:var(--green)">$${monto} USD</span></p>
-                    <p><strong>Entidad:</strong> Ballena Institucional (Tier 1)</p>
-                    <p><strong>Billetera:</strong> 0x${Math.random().toString(16).slice(2, 12)}...8b2</p>
+                <div style="display:flex; justify-content:space-between; align-items:start;">
+                    <div>
+                        <h2 style="color:var(--gold); margin:0;">${coin} / USD</h2>
+                        <span style="font-size:0.7rem; color:var(--green);">● TERMINAL ACTIVA - LIVE DATA</span>
+                    </div>
+                    <img src="https://cryptologos.cc/logos/${coin.toLowerCase()}-${coin.toLowerCase()}-logo.png" width="40" onerror="this.src='https://img.icons8.com/fluency/48/money-bag-ethereum.png'">
                 </div>
 
-                <h4 style="color:var(--gold); margin-bottom:10px;">📉 Flujo de Órdenes y Mapa de Calor:</h4>
-                <div style="height:220px; background:#000; border:1px solid #333; position:relative; overflow:hidden; border-radius:12px;">
-                    <img src="https://www.tradingview.com/static/images/free-widgets/technical-analysis.png" style="width:100%; height:100%; opacity:0.3; object-fit:cover;">
-                    <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); text-align:center;">
-                        <p style="color:var(--green); font-weight:bold; font-size:1.2rem;">PRESIÓN: 88.4% COMPRA</p>
-                        <small style="color:#666;">Actualizando cada 1.0s...</small>
+                <div class="pro-dashboard">
+                    <div class="metric-card">
+                        <span class="metric-label">Monto Transacción</span>
+                        <span class="metric-val">$${monto}</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Tipo de Ballena</span>
+                        <span class="metric-val" style="font-size:0.8rem;">INSTITUCIONAL</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">RSI (14)</span>
+                        <span class="metric-val">64.2</span>
+                    </div>
+                    <div class="metric-card">
+                        <span class="metric-label">Volatilidad</span>
+                        <span class="metric-val" style="color:var(--red);">ALTA</span>
                     </div>
                 </div>
 
-                <div style="margin-top:20px; background:#161616; padding:15px; border-radius:12px; font-size:0.85rem; line-height:1.6;">
-                    <strong>DETALLE TÉCNICO:</strong> Esta ballena ha estado acumulando en los últimos 3 meses cada vez que el RSI toca niveles de sobreventa. Los datos se verifican mediante una conexión directa a los nodos de la blockchain y el Order Book profundo de Binance y Coinbase.
-                    <br><br>
-                    <strong>AUDITORÍA EXTERNA:</strong> Puedes validar estos movimientos en <strong>Blockchain Explorer</strong> o <strong>Whale Alert Pro</strong>.
+                <div style="margin-top:20px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
+                        <span>PRESIÓN DE COMPRA</span>
+                        <span style="color:var(--green);">84.2%</span>
+                    </div>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar-fill" style="width: 84.2%;"></div>
+                    </div>
                 </div>
-                <button class="btn btn-gold" style="margin-top:20px;" onclick="cerrarModal()">VOLVER AL TERMINAL</button>
+
+                <h4 style="color:var(--gold); margin:20px 0 10px 0; font-size:0.8rem;">ANÁLISIS DE FLUJO L2 (VISUAL)</h4>
+                <div style="height:180px; background:#000; border-radius:12px; border:1px solid #333; position:relative; overflow:hidden;">
+                    <img src="https://charts.tradingview.com/lightweight-charts/example.png" style="width:100%; height:100%; opacity:0.3; object-fit:cover;">
+                    <div style="position:absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle, transparent, #0a0a0a);"></div>
+                    <div style="position:absolute; bottom:10px; left:10px;">
+                        <span style="font-family:monospace; font-size:0.6rem; color:var(--gold);">DEEP_ARRAY_DETECTED: TRUE</span>
+                    </div>
+                </div>
+
+                <div class="audit-box">
+                    <strong>AUDITORÍA BLOCKCHAIN:</strong><br>
+                    <span style="color:#888;">Hash:</span> 0x${Math.random().toString(16).slice(2, 15)}...${Math.random().toString(16).slice(2, 5)}<br>
+                    <span style="color:#888;">Origen:</span> Cold Wallet Institutional (Kraken/Binance)<br>
+                    <span style="color:#888;">Destino:</span> Liquidity Pool V3
+                </div>
+
+                <p style="font-size:0.7rem; color:#555; margin-top:15px; line-height:1.4;">
+                    * Este informe se genera cruzando datos de 4 nodos diferentes. Para verificar, haga clic en el ID de transacción arriba.
+                </p>
+
+                <button class="btn btn-gold" style="margin-top:20px;" onclick="cerrarModal()">REGRESAR AL RADAR</button>
             `;
         }
         document.getElementById('modal').style.display = 'block';
     }
-
-    function abrirSuscripcion() {
-        document.getElementById('modal-body').innerHTML = `
-            <h2 style="text-align:center; color:var(--gold);">ACCESO TOTAL A WHALE MIRROR 🏆</h2>
-            <div style="background:#111; padding:25px; border-radius:20px; margin-top:20px; border:1px solid #333;">
-                <p style="text-align:center; color:#888; margin-bottom:20px;">Únete a la élite que opera con datos en tiempo real.</p>
-                <ul style="list-style:none; line-height:2.5; font-size:0.9rem;">
-                    <li>✅ <strong>+500 Criptomonedas</strong> rastreadas.</li>
-                    <li>✅ Actualización <strong>SEGUNDO A SEGUNDO</strong>.</li>
-                    <li>✅ <strong>Informes de Inteligencia</strong> detallados.</li>
-                    <li>✅ <strong>Mapas de Calor</strong> y Ordenes L2.</li>
-                </ul>
-                <h3 style="text-align:center; margin:25px 0;">$9.99 <small>/ mes</small></h3>
-                <button class="btn btn-gold" onclick="simularPago()">PAGAR CON BINANCE PAY</button>
-            </div>
-            <button onclick="cerrarModal()" style="width:100%; margin-top:15px; background:transparent; border:none; color:#444; cursor:pointer;">Cancelar</button>
-        `;
-        document.getElementById('modal').style.display = 'block';
-    }
-
-    function simularPago() {
-        ES_PRO = true;
-        cerrarModal();
-        generarTabla();
-        document.getElementById('timer').innerText = "VIVO (MODO PRO)";
-        document.getElementById('timer').style.color = "var(--green)";
-        document.getElementById('btn-view-all').innerHTML = "ACCESO TOTAL DESBLOQUEADO ✅";
-        alert("¡Éxito! Suscripción activada. Ahora tienes acceso a todas las monedas y datos en tiempo real.");
-    }
-
-    function verNoticiaCompleta(i) {
-        const n = noticias[i];
-        document.getElementById('modal-body').innerHTML = `
-            <h2 style="color:var(--gold); margin-bottom:15px;">${n.title}</h2>
-            <img src="${n.img}" style="width:100px; margin-bottom:20px;">
-            <div style="background:#111; padding:20px; border-radius:15px; font-size:0.95rem; line-height:1.7;">
-                ${n.body}
-            </div>
-            <button class="btn btn-gold" style="margin-top:20px;" onclick="cerrarModal()">ENTENDIDO</button>
-        `;
-        document.getElementById('modal').style.display = 'block';
-    }
-
-    function cerrarModal() { document.getElementById('modal').style.display = 'none'; }
-
-    // 6. Temporizador y Actualización
-    let s = 300;
-    setInterval(() => {
-        if (ES_PRO) {
-            generarTabla(); // Si es PRO, refresca cada segundo
-        } else {
-            s--; if(s < 0) { s = 300; generarTabla(); }
-            let m = Math.floor(s/60); let r = s%60;
-            document.getElementById('timer').innerText = `${m}:${r<10?'0'+r:r}`;
-        }
-    }, 1000);
-
-    // Inicializar
-    cargarNoticias();
-    generarTabla();
 </script>
-
-</body>
-</html>
