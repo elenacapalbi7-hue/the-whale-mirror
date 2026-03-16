@@ -1,22 +1,40 @@
 <style>
     :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
-    body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; line-height: 1.4; }
-    .container { max-width: 800px; margin: auto; overflow: hidden; } /* Evita desbordamiento global */
     
-    /* Misión y Tiers */
-    .mission-box { background: #111; padding: 15px; border-radius: 8px; font-size: 0.85rem; border: 1px solid #333; margin: 15px 0; }
-    .tier-info { display: flex; gap: 8px; margin-bottom: 20px; }
-    .tier-card { flex: 1; padding: 10px; border-radius: 6px; font-size: 0.7rem; background: #1a1a1a; border: 1px solid #333; text-align: center; }
-    .tier-pro { border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.1); }
+    /* Configuración Base para evitar que nada se salga */
+    body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; overflow-x: hidden; }
+    .container { max-width: 100%; margin: auto; }
 
-    /* Tabla Resistente a Móviles */
-    .table-wrapper { width: 100%; overflow-x: auto; background: var(--card); border-radius: 10px; border: 1px solid #222; }
-    table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 700px; } /* Min-width protege las 6 columnas */
-    th { background: #1a1a1a; color: #888; padding: 12px 8px; text-align: left; text-transform: uppercase; letter-spacing: 1px; }
+    /* Contenedor de Tabla: La clave de la solución */
+    .table-wrapper { 
+        width: 100%; 
+        overflow-x: auto; /* Permite scroll lateral solo en la tabla */
+        background: var(--card); 
+        border-radius: 10px; 
+        border: 1px solid #222;
+        margin-top: 10px;
+        -webkit-overflow-scrolling: touch; /* Scroll suave en iPhone */
+    }
+
+    table { 
+        width: 100%; 
+        border-collapse: collapse; 
+        font-size: 0.7rem; /* Texto más pequeño para móvil */
+        min-width: 600px; /* Asegura que las columnas tengan espacio */
+    }
+
+    th { background: #1a1a1a; color: #888; padding: 12px 8px; text-align: left; text-transform: uppercase; }
     td { padding: 12px 8px; border-bottom: 1px solid #222; white-space: nowrap; }
 
-    /* Modal PRO Expandido */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; overflow-y: auto; }
-    .modal-content { background: #111; margin: 5% auto; padding: 20px; width: 92%; max-width: 550px; border-radius: 15px; border: 1px solid var(--gold); position: relative; }
-    .pro-badge { background: var(--gold); color: black; padding: 2px 8px; font-size: 0.6rem; border-radius: 4px; font-weight: bold; vertical-align: middle; }
+    /* Estilo del Modal PRO */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
+    .modal-content { 
+        background: #111; 
+        margin: 10% auto; 
+        padding: 20px; 
+        width: 85%; 
+        max-width: 500px; 
+        border-radius: 15px; 
+        border: 1px solid var(--gold); 
+    }
 </style>
