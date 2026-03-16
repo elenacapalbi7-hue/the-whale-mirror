@@ -1,97 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Whale Mirror - Inteligencia de Ballenas</title>
-    <style>
-        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
-        body { background: var(--bg); color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 10px; }
-        .container { max-width: 800px; margin: auto; }
-        
-        /* Encabezado e Info del Sitio */
-        header { text-align: center; padding: 20px 0; border-bottom: 1px solid #222; }
-        .hero-text { color: var(--gold); font-size: 1.8rem; font-weight: bold; margin-bottom: 5px; }
-        .mission-box { background: #111; padding: 15px; border-radius: 8px; font-size: 0.9rem; margin: 15px 0; border: 1px solid #333; }
-        
-        /* Diferencias Gratis vs PRO */
-        .tier-info { display: flex; gap: 10px; margin-bottom: 20px; }
-        .tier-card { flex: 1; padding: 10px; border-radius: 6px; font-size: 0.75rem; background: #1a1a1a; border: 1px solid #333; }
-        .tier-pro { border-color: var(--gold); }
+<h3 style="color: var(--gold); margin-top: 30px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
 
-        /* Noticias Estilo Bomba */
-        .news-card { background: var(--card); border-radius: 12px; padding: 15px; margin-bottom: 12px; border-left: 4px solid var(--gold); cursor: pointer; }
-        .news-tag { background: var(--gold); color: black; font-size: 0.6rem; padding: 2px 5px; border-radius: 3px; font-weight: bold; }
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Activo</th>
+                <th>Operación</th>
+                <th>Cantidad USD</th>
+                <th>Precio Act.</th>
+                <th>Hora</th>
+                <th>Info</th>
+            </tr>
+        </thead>
+        <tbody id="whale-table">
+            </tbody>
+    </table>
+</div>
 
-        /* Tabla de 6 Columnas */
-        .table-wrapper { overflow-x: auto; background: var(--card); border-radius: 8px; }
-        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; min-width: 600px; }
-        th { background: #222; color: #888; padding: 12px 8px; text-align: left; }
-        td { padding: 12px 8px; border-bottom: 1px solid #222; }
-
-        /* Modales */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; }
-        .modal-content { background: #1a1a1a; margin: 10% auto; padding: 20px; width: 90%; max-width: 500px; border-radius: 12px; border: 1px solid var(--gold); }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="hero-text">THE WHALE MIRROR 🐋</div>
-            <div class="mission-box">
-                <strong>¿Qué hacemos?</strong> Rastreamos en tiempo real las billeteras de los inversores más grandes del mundo (Ballenas). Te mostramos qué compran y venden antes de que el mercado reaccione, permitiéndote "espejar" sus movimientos para maximizar tus ganancias.
-            </div>
-            
-            <div class="tier-info">
-                <div class="tier-card">🆓 <strong>GRATIS:</strong> Datos cada 5 min. Info básica.</div>
-                <div class="tier-card tier-pro">🏆 <strong>PRO ($9.99):</strong> Tiempo real (1s). Gráficos avanzados. Verificación Blockchain.</div>
-            </div>
-        </header>
-
-        <section>
-            <div id="tv_widget_container" style="height: 350px; margin-bottom: 20px;"></div>
-        </section>
-
-        <section>
-            <h3 style="color:var(--gold)">💣 NOTICIAS BOMBA (10m update)</h3>
-            <div id="news-container"></div>
-        </section>
-
-        <section>
-            <h3 style="color:var(--gold)">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
-            <p style="font-size: 0.8rem; color: #888;">Actualización PRO: En vivo | Gratis: <span id="timer" style="color:white; font-weight:bold;">05:00</span></p>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>ACTIVO</th>
-                            <th>OPERACIÓN</th>
-                            <th>CANTIDAD EXACTA</th>
-                            <th>PRECIO ACT.</th>
-                            <th>HORA (UTC)</th>
-                            <th>INFO</th>
-                        </tr>
-                    </thead>
-                    <tbody id="whale-table"></tbody>
-                </table>
-            </div>
-        </section>
-    </div>
-
-    <div id="detail-modal" class="modal">
-        <div class="modal-content">
-            <div id="modal-data"></div>
-            <button onclick="cerrarModal()" style="margin-top:20px; width:100%; padding:10px; background:var(--gold); border:none; font-weight:bold; cursor:pointer;">CERRAR</button>
-        </div>
-    </div>
-
-    <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
-    <script src="script.js"></script>
-</body>
-</html>
-        </div> <div style="text-align:center; margin-top:15px;">
-            <button onclick="verMasMonedas()" style="background:transparent; color:var(--gold); border:1px solid var(--gold); padding:10px 25px; border-radius:5px; font-weight:bold; cursor:pointer; width:100%;">
-                VER TODO EL MERCADO (PRO) ↓
-            </button>
-        </div>
-    </section>
+<div style="margin-top: 15px;">
+    <button onclick="verMasMonedas()" style="width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 12px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+        VER TODO EL MERCADO (PRO) ↓
+    </button>
+</div>
