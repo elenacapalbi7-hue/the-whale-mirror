@@ -1,5 +1,37 @@
-<section class="news-terminal">
-    <div class="section-title">THE WHALE MIRROR NEWS</div>
-    <div id="news-bomb-container">
-        </div>
-</section>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Whale Mirror</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>THE WHALE MIRROR</h1>
+        <p>PLAN: <span style="color:#d4af37">GRATUITO</span></p>
+    </header>
+
+    <div class="container">
+        <section class="news-terminal">
+            <div class="section-title">THE WHALE MIRROR NEWS</div>
+            <div id="news-bomb-container"></div>
+        </section>
+
+        <section class="tracker-section">
+            <div class="section-title">RADAR DE BALLENAS</div>
+            <p>Próxima actualización en: <span id="update-timer">05:00</span></p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ACTIVO</th>
+                        <th>FLUJO</th>
+                        <th>CANTIDAD USD</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                    </tbody>
+            </table>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
