@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Whale Mirror - Track Whale Movements</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'coal': '#0A0A0A',
+                        'coal-light': '#1A1A1A',
+                        'gold': '#D4AF37',
+                        'gold-dark': '#B8942F'
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-coal text-white font-sans">
+    <!-- Header -->
+    <header class="bg-coal-light/80 backdrop-blur-md sticky top-0 z-50 border-b border-coal-light/50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 bg-gradient-to-r from-gold to-gold-dark rounded-xl flex items-center justify-center shadow-2xl">
+                        <span class="text-2xl font-bold text-coal">🐋</span>
+                    </div>
+                    <h1 class="text-2xl md:text-3xl font-bold bg-gradient-to-r from-gold to-yellow-400 bg-clip-text text-transparent">
+                        The Whale Mirror
+                    </h1>
+                </div>
+                <button id="connectWallet" class="px-8 py-3 bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-coal font-semibold rounded-xl shadow-2xl hover:shadow-gold/25 transition-all duration-300 transform hover:-translate-y-1 whitespace-nowrap">
+                    Connect Wallet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-b from-coal via-coal-light/50 to-coal">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-4xl md:text-6xl font-bold bg-gradient-to-r from-gold via-yellow-400 to-gold-dark bg-clip-text text-transparent mb-6 leading-tight">
+                Follow the Smart Money
+            </h2>
+            <p class="text-xl md:text-2xl text-gray-300 font-light mb-12 max-w-3xl mx-auto leading-relaxed">
+                Trade like a Whale. Track movimientos de grandes inversores en tiempo real.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+                <button class="px-12 py-4 bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-coal font-bold text-lg rounded-2xl shadow-2xl hover:shadow-gold/50 transition-all duration-300 transform hover:-translate-y-2 w-full sm:w-auto">
+                    Get Pro Plan
+                </button>
+                <button class="px-12 py-4 border-2 border-gold text-gold hover:bg-gold hover:text-coal font-bold text-lg rounded-2xl transition-all duration-300 w-full sm:w-auto">
+                    View Leaderboard
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div class="container mx-auto px-4 pb-12 -mt-12 relative z-10">
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Main Table -->
+            <div class="lg:col-span-3">
+                <div class="bg-coal-light/50 backdrop-blur-xl rounded-3xl border border-coal-light/50 p-8 shadow-2xl">
+                    <div class="flex items-center justify-between mb-8">
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-gold to-yellow-400 bg-clip-text text-transparent">
+                            Live Whale Movements
+                        </h3>
+                        <div class="flex items-center space-x-4 text-sm text-gray-400">
+                            <span>🔥 1,247 txns today</span>
+                            <button class="px-4 py-2 bg-coal rounded-xl hover:bg-coal-light transition-colors">
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-hidden rounded-2xl border border-coal-light/30 bg-coal-light/30">
+                        <table class="w-full" id="whaleTable">
+                            <thead>
+                                <tr class="border-b border-coal-light/30">
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-200 text-sm uppercase tracking-wider">Asset</th>
+                                    <th class="px-6 py-4 text-left font-semibold text-gray-200 text-sm uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-4 text-right font-semibold text-gray-200 text-sm uppercase tracking-wider">Amount USD</th>
+                                    <th class="px-6 py-4 text-right font-semibold text-gray-200 text-sm uppercase tracking-wider">Time</th>
+                                    <th class="px-6 py-4 text-right font-semibold text-gray-200 text-sm uppercase tracking-wider">Explorer</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="divide-y divide-coal-light/30">
+                                <!-- Data will be populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="lg:col-span-1 space-y-6">
+                <!-- Pro Plan Card -->
+                <div class="bg-gradient-to-br from-gold/10 via-yellow-500/5 to-gold/10 backdrop-blur-xl rounded-3xl border border-gold/20 p-8 shadow-2xl text-center">
+                    <div class="w-20 h-20 bg-gradient-to-r from-gold to-gold-dark rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-2xl">
+                        <span class="text-2xl font-bold text-coal">⭐</span>
+                    </div>
+                    <h4 class="text-xl font-bold text-white mb-4">Pro Plan</h4>
+                    <p class="text-gray-300 text-sm mb-8">Real-time alerts + Advanced filters</p>
+                    <button class="w-full bg-gradient-to-r from-gold to-gold-dark hover:from-gold-dark hover:to-gold text-coal font-bold py-4 px-6 rounded-2xl shadow-2xl hover:shadow-gold/50 transition-all duration-300 transform hover:-translate-y-1">
+                        $29/month
+                    </button>
+                </div>
+
+                <!-- Ads Banner -->
+                <div class="bg-coal-light/50 backdrop-blur-xl rounded-3xl border border-coal-light/50 p-6 text-center hover:bg-coal-light/70 transition-colors">
+                    <div class="w-16 h-16 bg-blue-500/20 border-2 border-blue-400/50 rounded-2xl mx-auto mb-4 flex items-center justify-center">
+                        <span class="text-blue-400 text-xl">🚀</span>
+                    </div>
+                    <h5 class="font-bold text-lg mb-2">DEX Screener Pro</h5>
+                    <p class="text-gray-400 text-sm mb-6">Advanced trading tools</p>
+                    <button class="w-full text-xs bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/50 text-blue-300 py-2 px-4 rounded-xl transition-all font-medium">
+                        Check it out →
+                    </button>
+                </div>
+
+                <!-- Stats -->
+                <div class="bg-coal-light/30 backdrop-blur-xl rounded-2xl border border-coal-light/30 p-6">
+                    <h5 class="font-bold text-gold mb-6 text-center">24h Stats</h5>
+                    <div class="space-y-4">
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Total Volume</span>
+                            <span class="font-bold text-gold">$2.4M</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Whales Active</span>
+                            <span class="font-bold text-white">47</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-gray-400">Biggest Trade</span>
+                            <span class="font-bold text-gold">$1.2M</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-coal-light/50 backdrop-blur-md border-t border-coal-light/50 mt-16">
+        <div class="container mx-auto px-4 py-12 text-center">
+            <p class="text-gray-500 text-sm">&copy; 2024 The Whale Mirror. Track the smart money.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
