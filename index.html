@@ -3,156 +3,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>The Whale Mirror</title>
+    <title>Whale Mirror PRO</title>
     <style>
-        /* RESET TOTAL PARA EVITAR FONDO BLANCO */
-        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; --green: #00ff88; --red: #ff4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body { 
-            background-color: var(--bg) !important; 
-            color: white; 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            padding: 15px;
-            line-height: 1.4;
-        }
-
+        body { background-color: var(--bg) !important; color: white; font-family: 'Segoe UI', sans-serif; padding: 15px; }
         .container { max-width: 450px; margin: auto; }
 
-        /* HEADER */
-        .header { text-align: center; margin-bottom: 25px; padding: 20px 0; }
-        .header h1 { color: var(--gold); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }
+        /* HEADER & TIERS */
+        .header { text-align: center; padding: 20px 0; }
+        .header h1 { color: var(--gold); font-size: 1.8rem; letter-spacing: 2px; }
+        
+        .tier-box { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
+        .tier { background: var(--card); padding: 10px; border-radius: 8px; border: 1px solid #222; font-size: 0.7rem; }
+        .tier.active { border-color: var(--gold); position: relative; }
 
-        /* TABLA BLINDADA CON SCROLL */
-        .radar-section { margin-top: 20px; }
-        .radar-title { color: var(--gold); font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+        /* SENTIMIENTO Y VOLUMEN */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #222; }
+        .bar-bg { background: #333; height: 6px; border-radius: 3px; margin-top: 8px; overflow: hidden; }
+        .bar-fill { background: var(--green); height: 100%; width: 82%; }
 
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto; /* Esto permite deslizar la tabla sin romper el sitio */
-            background: var(--card);
-            border-radius: 12px;
-            border: 1px solid #222;
-            -webkit-overflow-scrolling: touch;
-        }
+        /* NOTICIAS BOMBA */
+        .news-box { background: linear-gradient(90deg, #1a1a1a, #111); padding: 15px; border-radius: 12px; border-left: 4px solid var(--gold); margin-bottom: 25px; }
+        .news-item { font-size: 0.8rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
 
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { background: #1a1a1a; color: #888; font-size: 0.7rem; text-align: left; padding: 15px 10px; text-transform: uppercase; }
+        /* RADAR DE BALLENAS */
+        .radar-header { color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
+        .table-wrapper { width: 100%; overflow-x: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
+        table { width: 100%; border-collapse: collapse; min-width: 550px; }
+        th { background: #1a1a1a; color: #666; font-size: 0.65rem; text-align: left; padding: 15px 10px; text-transform: uppercase; }
         td { padding: 15px 10px; border-bottom: 1px solid #222; font-size: 0.8rem; white-space: nowrap; }
 
-        .btn-info { 
-            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
-            padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;
-        }
+        /* BOTONES */
+        .btn-verif { background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 4px 8px; border-radius: 4px; font-size: 0.6rem; cursor: pointer; }
+        .btn-main-pro { width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold); padding: 15px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-binance { width: 100%; background: #f3ba2f; color: black; padding: 15px; border: none; font-weight: bold; border-radius: 8px; margin-top: 15px; cursor: pointer; }
 
         /* MODAL */
-        .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px;
-        }
-        .modal-content { 
-            background: #111; margin: 10% auto; padding: 25px; border-radius: 15px; 
-            border: 1px solid var(--gold); max-width: 400px; color: white;
-        }
-
-        .btn-pro-market {
-            width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold);
-            padding: 15px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; padding: 20px; }
+        .modal-content { background: #111; margin: 10% auto; padding: 25px; border-radius: 15px; border: 1px solid var(--gold); max-width: 400px; position: relative; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <h1>Whale Mirror 🐋</h1>
-        <p style="font-size: 0.8rem; color: #888;">Rastreo de Smart Money en tiempo real</p>
+        <h1>WHALE MIRROR 🐋</h1>
+        <p style="font-size: 0.75rem; color: #888; margin-top: 5px;">Rastreo de Smart Money en tiempo real</p>
     </div>
 
-    <div class="radar-section">
-        <h3 class="radar-title">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Activo</th>
-                        <th>Operación</th>
-                        <th>Cantidad USD</th>
-                        <th>Precio Act.</th>
-                        <th>Hora</th>
-                        <th>Info</th>
-                    </tr>
-                </thead>
-                <tbody id="whale-table">
-                    </tbody>
-            </table>
-        </div>
-        <button class="btn-pro-market" onclick="abrirSuscripcion()">VER TODO EL MERCADO (PRO) ↓</button>
+    <div class="tier-box">
+        <div class="tier">🔹 <strong>GRATIS</strong><br>Delay 5m. Info básica.</div>
+        <div class="tier active">🏆 <strong>PRO ($9.99)</strong><br>Tiempo real. Gráficos.</div>
     </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <small style="color:#888;">SENTIMIENTO</small>
+            <div style="color:var(--green); font-weight:bold; margin-top:5px;">CODICIA EXTREMA</div>
+            <div class="bar-bg"><div class="bar-fill"></div></div>
+        </div>
+        <div class="stat-card">
+            <small style="color:#888;">VOLUMEN 24H</small>
+            <div style="font-weight:bold; margin-top:5px;">$2.4M USD</div>
+        </div>
+    </div>
+
+    <div class="news-box">
+        <p style="font-size: 0.6rem; color: var(--gold); margin-bottom: 8px; font-weight: bold;">🚀 NOTICIAS BOMBA (10m update)</p>
+        <div class="news-item">🔥 <span>Movimiento masivo de $500M detectado en Arbitrum.</span></div>
+        <div class="news-item">⚡ <span>Ballenas de SOL incrementan posiciones +12%.</span></div>
+    </div>
+
+    <div class="radar-header">📡 RADAR DE GRANDES MOVIMIENTOS</div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Activo</th>
+                    <th>Operación</th>
+                    <th>Cantidad USD</th>
+                    <th>Precio Act.</th>
+                    <th>Hora</th>
+                    <th>Verif</th>
+                </tr>
+            </thead>
+            <tbody id="whale-table"></tbody>
+        </table>
+    </div>
+
+    <button class="btn-main-pro" onclick="mostrarSuscripcion()">VER TODO EL MERCADO (PRO) ↓</button>
 </div>
 
-<div id="detail-modal" class="modal">
+<div id="main-modal" class="modal">
     <div class="modal-content">
         <div id="modal-body"></div>
-        <button onclick="cerrarModal()" style="width:100%; margin-top:20px; padding:12px; background:var(--gold); border:none; font-weight:bold; border-radius:8px;">CERRAR</button>
+        <button onclick="cerrarModal()" style="width:100%; margin-top:15px; padding:10px; background:#333; color:white; border:none; border-radius:8px;">CERRAR</button>
     </div>
 </div>
 
 <script>
-    const movimientos = [
-        {coin: 'BTC', op: 'COMPRA', monto: '1,245,607', precio: '68,432', hora: '05:12', hash: '0x7a...e24b'},
-        {coin: 'ETH', op: 'VENTA', monto: '3,890,211', precio: '3,452', hora: '05:11', hash: '0x3c...f91a'},
-        {coin: 'SOL', op: 'COMPRA', monto: '950,432', precio: '145.22', hora: '05:11', hash: '0x9d...b22c'}
+    const datos = [
+        {coin: 'BTC', op: 'COMPRA', monto: '1,245,607', precio: '68,432', hora: '05:12', hash: '0x7a...f2e...e24b'},
+        {coin: 'ETH', op: 'VENTA', monto: '3,890,211', precio: '3,452', hora: '05:11', hash: '0x3c...a11...f91a'},
+        {coin: 'SOL', op: 'COMPRA', monto: '950,432', precio: '145.22', hora: '05:11', hash: '0x9d...c44...b22c'},
+        {coin: 'AVAX', op: 'COMPRA', monto: '1,722,890', precio: '592.15', hora: '05:10', hash: '0x1b...e99...d88f'}
     ];
 
-    function cargarTabla() {
-        const tbody = document.getElementById('whale-table');
-        tbody.innerHTML = movimientos.map(m => `
+    function renderTabla() {
+        const t = document.getElementById('whale-table');
+        t.innerHTML = datos.map(d => `
             <tr>
-                <td style="font-weight:bold; color:var(--gold)">${m.coin}</td>
-                <td style="color: ${m.op === 'COMPRA' ? '#00ff88' : '#ff4444'}">${m.op}</td>
-                <td>$${m.monto}</td>
-                <td>$${m.precio}</td>
-                <td style="color: #666">${m.hora}</td>
-                <td><button class="btn-info" onclick="verDetalle('${m.coin}')">INFO</button></td>
+                <td style="font-weight:bold; color:var(--gold)">${d.coin}</td>
+                <td style="color:${d.op === 'COMPRA' ? 'var(--green)' : 'var(--red)'}">${d.op}</td>
+                <td>$${d.monto}</td>
+                <td>$${d.precio}</td>
+                <td style="color:#666">${d.hora}</td>
+                <td><button class="btn-verif" onclick="verDetalle('${d.coin}')">VERIF</button></td>
             </tr>
         `).join('');
     }
 
     function verDetalle(coin) {
-        const m = movimientos.find(x => x.coin === coin);
+        const d = datos.find(x => x.coin === coin);
         document.getElementById('modal-body').innerHTML = `
-            <h2 style="color:var(--gold); text-align:center;">DETALLE PRO: ${m.coin}</h2>
-            <div style="background:#1a1a1a; padding:15px; border-radius:10px; margin:20px 0; font-size:0.9rem;">
-                <p><strong>Operación:</strong> ${m.op}</p>
-                <p><strong>Monto Total:</strong> $${m.monto}</p>
-                <p><strong>Precio:</strong> $${m.precio}</p>
-                <p><strong>Hash:</strong> <span style="color:#00ff88">${m.hash}</span></p>
+            <h2 style="color:var(--gold); text-align:center; margin-bottom:15px;">MOVIMIENTOS DE ${d.coin}</h2>
+            <div style="background:rgba(0,255,136,0.1); color:var(--green); padding:10px; border-radius:8px; font-size:0.7rem; text-align:center; margin-bottom:15px;">✅ MODO VERIFICACIÓN: ACCESO CONCEDIDO</div>
+            <div style="background:#1a1a1a; padding:15px; border-radius:10px; font-size:0.85rem; line-height:1.8;">
+                <p><strong>Operación:</strong> <span style="color:var(--green)">${d.op}</span></p>
+                <p><strong>Monto:</strong> $${d.monto}</p>
+                <p><strong>Precio:</strong> $${d.precio}</p>
+                <p><strong>Hora:</strong> ${d.hora}:04</p>
+                <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
+                <p style="color:#888; font-size:0.7rem;"><strong>Blockchain Hash:</strong><br>${d.hash}</p>
             </div>
-            <p style="font-size:0.75rem; color:#888;">Detección: Billetera institucional acumulando en niveles de soporte clave.</p>
+            <p style="font-size:0.75rem; color:#666; margin-top:15px; text-align:center;">Billetera identificada como "Institucional Tier 1".</p>
         `;
-        document.getElementById('detail-modal').style.display = 'block';
+        document.getElementById('main-modal').style.display = 'block';
     }
 
-    function cerrarModal() {
-        document.getElementById('detail-modal').style.display = 'none';
-    }
-
-    function abrirSuscripcion() {
+    function mostrarSuscripcion() {
         document.getElementById('modal-body').innerHTML = `
-            <h2 style="color:var(--gold); text-align:center;">WHALE MIRROR PRO</h2>
-            <p style="text-align:center; margin:15px 0;">Accede al rastreo de +500 monedas y alertas instantáneas.</p>
-            <div style="background:#1a1a1a; padding:15px; border-radius:10px;">
-                <p>✅ Datos cada 1 segundo</p>
-                <p>✅ Verificación Blockchain</p>
-                <p>✅ Gráficos de flujo de órdenes</p>
+            <h2 style="color:var(--gold); text-align:center;">WHALE MIRROR PRO 🏆</h2>
+            <p style="text-align:center; margin:15px 0; font-size:0.9rem; color:#bbb;">Únete a la élite que opera sin delay.</p>
+            <div style="background:#1a1a1a; padding:15px; border-radius:10px; font-size:0.85rem;">
+                <p>🚀 Actualización cada 1 segundo</p>
+                <p>📊 Gráficos de profundidad incluidos</p>
+                <p>🔔 Alertas Telegram ilimitadas</p>
+                <p>💎 Verificación de Hash On-Chain</p>
             </div>
-            <button style="width:100%; margin-top:20px; padding:15px; background:#f3ba2f; color:black; border:none; font-weight:bold; border-radius:8px;">SUSCRIBIRSE POR $9.99</button>
+            <h3 style="text-align:center; margin:20px 0;">$9.99 <small>/ mes</small></h3>
+            <button class="btn-binance" onclick="alert('Redirigiendo a Binance Pay...')">SUSCRIBIRSE CON BINANCE</button>
         `;
-        document.getElementById('detail-modal').style.display = 'block';
+        document.getElementById('main-modal').style.display = 'block';
     }
 
-    cargarTabla();
+    function cerrarModal() { document.getElementById('main-modal').style.display = 'none'; }
+    renderTabla();
 </script>
 
 </body>
