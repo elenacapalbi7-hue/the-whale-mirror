@@ -1,211 +1,605 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Terminal Elite</title>
-    <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg); color: white; font-family: 'Inter', sans-serif; padding: 15px; }
-        .container { max-width: 500px; margin: auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        /* HEADER Y DESCRIPCIÓN */
-        .header { text-align: center; }
-        .quote-box { display: flex; align-items: center; gap: 10px; background: #161616; padding: 15px; border-radius: 12px; border: 1px dashed var(--gold); margin: 15px 0; font-size: 0.8rem; }
-        .about { font-size: 0.75rem; color: #888; text-align: center; margin-bottom: 20px; line-height: 1.4; }
+<title>Whale Mirror - Terminal Elite</title>
 
-        /* NOTICIAS */
-        .news-card { background: var(--card); padding: 12px; border-radius: 12px; border-left: 4px solid var(--gold); margin-bottom: 10px; display: flex; gap: 12px; align-items: center; cursor: pointer; }
-        .news-img { width: 45px; height: 45px; border-radius: 5px; background: #000; }
+<style>
 
-        /* TABLA DE 6 COLUMNAS */
-        .table-wrapper { width: 100%; height: 400px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; margin-top: 10px; }
-        table { width: 100%; border-collapse: collapse; min-width: 700px; }
-        th { background: #1a1a1a; color: #666; font-size: 0.6rem; padding: 12px; text-align: left; position: sticky; top: 0; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; }
+:root{
+--gold:#d4af37;
+--bg:#050505;
+--card:#111;
+--green:#00ff88;
+--red:#ff4444;
+}
 
-        /* DASHBOARD DETALLE (IMAGEN REFERENCIA) */
-        .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
-        .panel { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #333; }
-        .panel-label { font-size: 0.6rem; color: #666; text-transform: uppercase; }
-        .panel-val { display: block; font-size: 1rem; font-weight: bold; color: var(--gold); margin-top: 5px; }
-        .pressure-box { background: #161616; padding: 15px; border-radius: 12px; border: 1px solid #444; margin: 15px 0; }
-        .bar-bg { width: 100%; height: 10px; background: #333; border-radius: 5px; margin-top: 8px; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--green); transition: width 1s; }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-        /* INTERFAZ */
-        .search-box { width: 100%; padding: 12px; background: #161616; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 15px; }
-        .btn { width: 100%; padding: 16px; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .btn-gold { background: var(--gold); color: black; }
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; overflow-y: auto; }
-        .modal-content { max-width: 500px; margin: auto; padding: 25px; }
-    </style>
+body{
+background:var(--bg);
+color:white;
+font-family:Arial;
+padding:15px;
+}
+
+.container{
+max-width:500px;
+margin:auto;
+}
+
+.header{
+text-align:center;
+}
+
+.quote-box{
+display:flex;
+align-items:center;
+gap:10px;
+background:#161616;
+padding:15px;
+border-radius:12px;
+border:1px dashed var(--gold);
+margin:15px 0;
+font-size:0.8rem;
+}
+
+.about{
+font-size:0.75rem;
+color:#888;
+text-align:center;
+margin-bottom:20px;
+line-height:1.4;
+}
+
+/* noticias */
+
+.news-card{
+background:var(--card);
+padding:12px;
+border-radius:12px;
+border-left:4px solid var(--gold);
+margin-bottom:10px;
+display:flex;
+gap:12px;
+align-items:center;
+cursor:pointer;
+}
+
+.news-img{
+width:45px;
+height:45px;
+border-radius:5px;
+}
+
+/* tabla */
+
+.table-wrapper{
+width:100%;
+height:400px;
+overflow:auto;
+background:var(--card);
+border-radius:12px;
+border:1px solid #222;
+margin-top:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+min-width:700px;
+}
+
+th{
+background:#1a1a1a;
+color:#666;
+font-size:0.6rem;
+padding:12px;
+text-align:left;
+position:sticky;
+top:0;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #222;
+font-size:0.75rem;
+}
+
+/* dashboard */
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:20px;
+}
+
+.panel{
+background:#111;
+padding:15px;
+border-radius:10px;
+border:1px solid #333;
+}
+
+.panel-label{
+font-size:0.6rem;
+color:#666;
+}
+
+.panel-val{
+display:block;
+font-size:1rem;
+font-weight:bold;
+color:var(--gold);
+margin-top:5px;
+}
+
+.pressure-box{
+background:#161616;
+padding:15px;
+border-radius:12px;
+border:1px solid #444;
+margin:15px 0;
+}
+
+.bar-bg{
+width:100%;
+height:10px;
+background:#333;
+border-radius:5px;
+margin-top:8px;
+overflow:hidden;
+}
+
+.bar-fill{
+height:100%;
+background:var(--green);
+}
+
+/* interfaz */
+
+.search-box{
+width:100%;
+padding:12px;
+background:#161616;
+border:1px solid #333;
+border-radius:8px;
+color:white;
+margin-bottom:15px;
+}
+
+.btn{
+width:100%;
+padding:16px;
+border-radius:10px;
+border:none;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+.btn-gold{
+background:var(--gold);
+color:black;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+z-index:10000;
+overflow-y:auto;
+}
+
+.modal-content{
+max-width:500px;
+margin:auto;
+padding:25px;
+}
+
+</style>
 </head>
+
+
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1 style="color:var(--gold); letter-spacing:3px;">WHALE MIRROR</h1>
-        <div class="quote-box">
-            <img src="https://img.icons8.com/fluency/48/whale.png" width="30">
-            <p id="phrase">"El dinero inteligente no hace ruido, deja huellas."</p>
-        </div>
-    </div>
 
-    <p class="about">Terminal de monitoreo on-chain. Analizamos grandes movimientos en el libro de órdenes y transferencias institucionales para anticipar tendencias de mercado.</p>
+<div class="header">
 
-    <div id="tv-widget" style="height:200px; margin-bottom:20px; border-radius:12px; overflow:hidden;"></div>
+<h1 style="color:var(--gold);letter-spacing:3px;">
+WHALE MIRROR
+</h1>
 
-    <input type="text" id="search" class="search-box" placeholder="🔍 Buscar moneda (ej: BTC, SOL)..." onkeyup="updateUI()">
+<div class="quote-box">
 
-    <h4 style="color:var(--gold); font-size:0.7rem; margin-bottom:10px;">📰 ALERTAS E INFORMES (ACTUALIZADO)</h4>
-    <div id="news-list"></div>
+<img src="https://img.icons8.com/fluency/48/whale.png" width="30">
 
-    <div style="display:flex; justify-content:space-between; font-size:0.7rem; margin-top:20px;">
-        <span style="color:var(--gold);">📡 RADAR EN VIVO</span>
-        <span id="timer" style="color:var(--red);">05:00</span>
-    </div>
+<p>
+"El dinero inteligente no hace ruido, deja huellas."
+</p>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>Activo</th>
-                    <th>Tipo</th>
-                    <th>Monto USD</th>
-                    <th>Precio</th>
-                    <th>Wallet</th>
-                    <th>Terminal</th>
-                </tr>
-            </thead>
-            <tbody id="main-table"></tbody>
-        </table>
-    </div>
+</div>
 
-    <button class="btn btn-gold" onclick="showSub()">SUSCRIBIRSE CON BINANCE PAY</button>
+</div>
+
+<p class="about">
+Terminal de monitoreo on-chain. Analizamos grandes movimientos
+institucionales para anticipar tendencias de mercado.
+</p>
+
+<div id="tv-widget" style="height:200px;margin-bottom:20px;border-radius:12px;overflow:hidden;"></div>
+
+<input
+type="text"
+id="search"
+class="search-box"
+placeholder="🔍 Buscar moneda..."
+onkeyup="updateUI()"
+/>
+
+<h4 style="color:var(--gold);font-size:0.7rem;margin-bottom:10px;">
+📰 ALERTAS E INFORMES
+</h4>
+
+<div id="news-list"></div>
+
+<div style="display:flex;justify-content:space-between;font-size:0.7rem;margin-top:20px;">
+
+<span style="color:var(--gold);">
+📡 RADAR EN VIVO
+</span>
+
+<span id="timer" style="color:var(--red);">
+05:00
+</span>
+
+</div>
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Activo</th>
+<th>Tipo</th>
+<th>Monto USD</th>
+<th>Precio</th>
+<th>Wallet</th>
+<th>Terminal</th>
+
+</tr>
+
+</thead>
+
+<tbody id="main-table"></tbody>
+
+</table>
+
+</div>
+
+<button class="btn btn-gold" onclick="showSub()">
+SUSCRIBIRSE
+</button>
+
 </div>
 
 <div id="modal" class="modal">
-    <div class="modal-content" id="modal-body"></div>
+<div class="modal-content" id="modal-body"></div>
 </div>
 
 <script src="https://s3.tradingview.com/tv.js"></script>
+
 <script>
-    let IS_PRO = false;
-    let coins = [];
-    const tickers = ['BTC', 'ETH', 'SOL', 'AVAX', 'BNB', 'DOT', 'ADA', 'XRP', 'LINK', 'PEPE', 'SHIB', 'MATIC', 'NEAR', 'SUI', 'FET', 'RNDR', 'TIA', 'OP', 'ARB', 'STX'];
 
-    // Inicializar 500 monedas
-    for(let i=0; i<500; i++) {
-        coins.push(tickers[i % tickers.length] + (i > 19 ? i : '') + "/USDT");
-    }
+let IS_PRO=false;
 
-    new TradingView.widget({"container_id": "tv-widget","symbol": "BINANCE:BTCUSDT","theme": "dark","width": "100%","height": 200});
+let coins=[];
 
-    function getNews() {
-        const news = [
-            {t: "Flujo Institucional BTC", d: "Entrada de $1.2B detectada en Coinbase Custody.", img: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"},
-            {t: "Ballenas SOL en Movimiento", d: "Movimiento de 5M SOL a billeteras frías.", img: "https://cryptologos.cc/logos/solana-sol-logo.png"},
-            {t: "Alerta de Liquidación ETH", d: "Pared de venta masiva en los $3,500.", img: "https://cryptologos.cc/logos/ethereum-eth-logo.png"}
-        ];
-        document.getElementById('news-list').innerHTML = news.map((n, i) => `
-            <div class="news-card" onclick="showNewsDetail(${i})">
-                <img src="${n.img}" class="news-img">
-                <div>
-                    <h5 style="font-size:0.8rem;">${n.t}</h5>
-                    <p style="font-size:0.6rem; color:#666;">Toca para ver informe completo</p>
-                </div>
-            </div>
-        `).join('');
-    }
+const tickers=[
+'BTC','ETH','SOL','BNB','ADA','XRP','AVAX','DOT'
+];
 
-    function updateUI() {
-        const filter = document.getElementById('search').value.toUpperCase();
-        const tbody = document.getElementById('main-table');
-        let list = IS_PRO ? coins : coins.slice(0, 10);
-        if(filter) list = coins.filter(c => c.includes(filter)).slice(0, IS_PRO ? 500 : 3);
+for(let i=0;i<300;i++){
 
-        tbody.innerHTML = list.map(c => {
-            const op = Math.random() > 0.5 ? 'COMPRA' : 'VENTA';
-            return `
-                <tr>
-                    <td style="color:var(--gold); font-weight:bold;">${c}</td>
-                    <td style="color:${op==='COMPRA'?'var(--green)':'var(--red)'}">${op}</td>
-                    <td>$${(Math.random()*5000000).toLocaleString()}</td>
-                    <td>$${(Math.random()*60000).toFixed(2)}</td>
-                    <td style="font-size:0.6rem;">0x${Math.random().toString(16).slice(2,8)}...</td>
-                    <td><button onclick="showDetail('${c}')" style="background:var(--gold); border:none; padding:5px 8px; border-radius:4px; cursor:pointer; font-size:0.6rem; font-weight:bold;">ABRIR</button></td>
-                </tr>
-            `;
-        }).join('');
-    }
+coins.push(tickers[i%tickers.length]+"/USDT");
 
-    function showDetail(coin) {
-        if(!IS_PRO) { showSub(); return; }
-        const p = (Math.random()*30+65).toFixed(1);
-        document.getElementById('modal-body').innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 style="color:var(--gold);">${coin} PRO INFO</h2>
-                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button>
-            </div>
-            <div class="pressure-box">
-                <div style="display:flex; justify-content:space-between; font-size:0.7rem;"><span>PRESIÓN DE COMPRA</span><span style="color:var(--green);">${p}%</span></div>
-                <div class="bar-bg"><div class="bar-fill" style="width:${p}%;"></div></div>
-            </div>
-            <div class="dashboard-grid">
-                <div class="panel"><span class="panel-label">Monto</span><span class="panel-val">$${(Math.random()*9000000).toLocaleString()}</span></div>
-                <div class="panel"><span class="panel-label">Tipo</span><span class="panel-val" style="color:var(--green);">COMPRA</span></div>
-                <div class="panel"><span class="panel-label">RSI</span><span class="panel-val">${(Math.random()*40+30).toFixed(2)}</span></div>
-                <div class="panel"><span class="panel-label">Volatilidad</span><span class="panel-val" style="color:var(--red);">ALTA</span></div>
-                <div class="panel"><span class="panel-label">Wallet ID</span><span class="panel-val" style="font-size:0.6rem;">WHALE_NODE_A8</span></div>
-                <div class="panel"><span class="panel-label">Audit</span><span class="panel-val" style="color:var(--green); font-size:0.7rem;">VERIFICADO</span></div>
-            </div>
-            <button class="btn btn-gold" style="margin-top:30px;" onclick="closeModal()">REGRESAR</button>
-        `;
-        document.getElementById('modal').style.display = 'block';
-    }
+}
 
-    function showNewsDetail(i) {
-        if(!IS_PRO) { showSub(); return; }
-        document.getElementById('modal-body').innerHTML = `
-            <h2 style="color:var(--gold);">INFORME DE AUDITORÍA</h2>
-            <p style="margin:20px 0; line-height:1.6; color:#ccc;">Este informe contiene datos de flujo de liquidez nivel 2, rastreo de IP de nodos y movimientos cruzados entre exchanges para el evento seleccionado.</p>
-            <button class="btn btn-gold" onclick="closeModal()">CERRAR</button>
-        `;
-        document.getElementById('modal').style.display = 'block';
-    }
+new TradingView.widget({
+container_id:"tv-widget",
+symbol:"BINANCE:BTCUSDT",
+theme:"dark",
+width:"100%",
+height:200
+});
 
-    function showSub() {
-        document.getElementById('modal-body').innerHTML = `
-            <h2 style="text-align:center; color:var(--gold);">MEMBRESÍA ELITE 🏆</h2>
-            <p style="text-align:center; color:#888; margin:15px 0;">Desbloquea +500 activos, informes de auditoría y detalles técnicos.</p>
-            <div style="background:#111; padding:20px; border-radius:15px; border:1px solid #333;">
-                <ul style="list-style:none; font-size:0.85rem; line-height:2;">
-                    <li>✅ +500 Monedas en Tiempo Real</li>
-                    <li>✅ 6 Columnas de Datos Técnicos</li>
-                    <li>✅ Informes de Noticias PRO</li>
-                </ul>
-                <button class="btn btn-gold" onclick="completePayment()">PAGAR $9.99 (BINANCE PAY)</button>
-            </div>
-        `;
-        document.getElementById('modal').style.display = 'block';
-    }
+function getNews(){
 
-    function completePayment() {
-        IS_PRO = true;
-        closeModal();
-        updateUI();
-        document.getElementById('timer').innerText = "VIVO (PRO)";
-        alert("¡Suscripción Activada! Ahora tienes acceso total.");
-    }
+const news=[
 
-    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+{
+t:"Flujo Institucional BTC",
+img:"https://cryptologos.cc/logos/bitcoin-btc-logo.png"
+},
 
-    // Update de noticias cada 10 min (600000ms)
-    setInterval(getNews, 600000);
-    getNews();
-    updateUI();
+{
+t:"Ballenas SOL en Movimiento",
+img:"https://cryptologos.cc/logos/solana-sol-logo.png"
+},
+
+{
+t:"Liquidaciones ETH",
+img:"https://cryptologos.cc/logos/ethereum-eth-logo.png"
+}
+
+];
+
+document.getElementById("news-list").innerHTML=news.map((n,i)=>`
+
+<div class="news-card" onclick="showNewsDetail(${i})">
+
+<img src="${n.img}" class="news-img">
+
+<div>
+
+<h5 style="font-size:0.8rem;">
+${n.t}
+</h5>
+
+<p style="font-size:0.6rem;color:#666;">
+Toca para ver informe completo
+</p>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+function updateUI(){
+
+const tbody=document.getElementById("main-table");
+
+let list=IS_PRO?coins:coins.slice(0,10);
+
+tbody.innerHTML=list.map(c=>{
+
+const op=Math.random()>0.5?"COMPRA":"VENTA";
+
+return`
+
+<tr>
+
+<td style="color:var(--gold);font-weight:bold;">
+${c}
+</td>
+
+<td style="color:${op==="COMPRA"?"var(--green)":"var(--red)"}">
+${op}
+</td>
+
+<td>
+$${(Math.random()*5000000).toLocaleString()}
+</td>
+
+<td>
+$${(Math.random()*60000).toFixed(2)}
+</td>
+
+<td style="font-size:0.6rem;">
+0x${Math.random().toString(16).slice(2,8)}...
+</td>
+
+<td>
+<button onclick="showDetail('${c}')"
+style="background:var(--gold);border:none;padding:5px 8px;border-radius:4px;cursor:pointer;font-size:0.6rem;font-weight:bold;">
+ABRIR
+</button>
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+}
+
+function showDetail(coin){
+
+if(!IS_PRO){
+showSub();
+return;
+}
+
+const p=(Math.random()*30+65).toFixed(1);
+
+document.getElementById("modal-body").innerHTML=`
+
+<h2 style="color:var(--gold);margin-bottom:15px;">
+${coin} INTEL PANEL
+</h2>
+
+<div class="pressure-box">
+
+<div style="display:flex;justify-content:space-between;font-size:0.8rem;">
+
+<span>PRESIÓN MERCADO</span>
+
+<span style="color:var(--green);">
+${p}%
+</span>
+
+</div>
+
+<div class="bar-bg">
+<div class="bar-fill" style="width:${p}%"></div>
+</div>
+
+</div>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+<span class="panel-label">Monto</span>
+<span class="panel-val">$${(Math.random()*9000000).toLocaleString()}</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Tipo</span>
+<span class="panel-val" style="color:var(--green)">COMPRA</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">RSI</span>
+<span class="panel-val">${(Math.random()*40+30).toFixed(2)}</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Volatilidad</span>
+<span class="panel-val" style="color:var(--red)">ALTA</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Wallet</span>
+<span class="panel-val">WHALE_NODE_A8</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Audit</span>
+<span class="panel-val" style="color:var(--green)">VERIFICADO</span>
+</div>
+
+</div>
+
+<button class="btn btn-gold" onclick="closeModal()">
+REGRESAR
+</button>
+
+`;
+
+document.getElementById("modal").style.display="block";
+
+}
+
+function showNewsDetail(){
+
+if(!IS_PRO){
+showSub();
+return;
+}
+
+document.getElementById("modal-body").innerHTML=`
+
+<h2 style="color:var(--gold);">
+INFORME INSTITUCIONAL
+</h2>
+
+<p style="margin:20px 0;color:#aaa;line-height:1.6;">
+
+Una transferencia institucional ha sido detectada en blockchain.
+
+Los fondos fueron movidos desde custodios hacia billeteras
+frías indicando posible acumulación.
+
+</p>
+
+<div class="dashboard-grid">
+
+<div class="panel">
+<span class="panel-label">Score institucional</span>
+<span class="panel-val">98</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Flujo BTC</span>
+<span class="panel-val">+9,451</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Escenario alcista</span>
+<span class="panel-val">$74,000</span>
+</div>
+
+<div class="panel">
+<span class="panel-label">Escenario bajista</span>
+<span class="panel-val">$63,500</span>
+</div>
+
+</div>
+
+<button class="btn btn-gold" onclick="closeModal()">
+CERRAR INFORME
+</button>
+
+`;
+
+document.getElementById("modal").style.display="block";
+
+}
+
+function showSub(){
+
+document.getElementById("modal-body").innerHTML=`
+
+<h2 style="text-align:center;color:var(--gold);">
+MEMBRESÍA PRO
+</h2>
+
+<p style="text-align:center;color:#888;margin:15px 0;">
+Desbloquea informes institucionales completos
+</p>
+
+<button class="btn btn-gold" onclick="completePayment()">
+ACTIVAR PRO
+</button>
+
+`;
+
+document.getElementById("modal").style.display="block";
+
+}
+
+function completePayment(){
+
+IS_PRO=true;
+
+closeModal();
+
+updateUI();
+
+document.getElementById("timer").innerText="VIVO (PRO)";
+
+alert("Suscripción activada");
+
+}
+
+function closeModal(){
+document.getElementById("modal").style.display="none";
+}
+
+getNews();
+
+updateUI();
+
 </script>
+
 </body>
 </html>
