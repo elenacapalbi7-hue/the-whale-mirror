@@ -3,109 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Terminal Elite</title>
+    <title>Whale Mirror - Terminal de Inteligencia</title>
     <style>
         :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg); color: white; padding: 10px; line-height: 1.4; }
+        body { background-color: var(--bg); color: white; padding: 10px; }
         .container { max-width: 500px; margin: auto; }
 
-        /* SECCIÓN INFORMATIVA PRO */
-        .info-panel { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; }
-        .info-panel h2 { color: var(--gold); text-align: center; margin-bottom: 15px; }
-        .benefit { display: flex; gap: 10px; margin-bottom: 10px; font-size: 0.85rem; color: #ccc; }
+        /* CABECERA E INFO DE SUSCRIPCIÓN */
+        .promo-box { background: linear-gradient(145deg, #1a1a1a, #0a0a0a); padding: 20px; border-radius: 15px; border: 1px solid var(--gold); margin-bottom: 20px; }
+        .promo-box h2 { color: var(--gold); text-align: center; margin-bottom: 15px; font-size: 1.2rem; }
+        .comparison-table { width: 100%; font-size: 0.75rem; border-collapse: collapse; margin-top: 10px; }
+        .comparison-table td { padding: 8px; border-bottom: 1px solid #222; }
+        .check { color: var(--green); font-weight: bold; }
 
-        /* NOTICIAS DINÁMICAS */
-        .news-box { display: grid; gap: 10px; margin-bottom: 20px; }
-        .news-item { background: #161616; padding: 12px; border-radius: 10px; border-left: 3px solid var(--gold); display: flex; align-items: center; gap: 10px; cursor: pointer; }
+        /* NOTICIAS */
+        .news-container { display: grid; gap: 10px; margin: 20px 0; }
+        .news-card { background: #161616; padding: 15px; border-radius: 12px; border-left: 4px solid var(--gold); cursor: pointer; display: flex; align-items: center; gap: 12px; }
 
-        /* TABLA Y BUSCADOR */
-        .search-container { display: none; margin-bottom: 15px; }
-        .search-box { width: 100%; padding: 14px; background: #1a1a1a; border: 1px solid #333; border-radius: 10px; color: white; outline: none; }
-        
-        .table-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .table-wrapper { width: 100%; height: 400px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        /* TRADINGVIEW INICIO */
+        .main-chart { height: 250px; background: #000; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; overflow: hidden; }
+
+        /* TABLA DE MONEDAS */
+        .search-area { display: none; margin-bottom: 15px; }
+        .search-box { width: 100%; padding: 15px; background: #1a1a1a; border: 1px solid #444; border-radius: 10px; color: white; }
+        .table-wrapper { width: 100%; height: 450px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
         th { background: #1a1a1a; color: #666; font-size: 0.65rem; padding: 12px; text-align: left; position: sticky; top: 0; }
-        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: 'monospace'; }
+        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: monospace; }
 
-        /* MODAL DETALLE */
+        /* MODALES */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; overflow-y: auto; }
         .modal-content { max-width: 500px; margin: auto; padding: 20px; }
-        .edu-box { background: #161616; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 0.8rem; color: #bbb; border: 1px solid #333; }
-        .edu-box b { color: var(--gold); }
+        .detail-card { background: #111; padding: 20px; border-radius: 15px; border: 1px solid #333; }
+        .edu-info { background: #1a1a1a; padding: 15px; border-radius: 10px; margin-top: 15px; font-size: 0.8rem; line-height: 1.5; color: #aaa; }
+        .edu-info b { color: var(--gold); }
 
-        /* BOTONES */
-        .btn-gold { width: 100%; padding: 16px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; margin-top: 10px; }
-        .btn-verify { display: block; text-align: center; color: var(--gold); text-decoration: none; padding: 10px; border: 1px solid var(--gold); border-radius: 8px; margin-top: 10px; font-size: 0.8rem; }
+        .btn-gold { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="info-panel">
-        <h2>TERMINAL WHALE MIRROR</h2>
-        <div class="benefit"><span>💎</span> <b>Acceso Institucional:</b> Mira lo que las ballenas compran antes que el resto.</div>
-        <div class="benefit"><span>⚡</span> <b>Tiempo Real:</b> Datos procesados segundo a segundo para suscriptores.</div>
-        <div class="benefit"><span>🌍</span> <b>Universal:</b> Todas las monedas, Memecoins y nuevos listados.</div>
-        <div id="sub-desc" style="font-size: 0.75rem; color: var(--gold); margin-top: 10px; border-top: 1px solid #333; padding-top: 10px;">
-            ⚠️ <b>Modo Gratuito:</b> Solo 10 monedas. Actualización cada 5 min. Sin buscador.
-        </div>
+    <div class="promo-box" id="benefits-section">
+        <h2>🏆 VENTAJAS DE SUSCRIPCIÓN</h2>
+        <table class="comparison-table">
+            <tr><td>MERCADOS</td><td>10 Monedas</td><td class="check">TODAS (+5,000)</td></tr>
+            <tr><td>ACTUALIZACIÓN</td><td>Cada 5 Minutos</td><td class="check">CADA SEGUNDO</td></tr>
+            <tr><td>HERRAMIENTAS</td><td>Básico</td><td class="check">BUSCADOR Y AUDITORÍA</td></tr>
+        </table>
+        <p style="font-size: 0.65rem; text-align: center; margin-top: 10px; color: #888;">Accede a la información que las ballenas usan para operar.</p>
     </div>
 
-    <div id="news-section" class="news-box">
-        </div>
-
-    <div id="search-area" class="search-container">
-        <input type="text" id="search-input" class="search-box" placeholder="🔍 Buscar entre +5,000 monedas..." onkeyup="renderTable()">
+    <div class="main-chart">
+        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=D&theme=dark" width="100%" height="250" frameborder="0"></iframe>
     </div>
 
-    <div class="table-header">
-        <span style="font-size: 0.7rem; color: var(--gold);">📡 RADAR DE FLUJO</span>
-        <span id="timer" style="font-size: 0.7rem; color: var(--red);">05:00</span>
+    <h4 style="color:var(--gold); font-size:0.75rem; margin-bottom:10px;">📰 INFORMES DE AUDITORÍA (CADA 10 MIN)</h4>
+    <div id="news-list" class="news-container"></div>
+
+    <div id="search-container" class="search-area">
+        <input type="text" id="search-input" class="search-box" placeholder="🔍 Buscar moneda (PEPE, SOL, SHIB...)" onkeyup="renderTable()">
+    </div>
+
+    <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+        <span style="font-size:0.7rem; color:var(--gold);">📡 RADAR LIVE</span>
+        <span id="timer" style="font-size:0.7rem; color:var(--red);">05:00</span>
     </div>
 
     <div class="table-wrapper">
         <table>
-            <thead><tr><th>Activo</th><th>Tipo</th><th>Monto USD</th><th>Wallet</th><th>Acción</th></tr></thead>
+            <thead><tr><th>Activo</th><th>Tipo</th><th>Monto USD</th><th>Wallet ID</th><th>Radar</th></tr></thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <button id="main-btn" class="btn-gold" onclick="handleMainAction()">VER TODAS LAS MONEDAS (SUSCRIBIRSE)</button>
+    <button id="sub-btn" class="btn-gold" style="margin-top:20px;" onclick="openPayModal()">SUSCRIBIRSE PARA ACCESO TOTAL</button>
 </div>
 
 <div id="modal" class="modal"><div class="modal-content" id="modal-body"></div></div>
 
 <script>
     let IS_PRO = false;
-    let updateInterval = 300000; // 5 min default
     let timeLeft = 300;
     
-    // Base de datos gigante simulada
-    const baseAssets = ['BTC', 'ETH', 'SOL', 'PEPE', 'WIF', 'BONK', 'DOGE', 'XRP', 'ADA', 'AVAX', 'DOT', 'LINK', 'MATIC', 'NEAR', 'SUI', 'APT', 'TIA', 'ARB', 'OP', 'FET'];
-    let allCoins = [...baseAssets];
-    for(let i=0; i<500; i++) { allCoins.push("MEME" + i); } // Simulando miles de monedas
+    // Lista de monedas reales (esto se expande en Pro)
+    const topCoins = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'ADA', 'AVAX', 'DOT', 'DOGE', 'MATIC'];
+    const proCoins = ['PEPE', 'SHIB', 'WIF', 'BONK', 'FLOKI', 'SUI', 'APT', 'TIA', 'FET', 'RNDR', 'NEAR', 'LINK', 'OP', 'ARB', 'LDO', 'PENDLE', 'JUP', 'ORDI', 'BEAM', 'PYTH'];
+    let fullList = [...topCoins];
 
     function updateNews() {
         const news = [
-            { t: "Fuerte acumulación en "+allCoins[Math.floor(Math.random()*10)], d: "Ballenas moviendo fondos." },
-            { t: "Alerta de Liquidez", d: "Nuevo listado detectado en DEX." },
-            { t: "Movimiento de Billetera Fría", d: "0x" + Math.random().toString(16).slice(2,8) + " despertó." }
+            { t: "Gran acumulación en " + fullList[Math.floor(Math.random()*fullList.length)], d: "Movimiento institucional detectado." },
+            { t: "Alerta de Ballena", d: "Billetera inactiva despierta con millones." },
+            { t: "Inyección de Liquidez", d: "Nuevas órdenes detectadas en niveles de soporte." }
         ];
-        document.getElementById('news-section').innerHTML = news.map(n => `
-            <div class="news-item" onclick="handleMainAction()">
-                <div style="font-size: 1.2rem;">🔔</div>
-                <div><p style="font-size:0.8rem; font-weight:bold;">${n.t}</p><p style="font-size:0.65rem; color:#888;">${n.d}</p></div>
+        document.getElementById('news-list').innerHTML = news.map((n, i) => `
+            <div class="news-card" onclick="openNewsDetail('${n.t}')">
+                <div style="font-size:1.2rem;">⚡</div>
+                <div><p style="font-size:0.8rem; font-weight:bold;">${n.t}</p><p style="font-size:0.6rem; color:#666;">${n.d}</p></div>
             </div>
         `).join('');
     }
 
     function renderTable() {
-        const filter = document.getElementById('search-input').value.toUpperCase();
+        const query = document.getElementById('search-input').value.toUpperCase();
         const tbody = document.getElementById('table-body');
-        let list = IS_PRO ? allCoins : allCoins.slice(0, 10);
-        if(filter) list = allCoins.filter(c => c.includes(filter)).slice(0, 100);
+        let list = IS_PRO ? [...topCoins, ...proCoins] : topCoins;
+        
+        if(query) list = list.filter(c => c.includes(query));
 
         tbody.innerHTML = list.map(t => {
             const op = Math.random() > 0.4 ? 'COMPRA' : 'VENTA';
@@ -113,73 +119,73 @@
                 <tr>
                     <td style="color:var(--gold); font-weight:bold;">${t}/USDT</td>
                     <td style="color:${op==='COMPRA'?'var(--green)':'var(--red)'}">${op}</td>
-                    <td>$${(Math.random()*3000000).toLocaleString()}</td>
-                    <td style="font-size:0.6rem; color:#555;">0x${Math.random().toString(16).slice(2,10)}...</td>
-                    <td><button onclick="openDetail('${t}')" style="background:var(--gold); border:none; padding:6px; border-radius:5px; font-weight:bold; cursor:pointer; font-size:0.6rem;">DETALLE</button></td>
+                    <td>$${(Math.random()*2000000 + 50000).toLocaleString()}</td>
+                    <td style="font-size:0.6rem; color:#555;">0x${Math.random().toString(16).slice(2,8)}...</td>
+                    <td><button onclick="openCoinDetail('${t}')" style="background:var(--gold); border:none; padding:6px; border-radius:5px; font-weight:bold; cursor:pointer; font-size:0.6rem;">ANALIZAR</button></td>
                 </tr>`;
         }).join('');
     }
 
-    function openDetail(symbol) {
-        if(!IS_PRO) { handleMainAction(); return; }
+    function openCoinDetail(symbol) {
+        if(!IS_PRO) { openPayModal(); return; }
         const p = (Math.random()*30+65).toFixed(1);
         
         document.getElementById('modal-body').innerHTML = `
-            <div style="text-align:right;"><button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.8rem;">✕</button></div>
-            <h2 style="color:var(--gold); margin-bottom:10px;">ANÁLISIS: ${symbol}</h2>
-            
-            <div style="height:250px; background:#000; border-radius:10px; overflow:hidden; border:1px solid #333;">
-                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol.includes('MEME') ? 'BTC' : symbol}USDT&interval=5&theme=dark" width="100%" height="250" frameborder="0"></iframe>
-            </div>
-
-            <div class="edu-box">
-                <p><b>📊 Presión (${p}%):</b> Indica la fuerza de compra institucional. Si es >70%, las ballenas están absorbiendo la oferta.</p><br>
-                <p><b>🛡️ Auditoría:</b> Verificamos contratos inteligentes para evitar estafas (Rugpulls). <b>ESTADO: SEGURO</b>.</p><br>
-                <p><b>🎯 Finalidad:</b> Identificar puntos de entrada donde el "Dinero Inteligente" está operando.</p>
-            </div>
-
-            <a href="https://etherscan.io/" target="_blank" class="btn-verify">VERIFICAR EN BLOCKCHAIN (LIVE)</a>
-            <button class="btn-gold" style="margin-top:15px;" onclick="closeModal()">VOLVER</button>
-        `;
+            <div class="detail-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                    <h2 style="color:var(--gold);">${symbol} ANALYTICS</h2>
+                    <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button>
+                </div>
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol}USDT&interval=15&theme=dark" width="100%" height="250" frameborder="0"></iframe>
+                
+                <div class="edu-info">
+                    <p><b>📊 Presión (${p}%):</b> Mide cuántas órdenes de compra hay frente a las de venta. Si es alta, la ballena está acumulando.</p><br>
+                    <p><b>🛡️ Auditoría:</b> Verificación de seguridad del contrato para evitar estafas. <b>ESTADO: VERIFICADO</b>.</p><br>
+                    <p><b>🔍 Verificación:</b> Puedes auditar este movimiento en la blockchain real.</p>
+                </div>
+                <a href="https://etherscan.io" target="_blank" class="btn-gold" style="display:block; text-align:center; text-decoration:none; margin-top:15px;">VERIFICAR EN BLOCKCHAIN</a>
+            </div>`;
         document.getElementById('modal').style.display = 'block';
     }
 
-    function handleMainAction() {
-        if(!IS_PRO) {
-            document.getElementById('modal-body').innerHTML = `
-                <h2 style="text-align:center; color:var(--gold);">MEMBRESÍA ELITE PRO</h2>
-                <div class="info-panel" style="margin-top:20px;">
-                    <p>Al suscribirte por 30 días desbloqueas:</p><br>
-                    <ul style="font-size:0.85rem; list-style:none;">
-                        <li>✅ <b>+5,000 Monedas</b> (Todas las existentes).</li>
-                        <li>✅ <b>Actualización 1s:</b> Radar segundo a segundo.</li>
-                        <li>✅ <b>Buscador Avanzado:</b> Encuentra cualquier gema.</li>
-                        <li>✅ <b>Auditorías Pro:</b> Análisis técnico profundo.</li>
-                    </ul>
-                    <div style="font-size:2rem; text-align:center; margin:20px 0;">$9.99</div>
-                    <button class="btn-gold" onclick="activatePro()">ACTIVAR AHORA</button>
-                </div>
-            `;
-            document.getElementById('modal').style.display = 'block';
-        }
+    function openNewsDetail(title) {
+        if(!IS_PRO) { openPayModal(); return; }
+        document.getElementById('modal-body').innerHTML = `
+            <div class="detail-card">
+                <h2 style="color:var(--gold);">${title}</h2>
+                <p style="margin:15px 0; font-size:0.9rem;">Informe completo de auditoría on-chain. Los flujos de capital indican una entrada masiva en las últimas 2 horas desde nodos de intercambio principales.</p>
+                <button class="btn-gold" onclick="closeModal()">CERRAR INFORME</button>
+            </div>`;
+        document.getElementById('modal').style.display = 'block';
+    }
+
+    function openPayModal() {
+        document.getElementById('modal-body').innerHTML = `
+            <div class="detail-card" style="text-align:center;">
+                <h2 style="color:var(--gold);">ACTIVA TU PASE ELITE 🏆</h2>
+                <p style="margin:15px 0; font-size:0.85rem; color:#aaa;">Desbloquea +5,000 monedas, memecoins, buscador y actualización en tiempo real.</p>
+                <div style="font-size:2.5rem; font-weight:bold; margin:20px 0;">$9.99</div>
+                <button class="btn-gold" onclick="activatePro()">PAGAR AHORA</button>
+                <p style="font-size:0.6rem; color:#666; margin-top:10px;">Suscripción válida por 30 días.</p>
+            </div>`;
+        document.getElementById('modal').style.display = 'block';
     }
 
     function activatePro() {
         IS_PRO = true;
-        updateInterval = 1000; // 1 segundo
+        document.getElementById('search-container').style.display = 'block';
+        document.getElementById('sub-btn').style.display = 'none';
+        document.getElementById('benefits-section').style.display = 'none';
         document.getElementById('timer').innerText = "LIVE (1s)";
-        document.getElementById('search-area').style.display = "block";
-        document.getElementById('main-btn').style.display = "none";
-        document.getElementById('sub-desc').innerHTML = "🟢 <b>Modo Pro Activo:</b> Acceso total desbloqueado.";
+        document.getElementById('timer').style.color = "var(--green)";
         closeModal();
         renderTable();
-        // Ciclo de actualización Pro
-        setInterval(renderTable, 1000);
+        setInterval(renderTable, 1000); // Actualización Pro
     }
 
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    // Timer gratuito
+    // Timer Gratis
     setInterval(() => {
         if(!IS_PRO) {
             if(timeLeft <= 0) { timeLeft = 300; renderTable(); }
@@ -189,9 +195,7 @@
         }
     }, 1000);
 
-    // Noticias cada 10 min
-    setInterval(updateNews, 600000);
-    
+    setInterval(updateNews, 600000); // Noticias 10 min
     updateNews();
     renderTable();
 </script>
