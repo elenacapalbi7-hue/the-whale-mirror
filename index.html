@@ -1,34 +1,159 @@
-<div class="app-container">
-    <h2 style="color:var(--gold); text-align:center;">THE WHALE MIRROR 🐋</h2>
-    
-    <h3 style="color: var(--gold); margin-top:30px;">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Whale Mirror</title>
+    <style>
+        /* RESET TOTAL PARA EVITAR FONDO BLANCO */
+        :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            background-color: var(--bg) !important; 
+            color: white; 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            padding: 15px;
+            line-height: 1.4;
+        }
 
-    <div class="whale-scroll-box">
-        <table>
-            <thead>
-                <tr>
-                    <th>Activo</th>
-                    <th>Operación</th>
-                    <th>Cantidad USD</th>
-                    <th>Precio Act.</th>
-                    <th>Hora</th>
-                    <th>Info</th>
-                </tr>
-            </thead>
-            <tbody id="whale-table">
-                </tbody>
-        </table>
+        .container { max-width: 450px; margin: auto; }
+
+        /* HEADER */
+        .header { text-align: center; margin-bottom: 25px; padding: 20px 0; }
+        .header h1 { color: var(--gold); font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* TABLA BLINDADA CON SCROLL */
+        .radar-section { margin-top: 20px; }
+        .radar-title { color: var(--gold); font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto; /* Esto permite deslizar la tabla sin romper el sitio */
+            background: var(--card);
+            border-radius: 12px;
+            border: 1px solid #222;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { background: #1a1a1a; color: #888; font-size: 0.7rem; text-align: left; padding: 15px 10px; text-transform: uppercase; }
+        td { padding: 15px 10px; border-bottom: 1px solid #222; font-size: 0.8rem; white-space: nowrap; }
+
+        .btn-info { 
+            background: transparent; color: var(--gold); border: 1px solid var(--gold); 
+            padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;
+        }
+
+        /* MODAL */
+        .modal { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.95); z-index: 9999; padding: 20px;
+        }
+        .modal-content { 
+            background: #111; margin: 10% auto; padding: 25px; border-radius: 15px; 
+            border: 1px solid var(--gold); max-width: 400px; color: white;
+        }
+
+        .btn-pro-market {
+            width: 100%; background: transparent; color: var(--gold); border: 1px solid var(--gold);
+            padding: 15px; margin-top: 20px; border-radius: 8px; font-weight: bold; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>Whale Mirror 🐋</h1>
+        <p style="font-size: 0.8rem; color: #888;">Rastreo de Smart Money en tiempo real</p>
     </div>
 
-    <button class="btn-market-pro" onclick="verMasMonedas()">
-        VER TODO EL MERCADO (PRO) ↓
-    </button>
+    <div class="radar-section">
+        <h3 class="radar-title">📡 RADAR DE GRANDES MOVIMIENTOS</h3>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Activo</th>
+                        <th>Operación</th>
+                        <th>Cantidad USD</th>
+                        <th>Precio Act.</th>
+                        <th>Hora</th>
+                        <th>Info</th>
+                    </tr>
+                </thead>
+                <tbody id="whale-table">
+                    </tbody>
+            </table>
+        </div>
+        <button class="btn-pro-market" onclick="abrirSuscripcion()">VER TODO EL MERCADO (PRO) ↓</button>
+    </div>
 </div>
 
 <div id="detail-modal" class="modal">
     <div class="modal-content">
-        <div id="modal-data"></div>
-        <button onclick="document.getElementById('detail-modal').style.display='none'" 
-                style="width:100%; margin-top:20px; padding:12px; background:var(--gold); border:none; font-weight:bold; border-radius:8px;">CERRAR</button>
+        <div id="modal-body"></div>
+        <button onclick="cerrarModal()" style="width:100%; margin-top:20px; padding:12px; background:var(--gold); border:none; font-weight:bold; border-radius:8px;">CERRAR</button>
     </div>
 </div>
+
+<script>
+    const movimientos = [
+        {coin: 'BTC', op: 'COMPRA', monto: '1,245,607', precio: '68,432', hora: '05:12', hash: '0x7a...e24b'},
+        {coin: 'ETH', op: 'VENTA', monto: '3,890,211', precio: '3,452', hora: '05:11', hash: '0x3c...f91a'},
+        {coin: 'SOL', op: 'COMPRA', monto: '950,432', precio: '145.22', hora: '05:11', hash: '0x9d...b22c'}
+    ];
+
+    function cargarTabla() {
+        const tbody = document.getElementById('whale-table');
+        tbody.innerHTML = movimientos.map(m => `
+            <tr>
+                <td style="font-weight:bold; color:var(--gold)">${m.coin}</td>
+                <td style="color: ${m.op === 'COMPRA' ? '#00ff88' : '#ff4444'}">${m.op}</td>
+                <td>$${m.monto}</td>
+                <td>$${m.precio}</td>
+                <td style="color: #666">${m.hora}</td>
+                <td><button class="btn-info" onclick="verDetalle('${m.coin}')">INFO</button></td>
+            </tr>
+        `).join('');
+    }
+
+    function verDetalle(coin) {
+        const m = movimientos.find(x => x.coin === coin);
+        document.getElementById('modal-body').innerHTML = `
+            <h2 style="color:var(--gold); text-align:center;">DETALLE PRO: ${m.coin}</h2>
+            <div style="background:#1a1a1a; padding:15px; border-radius:10px; margin:20px 0; font-size:0.9rem;">
+                <p><strong>Operación:</strong> ${m.op}</p>
+                <p><strong>Monto Total:</strong> $${m.monto}</p>
+                <p><strong>Precio:</strong> $${m.precio}</p>
+                <p><strong>Hash:</strong> <span style="color:#00ff88">${m.hash}</span></p>
+            </div>
+            <p style="font-size:0.75rem; color:#888;">Detección: Billetera institucional acumulando en niveles de soporte clave.</p>
+        `;
+        document.getElementById('detail-modal').style.display = 'block';
+    }
+
+    function cerrarModal() {
+        document.getElementById('detail-modal').style.display = 'none';
+    }
+
+    function abrirSuscripcion() {
+        document.getElementById('modal-body').innerHTML = `
+            <h2 style="color:var(--gold); text-align:center;">WHALE MIRROR PRO</h2>
+            <p style="text-align:center; margin:15px 0;">Accede al rastreo de +500 monedas y alertas instantáneas.</p>
+            <div style="background:#1a1a1a; padding:15px; border-radius:10px;">
+                <p>✅ Datos cada 1 segundo</p>
+                <p>✅ Verificación Blockchain</p>
+                <p>✅ Gráficos de flujo de órdenes</p>
+            </div>
+            <button style="width:100%; margin-top:20px; padding:15px; background:#f3ba2f; color:black; border:none; font-weight:bold; border-radius:8px;">SUSCRIBIRSE POR $9.99</button>
+        `;
+        document.getElementById('detail-modal').style.display = 'block';
+    }
+
+    cargarTabla();
+</script>
+
+</body>
+</html>
