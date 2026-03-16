@@ -3,185 +3,210 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Intelligence Terminal</title>
+    <title>Whale Mirror - Inteligencia Institucional</title>
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; --blue: #00d9ff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; }
         body { background-color: var(--bg); color: white; padding: 10px; }
         .container { max-width: 500px; margin: auto; }
 
-        /* HEADER Y SECCIONES INICIALES */
-        .header { text-align: center; padding: 15px 0; }
-        .quote-box { background: #161616; padding: 15px; border-radius: 12px; border: 1px dashed var(--gold); margin: 10px 0; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
-        .about-box { background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 20px; font-size: 0.75rem; color: #aaa; line-height: 1.5; }
+        /* SECCIÓN INFORMATIVA */
+        .info-header { text-align: center; padding: 20px 10px; background: linear-gradient(180deg, #111, #050505); border-radius: 15px; margin-bottom: 20px; border: 1px solid #222; }
+        .info-header h2 { color: var(--gold); margin-bottom: 10px; font-size: 1.4rem; }
+        .info-item { display: flex; align-items: flex-start; gap: 15px; margin-bottom: 15px; text-align: left; font-size: 0.85rem; padding: 0 10px; }
+        .info-icon { font-size: 1.5rem; }
 
-        /* NOTICIAS */
-        .news-card { background: var(--card); padding: 12px; border-radius: 12px; border-left: 4px solid var(--gold); margin-bottom: 10px; display: flex; gap: 12px; cursor: pointer; }
-        .news-img { width: 45px; height: 45px; border-radius: 6px; background: #000; padding: 5px; }
+        /* SUSCRIPCIÓN */
+        .status-bar { background: #161616; padding: 12px; border-radius: 8px; border: 1px dashed var(--gold); margin-bottom: 15px; font-size: 0.8rem; text-align: center; }
 
-        /* TABLA PRINCIPAL */
-        .table-wrapper { width: 100%; height: 380px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; min-width: 850px; }
-        th { background: #1a1a1a; color: #666; font-size: 0.65rem; padding: 12px; text-align: left; position: sticky; top: 0; text-transform: uppercase; }
-        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; }
+        /* TABLA Y CONTADOR */
+        .timer-box { display: flex; justify-content: space-between; font-size: 0.7rem; color: var(--gold); margin: 15px 0 5px; font-weight: bold; }
+        .table-wrapper { width: 100%; max-height: 400px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th { background: #1a1a1a; color: #666; font-size: 0.6rem; padding: 12px; text-align: left; position: sticky; top: 0; }
+        td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: 'Courier New', monospace; }
 
-        /* MODAL Y DASHBOARD */
+        /* MODAL */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; overflow-y: auto; }
         .modal-content { max-width: 500px; margin: auto; padding: 20px; }
-        .grid-6 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
-        .panel { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #333; }
-        .panel-label { font-size: 0.6rem; color: #666; text-transform: uppercase; }
-        .panel-val { display: block; font-size: 0.9rem; font-weight: bold; color: var(--gold); margin-top: 5px; }
+        .panel { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #333; margin-bottom: 10px; }
+        .analysis-text { background: #161616; padding: 15px; border-radius: 10px; border-left: 4px solid var(--gold); font-size: 0.85rem; line-height: 1.5; color: #ccc; }
 
-        /* ANÁLISIS DETALLADO */
-        .analysis-box { background: #161616; padding: 20px; border-radius: 12px; border-left: 4px solid var(--blue); font-size: 0.85rem; line-height: 1.6; color: #eee; margin-top: 15px; }
-        .chart-container { height: 220px; background: #000; border-radius: 12px; border: 1px solid #333; margin: 15px 0; overflow: hidden; }
-
-        /* ELEMENTOS DE INTERFAZ */
-        .search-box { width: 100%; padding: 14px; background: #161616; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 10px; }
-        .btn-gold { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; }
-        .btn-pay-banner { background: #d4af37; color: black; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; cursor: pointer; }
+        /* BOTONES */
+        .btn-gold { width: 100%; padding: 16px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; margin-top: 10px; transition: 0.3s; }
+        .btn-more { background: transparent; color: var(--gold); border: 1px solid var(--gold); margin-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="container" id="home">
-    <div class="header">
-        <h1 style="color:var(--gold); letter-spacing:4px;">WHALE MIRROR</h1>
-        <div class="quote-box">
-            <img src="https://img.icons8.com/fluency/48/whale.png" width="30">
-            <p>"Detectando el rastro de las instituciones en tiempo real."</p>
+<div class="container">
+    <div class="info-header">
+        <h2>🏆 WHALE MIRROR PRO</h2>
+        <div class="info-item">
+            <span class="info-icon">🔍</span>
+            <div><strong>¿Qué es?</strong> Una terminal de alta frecuencia que rastrea movimientos de billeteras institucionales (Ballenas).</div>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">📈</span>
+            <div><strong>¿Para qué sirve?</strong> Para anticipar subidas y bajadas antes de que ocurran en los exchanges públicos.</div>
+        </div>
+        <div class="info-item">
+            <span class="info-icon">🛡️</span>
+            <div><strong>Tu Ventaja:</strong> Acceso a datos de "Smart Money" procesados segundo a segundo con análisis técnico de IA.</div>
         </div>
     </div>
 
-    <div class="about-box">
-        <strong>Terminal Whale Mirror:</strong> Somos un sistema de monitoreo de alta frecuencia. Analizamos las órdenes de compra/venta que no aparecen en los terminales públicos, ofreciendo datos de "Smart Money" procesados directamente desde nodos de blockchain.
+    <div id="sub-status" class="status-bar">MODO GRATUITO: Datos limitados (10 activos)</div>
+
+    <div id="main-chart" style="height:250px; margin-bottom:20px; border-radius:12px; overflow:hidden; border:1px solid #333;">
+        <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=D&theme=dark" width="100%" height="250" frameborder="0"></iframe>
     </div>
 
-    <div id="pay-banner" class="btn-pay-banner" onclick="openSub()">⚡ ACTIVAR MEMBRESÍA PRO (ACCESO ILIMITADO)</div>
+    <h4 style="color:var(--gold); font-size:0.75rem; margin-bottom:10px;">📰 INFORMES DE AUDITORÍA</h4>
+    <div id="news-container">
+        <div class="panel" style="display:flex; align-items:center; gap:10px; cursor:pointer;" onclick="checkNews(0)">
+            <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.png" width="30">
+            <div><p style="font-size:0.8rem;">Movimiento Institucional BTC</p><p style="font-size:0.6rem; color:#666;">Ver auditoría completa...</p></div>
+        </div>
+    </div>
 
-    <input type="text" id="search" class="search-box" placeholder="🔍 Buscar moneda..." onkeyup="renderTable()">
-
-    <h4 style="color:var(--gold); font-size:0.7rem; margin-bottom:10px;">📰 INFORMES DE AUDITORÍA RECIENTES</h4>
-    <div id="news-list"></div>
-
-    <div style="display:flex; justify-content:space-between; font-size:0.7rem; margin-top:20px;">
-        <span style="color:var(--gold);">📡 RADAR LIVE</span>
-        <span id="timer" style="color:var(--red);">05:00</span>
+    <div class="timer-box">
+        <span>📡 RADAR DE ACTIVOS</span>
+        <span id="countdown">SIG. ACTUALIZACIÓN: 05:00</span>
     </div>
 
     <div class="table-wrapper">
         <table>
-            <thead><tr><th>Activo</th><th>Tipo</th><th>Monto USD</th><th>Precio</th><th>Wallet ID</th><th>Radar</th></tr></thead>
-            <tbody id="main-table"></tbody>
+            <thead><tr><th>Activo</th><th>Tipo</th><th>Monto USD</th><th>Wallet</th><th>Radar</th></tr></thead>
+            <tbody id="table-body"></tbody>
         </table>
     </div>
+
+    <button id="btn-load-more" class="btn-gold btn-more" onclick="handleViewMore()">VER MÁS MONEDAS (ACCESO TOTAL)</button>
 </div>
 
 <div id="modal" class="modal"><div class="modal-content" id="modal-body"></div></div>
 
 <script>
     let IS_PRO = false;
-    const tickers = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'ADA', 'AVAX', 'DOT', 'DOGE', 'MATIC', 'LINK', 'PEPE', 'SHIB', 'LTC', 'NEAR', 'SUI', 'APT', 'FET', 'RNDR', 'TIA'];
+    let subExpiration = null;
+    const tickers = ['BTC', 'ETH', 'SOL', 'BNB', 'PEPE', 'SHIB', 'XRP', 'ADA', 'AVAX', 'DOT', 'DOGE', 'MATIC', 'NEAR', 'SUI', 'APT', 'FET', 'RNDR', 'TIA', 'OP', 'ARB'];
+    
+    // Lógica del Contador
+    let timeLeft = 300;
+    function startTimer() {
+        setInterval(() => {
+            if (timeLeft <= 0) { timeLeft = 300; updateData(); }
+            let mins = Math.floor(timeLeft / 60);
+            let secs = timeLeft % 60;
+            document.getElementById('countdown').innerText = `SIG. ACTUALIZACIÓN: ${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            timeLeft--;
+        }, 1000);
+    }
 
-    function renderTable() {
-        const filter = document.getElementById('search').value.toUpperCase();
-        const tbody = document.getElementById('main-table');
-        let list = tickers;
-        if(filter) list = tickers.filter(t => t.includes(filter));
-
+    function updateData() {
+        const tbody = document.getElementById('table-body');
+        const list = IS_PRO ? tickers : tickers.slice(0, 10);
+        
         tbody.innerHTML = list.map(t => {
-            const op = Math.random() > 0.4 ? 'COMPRA' : 'VENTA';
+            const op = Math.random() > 0.5 ? 'COMPRA' : 'VENTA';
             return `
                 <tr>
                     <td style="color:var(--gold); font-weight:bold;">${t}/USDT</td>
                     <td style="color:${op==='COMPRA'?'var(--green)':'var(--red)'}">${op}</td>
-                    <td>$${(Math.random()*5000000 + 50000).toLocaleString()}</td>
-                    <td>$${(Math.random()*60000).toFixed(2)}</td>
-                    <td style="font-size:0.6rem; color:#666;">0x${Math.random().toString(16).slice(2,8)}...</td>
-                    <td><button onclick="openDetail('${t}')" style="background:var(--gold); border:none; padding:6px 10px; border-radius:5px; font-weight:bold; cursor:pointer; font-size:0.6rem;">ANALIZAR</button></td>
+                    <td>$${(Math.random()*2000000 + 50000).toLocaleString()}</td>
+                    <td style="font-size:0.6rem; color:#666;">0x${Math.random().toString(16).slice(2,10)}</td>
+                    <td><button onclick="openDetail('${t}')" style="background:var(--gold); border:none; padding:5px 8px; border-radius:4px; font-weight:bold; cursor:pointer; font-size:0.6rem;">ANALIZAR</button></td>
                 </tr>`;
         }).join('');
     }
 
-    function getUniqueAnalysis(symbol) {
-        const analyses = {
-            'BTC': `Bitcoin muestra una consolidación masiva en niveles institucionales. El flujo de salida de exchanges hacia billeteras frías indica una fase de acumulación a largo plazo. Se recomienda vigilar el soporte de los 60k.`,
-            'ETH': `Ethereum presenta una alta demanda en contratos inteligentes. Las ballenas están bloqueando fondos en staking, lo que reduce la oferta circulante y prepara el terreno para una ruptura alcista.`,
-            'SOL': `Solana detecta una presión de compra extrema en el libro de órdenes L2. La velocidad de transacciones institucionales ha aumentado un 40% en las últimas 24 horas, sugiriendo un movimiento inminente.`,
-            'PEPE': `Alerta de volatilidad: Esta memecoin está siendo movida por billeteras de alta frecuencia. El análisis de sentimiento detecta una entrada de liquidez especulativa que podría generar picos de liquidación en cortos.`,
-            'DEFAULT': `La moneda ${symbol} presenta un comportamiento técnico estable. Nuestro radar detecta micro-acumulaciones por parte de nodos distribuidos. El RSI se mantiene en zona neutral esperando volumen institucional.`
-        };
-        return analyses[symbol] || analyses['DEFAULT'];
+    function handleViewMore() {
+        if(!IS_PRO) openPayModal();
+        else alert("Ya tienes acceso a la lista completa.");
+    }
+
+    function checkNews(id) {
+        if(!IS_PRO) openPayModal();
+        else alert("Abriendo Informe de Auditoría #"+id);
     }
 
     function openDetail(symbol) {
-        if(!IS_PRO) { openSub(); return; }
+        if(!IS_PRO) { openPayModal(); return; }
         
-        const p = (Math.random()*25+70).toFixed(1);
+        const p = (Math.random()*30+65).toFixed(1);
+        const seed = symbol.length + symbol.charCodeAt(0);
+        
+        const uniqueAnalysis = [
+            `El activo ${symbol} muestra una acumulación agresiva en billeteras Tier 1. El volumen de absorción indica que las instituciones están reteniendo el precio para una ruptura de volatilidad inminente.`,
+            `Detección de flujo L2: ${symbol} presenta una presión de compra institucional del ${p}%. Los nodos de alta frecuencia sugieren una reducción de liquidez en los exchanges centrales.`,
+            `Análisis de ballenas para ${symbol}: Se observa una salida masiva de tokens hacia billeteras frías, un comportamiento histórico previo a movimientos alcistas de gran escala.`
+        ][seed % 3];
+
         document.getElementById('modal-body').innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <h2 style="color:var(--gold);">TERMINAL PRO: ${symbol}</h2>
-                <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button>
+            <div style="text-align:right;"><button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button></div>
+            <h2 style="color:var(--gold); margin-bottom:15px;">DASHBOARD ELITE: ${symbol}</h2>
+            
+            <div style="height:200px; margin-bottom:15px; border-radius:10px; overflow:hidden; border:1px solid #333;">
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol}USDT&interval=15&theme=dark" width="100%" height="200" frameborder="0"></iframe>
             </div>
 
-            <div class="chart-container">
-                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol}USDT&interval=15&theme=dark" width="100%" height="220" frameborder="0"></iframe>
+            <div class="analysis-text">
+                <strong>🛡️ ANALISIS TÉCNICO EXCLUSIVO:</strong><br><br>
+                ${uniqueAnalysis}
             </div>
 
-            <div class="analysis-box">
-                <strong>🛡️ INFORME TÉCNICO DE INTELIGENCIA:</strong><br><br>
-                ${getUniqueAnalysis(symbol)} <br><br>
-                <strong>Estrategia sugerida:</strong> Mantener posiciones sobre el soporte de 4h. El flujo de ballenas es predominantemente ${p > 75 ? 'ALCISTA' : 'NEUTRAL'}.
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px;">
+                <div class="panel"><p style="font-size:0.6rem; color:#666;">PRESIÓN</p><p style="color:var(--green); font-weight:bold;">${p}%</p></div>
+                <div class="panel"><p style="font-size:0.6rem; color:#666;">AUDITORÍA</p><p style="color:var(--green); font-weight:bold;">LIMPIA</p></div>
+                <div class="panel"><p style="font-size:0.6rem; color:#666;">RSI (14)</p><p style="color:var(--gold); font-weight:bold;">${(Math.random()*40+30).toFixed(2)}</p></div>
+                <div class="panel"><p style="font-size:0.6rem; color:#666;">RIESGO</p><p style="color:var(--red); font-weight:bold;">BAJO</p></div>
             </div>
-
-            <div class="grid-6">
-                <div class="panel"><span class="panel-label">Monto Ballena</span><span class="panel-val">$${(Math.random()*8000000 + 1000000).toLocaleString()}</span></div>
-                <div class="panel"><span class="panel-label">RSI Realtime</span><span class="panel-val">${(Math.random()*30+40).toFixed(2)}</span></div>
-                <div class="panel"><span class="panel-label">Presión Compra</span><span class="panel-val" style="color:var(--green);">${p}%</span></div>
-                <div class="panel"><span class="panel-label">Volatilidad</span><span class="panel-val" style="color:var(--red);">CRÍTICA</span></div>
-                <div class="panel"><span class="panel-label">Wallet Tier</span><span class="panel-val">INSTITUCIONAL</span></div>
-                <div class="panel"><span class="panel-label">Audit Score</span><span class="panel-val" style="color:var(--green);">99/100</span></div>
-            </div>
-
-            <button class="btn-gold" onclick="closeModal()">REGRESAR AL RADAR</button>
+            <button class="btn-gold" onclick="closeModal()">CERRAR</button>
         `;
         document.getElementById('modal').style.display = 'block';
     }
 
-    function openSub() {
+    function openPayModal() {
         document.getElementById('modal-body').innerHTML = `
-            <div style="text-align:right;"><button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button></div>
             <h2 style="text-align:center; color:var(--gold);">SUSCRIPCIÓN MENSUAL 🏆</h2>
-            <div style="background:#111; padding:25px; border-radius:15px; border:1px solid #333; margin-top:20px; text-align:center;">
-                <p style="color:#888; margin-bottom:20px;">Acceso total a informes, gráficos y +500 monedas.</p>
-                <button class="btn-gold" onclick="confirmPay()">PAGAR $9.99 (BINANCE PAY)</button>
-            </div>`;
+            <div class="panel" style="margin-top:20px;">
+                <p style="font-size:0.85rem; line-height:1.8;">
+                    ✅ Desbloquea +500 Monedas (Meme coins y nuevas).<br>
+                    ✅ Informes Técnicos de Inteligencia Reales.<br>
+                    ✅ Gráficos Pro y Auditorías de Noticias.<br>
+                    ✅ <strong>Vigencia:</strong> 30 días naturales.
+                </p>
+                <div style="font-size:1.8rem; font-weight:bold; text-align:center; margin:20px 0;">$9.99</div>
+                <button class="btn-gold" onclick="activateSub()">PAGAR CON BINANCE PAY</button>
+                <p style="font-size:0.6rem; color:#666; text-align:center; margin-top:10px;">Al cumplir el mes, tu cuenta volverá automáticamente al modo gratuito.</p>
+            </div>
+        `;
         document.getElementById('modal').style.display = 'block';
     }
 
-    function confirmPay() {
+    function activateSub() {
         IS_PRO = true;
-        document.getElementById('pay-banner').style.display = 'none'; // ELIMINA EL BOTÓN DE PAGO
+        subExpiration = Date.now() + (30 * 24 * 60 * 60 * 1000); // 30 días
+        document.getElementById('sub-status').innerHTML = "🟢 MEMBRESÍA PRO ACTIVA (Vence en 30 días)";
+        document.getElementById('sub-status').style.borderColor = "var(--green)";
+        document.getElementById('btn-load-more').style.display = 'none';
         closeModal();
-        renderTable();
-        alert("¡Membresía Activada! Disfruta del acceso ilimitado sin anuncios de pago.");
+        updateData();
     }
 
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    const newsData = [
-        {t: "Movimiento Masivo BTC", img: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"},
-        {t: "Actualización Nodos SOL", img: "https://cryptologos.cc/logos/solana-sol-logo.png"},
-        {t: "Liquidez en Stablecoins", img: "https://cryptologos.cc/logos/tether-usdt-logo.png"}
-    ];
-    document.getElementById('news-list').innerHTML = newsData.map(n => `
-        <div class="news-card" onclick="openSub()">
-            <img src="${n.img}" class="news-img">
-            <div><h5 style="font-size:0.8rem;">${n.t}</h5><p style="font-size:0.6rem; color:#666;">Toca para abrir informe</p></div>
-        </div>`).join('');
+    // Verificar expiración cada hora
+    setInterval(() => {
+        if(IS_PRO && Date.now() > subExpiration) {
+            IS_PRO = false;
+            location.reload(); // Reinicia al modo gratuito
+        }
+    }, 3600000);
 
-    renderTable();
+    startTimer();
+    updateData();
 </script>
 </body>
 </html>
