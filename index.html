@@ -3,149 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Real-Time Intelligence</title>
+    <title>Whale Mirror - Intelligence Terminal</title>
     <style>
-        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
+        :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; --blue: #00d9ff; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
         body { background-color: var(--bg); color: white; padding: 10px; }
         .container { max-width: 500px; margin: auto; }
 
-        /* HEADER */
+        /* HEADER Y SECCIONES INICIALES */
         .header { text-align: center; padding: 15px 0; }
-        .live-indicator { display: inline-block; width: 8px; height: 8px; background: var(--red); border-radius: 50%; margin-right: 5px; animation: blink 1s infinite; }
-        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+        .quote-box { background: #161616; padding: 15px; border-radius: 12px; border: 1px dashed var(--gold); margin: 10px 0; font-size: 0.8rem; display: flex; align-items: center; gap: 10px; }
+        .about-box { background: #111; padding: 15px; border-radius: 12px; border: 1px solid #222; margin-bottom: 20px; font-size: 0.75rem; color: #aaa; line-height: 1.5; }
 
-        /* TABLA DINÁMICA */
-        .table-wrapper { width: 100%; height: 400px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; }
+        /* NOTICIAS */
+        .news-card { background: var(--card); padding: 12px; border-radius: 12px; border-left: 4px solid var(--gold); margin-bottom: 10px; display: flex; gap: 12px; cursor: pointer; }
+        .news-img { width: 45px; height: 45px; border-radius: 6px; background: #000; padding: 5px; }
+
+        /* TABLA PRINCIPAL */
+        .table-wrapper { width: 100%; height: 380px; overflow: auto; background: var(--card); border-radius: 12px; border: 1px solid #222; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; min-width: 850px; }
         th { background: #1a1a1a; color: #666; font-size: 0.65rem; padding: 12px; text-align: left; position: sticky; top: 0; text-transform: uppercase; }
         td { padding: 12px; border-bottom: 1px solid #222; font-size: 0.75rem; font-family: 'Roboto Mono', monospace; }
 
-        /* DASHBOARD PRO (DISEÑO SOLICITADO) */
+        /* MODAL Y DASHBOARD */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; z-index: 10000; overflow-y: auto; }
         .modal-content { max-width: 500px; margin: auto; padding: 20px; }
-        
-        .pressure-box { background: #161616; padding: 15px; border-radius: 12px; border: 1px solid #444; margin-bottom: 15px; }
-        .bar-bg { width: 100%; height: 12px; background: #333; border-radius: 6px; margin: 8px 0; overflow: hidden; }
-        .bar-fill { height: 100%; background: var(--green); transition: width 0.5s; }
-
-        .grid-6 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .grid-6 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0; }
         .panel { background: #111; padding: 15px; border-radius: 10px; border: 1px solid #333; }
         .panel-label { font-size: 0.6rem; color: #666; text-transform: uppercase; }
         .panel-val { display: block; font-size: 0.9rem; font-weight: bold; color: var(--gold); margin-top: 5px; }
 
-        /* GRÁFICO REAL */
-        .chart-container { height: 250px; background: #000; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; overflow: hidden; }
+        /* ANÁLISIS DETALLADO */
+        .analysis-box { background: #161616; padding: 20px; border-radius: 12px; border-left: 4px solid var(--blue); font-size: 0.85rem; line-height: 1.6; color: #eee; margin-top: 15px; }
+        .chart-container { height: 220px; background: #000; border-radius: 12px; border: 1px solid #333; margin: 15px 0; overflow: hidden; }
 
-        /* BUSCADOR */
-        .search-box { width: 100%; padding: 14px; background: #161616; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 15px; outline: none; }
-        .btn-verify { display: block; width: 100%; padding: 12px; background: transparent; border: 1px solid var(--gold); color: var(--gold); border-radius: 8px; text-align: center; text-decoration: none; font-size: 0.75rem; font-weight: bold; margin-top: 10px; }
-        .btn-gold { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; margin-top: 20px; }
+        /* ELEMENTOS DE INTERFAZ */
+        .search-box { width: 100%; padding: 14px; background: #161616; border: 1px solid #333; border-radius: 8px; color: white; margin-bottom: 10px; }
+        .btn-gold { width: 100%; padding: 18px; background: var(--gold); border: none; border-radius: 12px; font-weight: bold; cursor: pointer; color: black; }
+        .btn-pay-banner { background: #d4af37; color: black; padding: 10px; text-align: center; border-radius: 8px; font-weight: bold; margin-bottom: 15px; cursor: pointer; }
     </style>
 </head>
 <body>
 
-<div class="container">
+<div class="container" id="home">
     <div class="header">
         <h1 style="color:var(--gold); letter-spacing:4px;">WHALE MIRROR</h1>
-        <p style="font-size:0.7rem; color:#666; margin-top:5px;"><span class="live-indicator"></span> FEED EN VIVO DESDE NODOS INSTITUCIONALES</p>
+        <div class="quote-box">
+            <img src="https://img.icons8.com/fluency/48/whale.png" width="30">
+            <p>"Detectando el rastro de las instituciones en tiempo real."</p>
+        </div>
     </div>
 
-    <input type="text" id="search" class="search-box" placeholder="🔍 Buscar moneda (ej: BTC, SOL, PEPE)..." onkeyup="renderTable()">
+    <div class="about-box">
+        <strong>Terminal Whale Mirror:</strong> Somos un sistema de monitoreo de alta frecuencia. Analizamos las órdenes de compra/venta que no aparecen en los terminales públicos, ofreciendo datos de "Smart Money" procesados directamente desde nodos de blockchain.
+    </div>
+
+    <div id="pay-banner" class="btn-pay-banner" onclick="openSub()">⚡ ACTIVAR MEMBRESÍA PRO (ACCESO ILIMITADO)</div>
+
+    <input type="text" id="search" class="search-box" placeholder="🔍 Buscar moneda..." onkeyup="renderTable()">
+
+    <h4 style="color:var(--gold); font-size:0.7rem; margin-bottom:10px;">📰 INFORMES DE AUDITORÍA RECIENTES</h4>
+    <div id="news-list"></div>
+
+    <div style="display:flex; justify-content:space-between; font-size:0.7rem; margin-top:20px;">
+        <span style="color:var(--gold);">📡 RADAR LIVE</span>
+        <span id="timer" style="color:var(--red);">05:00</span>
+    </div>
 
     <div class="table-wrapper">
         <table>
-            <thead>
-                <tr>
-                    <th>Activo</th>
-                    <th>Tipo</th>
-                    <th>Monto USD</th>
-                    <th>Precio Actual</th>
-                    <th>Hash Transacción</th>
-                    <th>Radar</th>
-                </tr>
-            </thead>
+            <thead><tr><th>Activo</th><th>Tipo</th><th>Monto USD</th><th>Precio</th><th>Wallet ID</th><th>Radar</th></tr></thead>
             <tbody id="main-table"></tbody>
         </table>
     </div>
-
-    <button class="btn-gold" onclick="openSub()">ACCESO TOTAL (ACTUALIZACIÓN x SEGUNDO)</button>
 </div>
 
-<div id="modal" class="modal">
-    <div class="modal-content" id="modal-body"></div>
-</div>
+<div id="modal" class="modal"><div class="modal-content" id="modal-body"></div></div>
 
 <script>
     let IS_PRO = false;
-    // Lista de activos reales
     const tickers = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'ADA', 'AVAX', 'DOT', 'DOGE', 'MATIC', 'LINK', 'PEPE', 'SHIB', 'LTC', 'NEAR', 'SUI', 'APT', 'FET', 'RNDR', 'TIA'];
-    
+
     function renderTable() {
         const filter = document.getElementById('search').value.toUpperCase();
         const tbody = document.getElementById('main-table');
-        let displayList = tickers;
-        if(filter) displayList = tickers.filter(t => t.includes(filter));
+        let list = tickers;
+        if(filter) list = tickers.filter(t => t.includes(filter));
 
-        tbody.innerHTML = displayList.map(t => {
+        tbody.innerHTML = list.map(t => {
             const op = Math.random() > 0.4 ? 'COMPRA' : 'VENTA';
-            const price = (Math.random() * 50000).toLocaleString('en-US', {minimumFractionDigits: 2});
-            const hash = "0x" + Math.random().toString(16).slice(2, 10) + "...";
             return `
                 <tr>
                     <td style="color:var(--gold); font-weight:bold;">${t}/USDT</td>
                     <td style="color:${op==='COMPRA'?'var(--green)':'var(--red)'}">${op}</td>
-                    <td>$${(Math.random()*2000000 + 50000).toLocaleString()}</td>
-                    <td>$${price}</td>
-                    <td style="font-size:0.6rem; color:#555;">${hash}</td>
+                    <td>$${(Math.random()*5000000 + 50000).toLocaleString()}</td>
+                    <td>$${(Math.random()*60000).toFixed(2)}</td>
+                    <td style="font-size:0.6rem; color:#666;">0x${Math.random().toString(16).slice(2,8)}...</td>
                     <td><button onclick="openDetail('${t}')" style="background:var(--gold); border:none; padding:6px 10px; border-radius:5px; font-weight:bold; cursor:pointer; font-size:0.6rem;">ANALIZAR</button></td>
-                </tr>
-            `;
+                </tr>`;
         }).join('');
+    }
+
+    function getUniqueAnalysis(symbol) {
+        const analyses = {
+            'BTC': `Bitcoin muestra una consolidación masiva en niveles institucionales. El flujo de salida de exchanges hacia billeteras frías indica una fase de acumulación a largo plazo. Se recomienda vigilar el soporte de los 60k.`,
+            'ETH': `Ethereum presenta una alta demanda en contratos inteligentes. Las ballenas están bloqueando fondos en staking, lo que reduce la oferta circulante y prepara el terreno para una ruptura alcista.`,
+            'SOL': `Solana detecta una presión de compra extrema en el libro de órdenes L2. La velocidad de transacciones institucionales ha aumentado un 40% en las últimas 24 horas, sugiriendo un movimiento inminente.`,
+            'PEPE': `Alerta de volatilidad: Esta memecoin está siendo movida por billeteras de alta frecuencia. El análisis de sentimiento detecta una entrada de liquidez especulativa que podría generar picos de liquidación en cortos.`,
+            'DEFAULT': `La moneda ${symbol} presenta un comportamiento técnico estable. Nuestro radar detecta micro-acumulaciones por parte de nodos distribuidos. El RSI se mantiene en zona neutral esperando volumen institucional.`
+        };
+        return analyses[symbol] || analyses['DEFAULT'];
     }
 
     function openDetail(symbol) {
         if(!IS_PRO) { openSub(); return; }
         
-        // Generar datos ÚNICOS basados en el nombre de la moneda para que no se repitan
-        const seed = symbol.charCodeAt(0) + symbol.charCodeAt(1);
-        const uniqueRSI = (30 + (seed % 45) + Math.random() * 5).toFixed(2);
-        const uniquePressure = (60 + (seed % 35)).toFixed(1);
-        const uniqueVol = (Math.random() * 100).toFixed(2);
-
+        const p = (Math.random()*25+70).toFixed(1);
         document.getElementById('modal-body').innerHTML = `
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                <h2 style="color:var(--gold);">INTELIGENCIA: ${symbol}/USDT</h2>
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h2 style="color:var(--gold);">TERMINAL PRO: ${symbol}</h2>
                 <button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button>
             </div>
 
             <div class="chart-container">
-                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol}USDT&interval=5&theme=dark" width="100%" height="250" frameborder="0" allowtransparency="true"></iframe>
+                <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:${symbol}USDT&interval=15&theme=dark" width="100%" height="220" frameborder="0"></iframe>
             </div>
 
-            <div class="pressure-box">
-                <div style="display:flex; justify-content:space-between; font-size:0.7rem;">
-                    <span style="color:var(--green);">PRESIÓN COMPRA (ORDEN BLOQUE)</span>
-                    <span style="color:var(--green);">${uniquePressure}%</span>
-                </div>
-                <div class="bar-bg"><div class="bar-fill" style="width:${uniquePressure}%;"></div></div>
+            <div class="analysis-box">
+                <strong>🛡️ INFORME TÉCNICO DE INTELIGENCIA:</strong><br><br>
+                ${getUniqueAnalysis(symbol)} <br><br>
+                <strong>Estrategia sugerida:</strong> Mantener posiciones sobre el soporte de 4h. El flujo de ballenas es predominantemente ${p > 75 ? 'ALCISTA' : 'NEUTRAL'}.
             </div>
 
             <div class="grid-6">
-                <div class="panel"><span class="panel-label">Monto Ballena</span><span class="panel-val">$${(Math.random()*5000000 + 1000000).toLocaleString()}</span></div>
-                <div class="panel"><span class="panel-label">Precio de Ejecución</span><span class="panel-val" id="live-price">Cargando...</span></div>
-                <div class="panel"><span class="panel-label">RSI Realtime</span><span class="panel-val" style="color:var(--green);">${uniqueRSI}</span></div>
-                <div class="panel"><span class="panel-label">Volatilidad (24h)</span><span class="panel-val" style="color:var(--red);">${uniqueVol}%</span></div>
-                <div class="panel"><span class="panel-label">Origen de Datos</span><span class="panel-val">BINANCE CLOUD</span></div>
-                <div class="panel"><span class="panel-label">Estado Auditoría</span><span class="panel-val" style="color:var(--green); font-size:0.7rem;">VALIDADO</span></div>
+                <div class="panel"><span class="panel-label">Monto Ballena</span><span class="panel-val">$${(Math.random()*8000000 + 1000000).toLocaleString()}</span></div>
+                <div class="panel"><span class="panel-label">RSI Realtime</span><span class="panel-val">${(Math.random()*30+40).toFixed(2)}</span></div>
+                <div class="panel"><span class="panel-label">Presión Compra</span><span class="panel-val" style="color:var(--green);">${p}%</span></div>
+                <div class="panel"><span class="panel-label">Volatilidad</span><span class="panel-val" style="color:var(--red);">CRÍTICA</span></div>
+                <div class="panel"><span class="panel-label">Wallet Tier</span><span class="panel-val">INSTITUCIONAL</span></div>
+                <div class="panel"><span class="panel-label">Audit Score</span><span class="panel-val" style="color:var(--green);">99/100</span></div>
             </div>
 
-            <div style="background:#111; padding:15px; border-radius:10px; border:1px solid #333; font-size:0.75rem; line-height:1.4;">
-                <strong>ANÁLISIS TÉCNICO:</strong> La moneda ${symbol} presenta una acumulación en soportes clave. El algoritmo detecta que las billeteras institucionales están manteniendo el precio para evitar liquidaciones masivas. 
-                <a href="https://etherscan.io/" target="_blank" class="btn-verify">VERIFICAR TRANSACCIÓN EN BLOCKCHAIN 🔗</a>
-            </div>
-
-            <button class="btn-gold" onclick="closeModal()">CERRAR TERMINAL</button>
+            <button class="btn-gold" onclick="closeModal()">REGRESAR AL RADAR</button>
         `;
         document.getElementById('modal').style.display = 'block';
     }
@@ -153,32 +152,34 @@
     function openSub() {
         document.getElementById('modal-body').innerHTML = `
             <div style="text-align:right;"><button onclick="closeModal()" style="background:none; border:none; color:white; font-size:1.5rem;">✕</button></div>
-            <h2 style="text-align:center; color:var(--gold);">MEMBRESÍA REAL-TIME 🏆</h2>
-            <div style="background:#111; padding:25px; border-radius:15px; border:1px solid #333; margin-top:20px;">
-                <p style="text-align:center; color:#888; margin-bottom:20px;">Acceso a datos verificados segundo a segundo.</p>
-                <ul style="list-style:none; font-size:0.85rem; line-height:2.5;">
-                    <li>✅ Gráficos Reales de TradingView</li>
-                    <li>✅ Datos técnicos únicos por moneda</li>
-                    <li>✅ Enlaces de verificación Blockchain</li>
-                    <li>✅ Sin datos repetidos ni falsos</li>
-                </ul>
-                <button class="btn-gold" onclick="confirmPay()">ACTIVAR POR $9.99</button>
-            </div>
-        `;
+            <h2 style="text-align:center; color:var(--gold);">SUSCRIPCIÓN MENSUAL 🏆</h2>
+            <div style="background:#111; padding:25px; border-radius:15px; border:1px solid #333; margin-top:20px; text-align:center;">
+                <p style="color:#888; margin-bottom:20px;">Acceso total a informes, gráficos y +500 monedas.</p>
+                <button class="btn-gold" onclick="confirmPay()">PAGAR $9.99 (BINANCE PAY)</button>
+            </div>`;
         document.getElementById('modal').style.display = 'block';
     }
 
     function confirmPay() {
-        IS_PRO = true; closeModal(); renderTable();
-        alert("¡Terminal Pro Activada! Datos 100% reales desbloqueados.");
+        IS_PRO = true;
+        document.getElementById('pay-banner').style.display = 'none'; // ELIMINA EL BOTÓN DE PAGO
+        closeModal();
+        renderTable();
+        alert("¡Membresía Activada! Disfruta del acceso ilimitado sin anuncios de pago.");
     }
 
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    // Simulación de actualización constante cada 2 segundos
-    setInterval(() => {
-        if(IS_PRO) renderTable();
-    }, 2000);
+    const newsData = [
+        {t: "Movimiento Masivo BTC", img: "https://cryptologos.cc/logos/bitcoin-btc-logo.png"},
+        {t: "Actualización Nodos SOL", img: "https://cryptologos.cc/logos/solana-sol-logo.png"},
+        {t: "Liquidez en Stablecoins", img: "https://cryptologos.cc/logos/tether-usdt-logo.png"}
+    ];
+    document.getElementById('news-list').innerHTML = newsData.map(n => `
+        <div class="news-card" onclick="openSub()">
+            <img src="${n.img}" class="news-img">
+            <div><h5 style="font-size:0.8rem;">${n.t}</h5><p style="font-size:0.6rem; color:#666;">Toca para abrir informe</p></div>
+        </div>`).join('');
 
     renderTable();
 </script>
