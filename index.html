@@ -1,19 +1,72 @@
-<section class="home-stats">
-    <div class="stat-main">
-        <h3>Sentimiento del Mercado</h3>
-        <div class="gauge-container">
-            <span style="color:#27ae60; font-size:1.5rem; font-weight:bold;">CODICIA EXTREMA</span>
-            <div class="bar-bg"><div class="bar-fill" style="width: 82%;"></div></div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Whale Mirror - Smart Money</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="logo-container">
+            <span class="badge">Gratis</span>
+            <h1>The Whale Mirror</h1>
+        </div>
+        <p class="hero-text">Sigue el rastro del dinero inteligente.</p>
+    </header>
+
+    <div class="container">
+        <section class="home-stats">
+            <div class="stat-main">
+                <p class="stat-label">Sentimiento del Mercado</p>
+                <h2 id="sentiment-text">CODICIA EXTREMA</h2>
+                <div class="gauge-bar"><div class="gauge-fill" style="width: 82%;"></div></div>
+            </div>
+        </section>
+
+        <section class="news-section">
+            <h4 class="gold-text">Noticias Globales 🌍</h4>
+            <div class="news-box">
+                <p>🔴 <strong>URGENTE:</strong> Reserva Federal anuncia tasas. El mercado cripto reacciona al alza.</p>
+                <hr>
+                <p>🟢 <strong>BTC:</strong> Billeteras de ballenas aumentaron su balance un 4% esta semana.</p>
+            </div>
+        </section>
+
+        <section class="live-feed">
+            <h2>Movimientos de Grandes Ballenas <span class="dot-live"></span></h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ACTIVO</th>
+                            <th>TIPO</th>
+                            <th>CANTIDAD USD</th>
+                            <th>INFO</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="pro-banner">
+            <div class="card-pro">
+                <h3>🏆 Whale Mirror PRO</h3>
+                <p>Sin anuncios • Datos al segundo • Gráficos Pro</p>
+                <a href="https://s.binance.com/CG8zHTCm" class="btn-pay">Suscribirse por $9.99</a>
+            </div>
+        </section>
+    </div>
+
+    <div id="modal-detalle" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="modal-data"></div>
         </div>
     </div>
-</section>
 
-<section class="news-section" style="padding:20px;">
-    <h4 style="color:#d4af37; border-bottom:1px solid #333; padding-bottom:5px;">Noticias Globales 🌍</h4>
-    <div class="news-item">
-        <p>🔴 <strong>URGENTE:</strong> Reserva Federal anuncia tasas. El mercado cripto reacciona al alza.</p>
-    </div>
-    <div class="news-item">
-        <p>🟢 <strong>BTC:</strong> Las billeteras con más de 1,000 BTC han aumentado su balance en un 4% esta semana.</p>
-    </div>
-</section>
+    <script src="script.js"></script>
+</body>
+</html>
