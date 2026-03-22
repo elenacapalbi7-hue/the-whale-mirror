@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whale Mirror - Intelligence Terminal</title>
     <style>
-        /* DISEÑO INTEGRADO - TODO EN UNO */
+        /* ESTILOS DORADOS INTEGRADOS */
         :root { 
             --gold: #d4af37; 
             --bg: #050505; 
@@ -21,23 +21,19 @@
 
         .container { max-width: 500px; margin: auto; }
 
-        /* Encabezado */
         .brand-header { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; text-align: center; }
         .brand-header h1 { color: var(--gold); letter-spacing: 3px; font-size: 1.5rem; margin-top: 10px; font-weight: bold; }
         .tagline { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; }
 
-        /* Caja 'Sobre nosotros' */
         .about-box { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; }
         .about-box h2 { color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
         .about-box p { font-size: 0.75rem; color: #999; line-height: 1.4; }
 
-        /* Gráfico */
         .chart-container { height: 250px; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-bottom: 20px; }
 
-        /* Radar Header */
         .radar-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.7rem; color: var(--gold); font-weight: bold; }
 
-        /* TABLA CON DESPLAZAMIENTO LATERAL */
+        /* TABLA CON 10 COLUMNAS Y DESPLAZAMIENTO */
         .table-wrapper { 
             width: 100%; 
             height: 450px; 
@@ -47,17 +43,15 @@
             border-radius: 12px; 
         }
 
-        table { width: 100%; border-collapse: collapse; min-width: 1000px; }
+        table { width: 100%; border-collapse: collapse; min-width: 1050px; }
 
         th { background: #1a1a1a; color: var(--gold); font-size: 0.65rem; padding: 12px; text-align: left; position: sticky; top: 0; z-index: 10; border-bottom: 1px solid #333; }
-        th small { color: var(--text-dim); font-weight: normal; font-size: 0.55rem; display: block; margin-top: 2px; }
+        th small { color: var(--text-dim); font-weight: normal; font-size: 0.55rem; display: block; }
 
         td { padding: 12px; border-bottom: 1px solid #111; font-size: 0.72rem; font-family: monospace; white-space: nowrap; }
 
-        /* Botón de Suscripción */
         .btn-gold { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; margin-top: 20px; text-transform: uppercase; }
 
-        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; }
         .modal-content { max-width: 400px; margin: 25% auto; padding: 25px; background: #0a0a0a; border: 1px solid var(--gold); border-radius: 15px; text-align: center; }
     </style>
@@ -73,7 +67,7 @@
 
     <div class="about-box">
         <h2>¿Qué es Whale Mirror?</h2>
-        <p>Terminal de inteligencia financiera que monitorea movimientos de ballenas en tiempo real mediante nodos RPC.</p>
+        <p>Terminal de inteligencia financiera que monitorea nodos RPC en tiempo real para detectar movimientos de ballenas antes de que ocurran.</p>
     </div>
 
     <div class="chart-container">
@@ -101,8 +95,7 @@
                     <th>Análisis<br><small>Ver detalles</small></th>
                 </tr>
             </thead>
-            <tbody id="table-body">
-                </tbody>
+            <tbody id="table-body"></tbody>
         </table>
     </div>
 
@@ -112,12 +105,13 @@
 <div id="modal" class="modal">
     <div class="modal-content">
         <h2 style="color:var(--gold);">WHALE MIRROR PRO</h2>
-        <p style="margin:15px 0; font-size:0.8rem; color:#ccc;">Suscríbete para acceder a la terminal completa.</p>
+        <p style="margin:15px 0; font-size:0.8rem; color:#ccc;">Suscríbete para acceder a la terminal completa y auditorías de seguridad.</p>
         <button class="btn-gold" onclick="closeModal()">CERRAR</button>
     </div>
 </div>
 
 <script>
+    /* LÓGICA DEL RADAR INTEGRADA */
     const coins = ['BTC', 'ETH', 'SOL', 'PEPE', 'WIF', 'BONK', 'BNB', 'XRP', 'ADA', 'AVAX'];
     const networks = ['Ethereum', 'Solana', 'BSC', 'Arbitrum', 'Polygon'];
     const whaleTypes = ['Institutional', 'Exchange Out', 'Private Wallet', 'OTC Desk'];
@@ -141,7 +135,7 @@
                     <td>${whaleTypes[Math.floor(Math.random() * whaleTypes.length)]}</td>
                     <td>ALTA</td>
                     <td style="color:var(--green)">SEGURO ✅</td>
-                    <td><button onclick="openSubscription()" style="background:var(--gold); border:none; padding:5px 8px; border-radius:4px; font-size:0.6rem; cursor:pointer; font-weight:bold;">DETALLES</button></td>
+                    <td><button onclick="openSubscription()" style="background:var(--gold); border:none; padding:5px; border-radius:4px; font-size:0.6rem; cursor:pointer; font-weight:bold;">REPORT +</button></td>
                 </tr>`;
         }).join('');
     }
