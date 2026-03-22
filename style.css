@@ -1,42 +1,34 @@
-<style>
-    :root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
-    
-    /* BLOQUEO DE ERRORES */
-    * { box-sizing: border-box; }
-    body { background: var(--bg) !important; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
-    
-    /* CONTENEDOR SEGURO */
-    .app-container { max-width: 480px; margin: auto; }
+:root { --gold: #d4af37; --bg: #0a0a0a; --card: #161616; }
 
-    /* AREA DE TABLA CON SCROLL LATERAL */
-    .whale-scroll-box { 
-        width: 100%; 
-        overflow-x: auto; 
-        background: var(--card); 
-        border-radius: 12px; 
-        border: 1px solid #222;
-        margin: 20px 0;
-        -webkit-overflow-scrolling: touch; 
-    }
+* { box-sizing: border-box; }
+body { background: var(--bg) !important; color: white; font-family: 'Segoe UI', sans-serif; margin: 0; padding: 15px; overflow-x: hidden; }
 
-    table { 
-        width: 100%; 
-        border-collapse: collapse; 
-        min-width: 600px; /* Esto protege las 6 columnas */
-        font-size: 0.75rem; 
-    }
+.app-container { max-width: 480px; margin: auto; }
 
-    th { background: #1a1a1a; color: #888; padding: 15px 10px; text-align: left; }
-    td { padding: 15px 10px; border-bottom: 1px solid #222; white-space: nowrap; }
+.whale-scroll-box { 
+    width: 100%; 
+    overflow-x: auto; 
+    background: var(--card); 
+    border-radius: 12px; 
+    border: 1px solid #222;
+    margin: 20px 0;
+}
 
-    /* BOTÓN PRO */
-    .btn-market-pro {
-        width: 100%; background: transparent; color: var(--gold); 
-        border: 1px solid var(--gold); padding: 15px; border-radius: 8px; 
-        font-weight: bold; cursor: pointer; margin-top: 10px;
-    }
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    min-width: 600px;
+    font-size: 0.75rem; 
+}
 
-    /* MODAL PRO DETALLADO */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; }
-    .modal-content { background: #111; margin: 5% auto; padding: 25px; border-radius: 15px; border: 1px solid var(--gold); max-width: 450px; position: relative; }
-</style>
+th { background: #1a1a1a; color: #888; padding: 15px 10px; text-align: left; }
+td { padding: 15px 10px; border-bottom: 1px solid #222; white-space: nowrap; }
+
+.btn-market-pro {
+    width: 100%; background: transparent; color: var(--gold); 
+    border: 1px solid var(--gold); padding: 15px; border-radius: 8px; 
+    font-weight: bold; cursor: pointer; margin-top: 10px;
+}
+
+.modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; padding: 20px; }
+.modal-content { background: #111; margin: 5% auto; padding: 25px; border-radius: 15px; border: 1px solid var(--gold); max-width: 450px; position: relative; }
