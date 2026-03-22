@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Whale Mirror - Intelligence Terminal</title>
     <style>
-        /* DISEÑO BLINDADO - TODO EN UNO */
+        /* DISEÑO INTEGRADO - TODO EN UNO */
         :root { 
             --gold: #d4af37; 
             --bg: #050505; 
@@ -21,12 +21,12 @@
 
         .container { max-width: 500px; margin: auto; }
 
-        /* Encabezado con Logo */
+        /* Encabezado */
         .brand-header { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #222; margin-bottom: 20px; text-align: center; }
         .brand-header h1 { color: var(--gold); letter-spacing: 3px; font-size: 1.5rem; margin-top: 10px; font-weight: bold; }
         .tagline { font-size: 0.6rem; color: var(--text-dim); text-transform: uppercase; }
 
-        /* Caja de Información */
+        /* Caja 'Sobre nosotros' */
         .about-box { background: var(--card); padding: 15px; border-radius: 12px; border: 1px solid #333; margin-bottom: 20px; }
         .about-box h2 { color: var(--gold); font-size: 0.9rem; margin-bottom: 5px; }
         .about-box p { font-size: 0.75rem; color: #999; line-height: 1.4; }
@@ -34,10 +34,10 @@
         /* Gráfico */
         .chart-container { height: 250px; border-radius: 15px; overflow: hidden; border: 1px solid #333; margin-bottom: 20px; }
 
-        /* Radar Live */
+        /* Radar Header */
         .radar-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.7rem; color: var(--gold); font-weight: bold; }
 
-        /* TABLA CON DESPLAZAMIENTO */
+        /* TABLA CON DESPLAZAMIENTO LATERAL */
         .table-wrapper { 
             width: 100%; 
             height: 450px; 
@@ -54,10 +54,10 @@
 
         td { padding: 12px; border-bottom: 1px solid #111; font-size: 0.72rem; font-family: monospace; white-space: nowrap; }
 
-        /* Botón Dorado */
+        /* Botón de Suscripción */
         .btn-gold { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: black; margin-top: 20px; text-transform: uppercase; }
 
-        /* Ventana Modal */
+        /* Modal */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; }
         .modal-content { max-width: 400px; margin: 25% auto; padding: 25px; background: #0a0a0a; border: 1px solid var(--gold); border-radius: 15px; text-align: center; }
     </style>
@@ -73,7 +73,7 @@
 
     <div class="about-box">
         <h2>¿Qué es Whale Mirror?</h2>
-        <p>Terminal de inteligencia financiera que monitorea nodos RPC en tiempo real para detectar movimientos de ballenas antes de que ocurran.</p>
+        <p>Terminal de inteligencia financiera que monitorea movimientos de ballenas en tiempo real mediante nodos RPC.</p>
     </div>
 
     <div class="chart-container">
@@ -82,11 +82,11 @@
 
     <div class="radar-header">
         <span>📡 RADAR LIVE (10 COLUMNAS PRO)</span>
-        <span id="main-timer">05:00</span>
+        <span>05:00</span>
     </div>
 
     <div class="table-wrapper">
-        <table id="whale-table">
+        <table>
             <thead>
                 <tr>
                     <th>Activo<br><small>Moneda/Par</small></th>
@@ -112,13 +112,12 @@
 <div id="modal" class="modal">
     <div class="modal-content">
         <h2 style="color:var(--gold);">WHALE MIRROR PRO</h2>
-        <p style="margin:15px 0; font-size:0.8rem; color:#ccc;">Suscríbete para acceder a la terminal completa y auditorías de seguridad.</p>
+        <p style="margin:15px 0; font-size:0.8rem; color:#ccc;">Suscríbete para acceder a la terminal completa.</p>
         <button class="btn-gold" onclick="closeModal()">CERRAR</button>
     </div>
 </div>
 
 <script>
-    // Lógica del Radar
     const coins = ['BTC', 'ETH', 'SOL', 'PEPE', 'WIF', 'BONK', 'BNB', 'XRP', 'ADA', 'AVAX'];
     const networks = ['Ethereum', 'Solana', 'BSC', 'Arbitrum', 'Polygon'];
     const whaleTypes = ['Institutional', 'Exchange Out', 'Private Wallet', 'OTC Desk'];
@@ -150,7 +149,6 @@
     function openSubscription() { document.getElementById('modal').style.display = 'block'; }
     function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-    // Iniciar y actualizar cada 3 segundos
     renderTable();
     setInterval(renderTable, 3000);
 </script>
