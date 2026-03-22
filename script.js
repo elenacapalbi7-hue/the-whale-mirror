@@ -1,10 +1,10 @@
-let IS_PRO = false;
 const coins = ['BTC', 'ETH', 'SOL', 'PEPE', 'WIF', 'BONK', 'BNB', 'XRP', 'ADA', 'AVAX'];
 const networks = ['Ethereum', 'Solana', 'BSC', 'Arbitrum', 'Polygon'];
 const whaleTypes = ['Institutional', 'Exchange Outflow', 'Private Wallet', 'OTC Desk'];
 
 function renderTable() {
     const tbody = document.getElementById('table-body');
+    if(!tbody) return;
     
     tbody.innerHTML = coins.map(s => {
         const isBuy = Math.random() > 0.4;
@@ -21,7 +21,7 @@ function renderTable() {
                 <td>${whaleTypes[Math.floor(Math.random() * whaleTypes.length)]}</td>
                 <td>HIGH</td>
                 <td style="color:var(--green)">SAFE ✅</td>
-                <td><button onclick="openSubscription()" style="background:var(--gold); border:none; padding:5px; border-radius:4px; font-size:0.6rem; cursor:pointer;">REPORT +</button></td>
+                <td><button onclick="openSubscription()" style="background:var(--gold); border:none; padding:5px; border-radius:4px; font-size:0.6rem; cursor:pointer; font-weight:bold;">REPORT +</button></td>
             </tr>`;
     }).join('');
 }
@@ -29,7 +29,7 @@ function renderTable() {
 function openSubscription() {
     document.getElementById('modal-content').innerHTML = `
         <h2 style="color:var(--gold);">WHALE MIRROR PRO</h2>
-        <p style="margin:15px 0; font-size:0.8rem;">Suscríbete para ver el radar completo y reportes de auditoría.</p>
+        <p style="margin:15px 0; font-size:0.8rem; color:#ccc;">Suscríbete para acceder a la terminal completa y auditorías de seguridad en Rosario de Lerma.</p>
         <button class="btn-gold" onclick="closeModal()">CERRAR</button>
     `;
     document.getElementById('modal').style.display = 'block';
@@ -37,6 +37,5 @@ function openSubscription() {
 
 function closeModal() { document.getElementById('modal').style.display = 'none'; }
 
-// Iniciar radar
 renderTable();
-setInterval(renderTable, 3000); // Actualiza cada 3 segundos
+setInterval(renderTable, 3000);
