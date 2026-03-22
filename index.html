@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Intelligence Terminal</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Whale Mirror - Terminal</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <div class="container">
     <div class="brand-header">
-        <img src="ballena.png" width="80" alt="EMC Logo" id="logo-emc">
+        <img src="ballena.png" width="80" alt="Logo" onerror="this.style.display='none'">
         <h1>WHALE MIRROR</h1>
         <p class="tagline">SISTEMA DE AUDITORÍA BLOCKCHAIN NIVEL 4</p>
     </div>
 
     <div class="about-box">
         <h2>¿Qué es Whale Mirror?</h2>
-        <p>Terminal de inteligencia que monitorea nodos RPC en tiempo real para detectar movimientos de ballenas antes de que ocurran.</p>
+        <p>Terminal de inteligencia que monitorea nodos RPC en tiempo real para detectar ballenas.</p>
     </div>
 
     <div class="chart-container">
@@ -26,11 +26,11 @@
 
     <div class="radar-header">
         <span>📡 RADAR LIVE (10 COLUMNAS PRO)</span>
-        <span id="main-timer">05:00</span>
+        <span>05:00</span>
     </div>
 
     <div class="table-wrapper">
-        <table id="whale-table">
+        <table>
             <thead>
                 <tr>
                     <th>Activo<br><small>Moneda/Par</small></th>
@@ -42,17 +42,23 @@
                     <th>Tipo<br><small>Origen</small></th>
                     <th>Liquidez<br><small>Respaldo</small></th>
                     <th>Seguridad<br><small>Contrato</small></th>
-                    <th>Análisis<br><small>Ver detalles</small></th>
+                    <th>Análisis<br><small>Detalles</small></th>
                 </tr>
             </thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <button id="sub-btn" class="btn-gold" onclick="openSubscription()">ACCESO TOTAL (SUSCRIBIRSE)</button>
+    <button class="btn-gold" onclick="openSubscription()">ACCESO TOTAL (SUSCRIBIRSE)</button>
 </div>
 
-<div id="modal" class="modal"><div class="modal-content" id="modal-content"></div></div>
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h2 style="color:var(--gold);">WHALE MIRROR PRO</h2>
+        <p>Suscríbete para acceder a la terminal completa.</p>
+        <button class="btn-gold" onclick="closeModal()">CERRAR</button>
+    </div>
+</div>
 
 <script src="script.js"></script>
 </body>
