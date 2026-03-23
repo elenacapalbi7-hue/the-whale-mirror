@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Mirror - Terminal</title>
+    <title>Whale Mirror - Intelligence Terminal</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,7 +19,7 @@
     </div>
 
     <div class="search-container">
-        <input type="text" id="coin-search" placeholder="🔍 Buscador bloqueado (Solo PRO)" onkeyup="searchCoins()" disabled>
+        <input type="text" id="coin-search" placeholder="🔍 Buscador (Solo PRO)" onkeyup="searchCoins()" disabled>
     </div>
 
     <div class="radar-header">
@@ -37,17 +37,17 @@
                     <th>Wallet<br><small>ID Billetera</small></th>
                     <th>Red<br><small>Blockchain</small></th>
                     <th>Impacto<br><small>Volatilidad</small></th>
-                    <th>Tipo<br><small>Origen</small></th>
+                    <th>Tipo/Origen<br><small>Procedencia</small></th>
                     <th>Liquidez<br><small>Respaldo</small></th>
                     <th>Seguridad<br><small>Contrato</small></th>
-                    <th>Análisis<br><small>Ver detalles</small></th>
+                    <th>Análisis<br><small>Auditoría</small></th>
                 </tr>
             </thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <button id="load-more-btn" class="btn-gold" style="display: none;" onclick="loadMore()">VER MÁS (CARGAR 20)</button>
+    <button id="load-more-btn" class="btn-gold" style="display: none;" onclick="loadMore()">CARGAR 20 MÁS (INFINITO)</button>
     <button id="sub-btn" class="btn-gold" onclick="toggleProMode()">ACCESO TOTAL (SUSCRIBIRSE)</button>
 </div>
 
