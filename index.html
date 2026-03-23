@@ -15,7 +15,7 @@
     </div>
 
     <div class="search-container" id="search-bar-container" style="display: none;">
-        <input type="text" id="coin-search" placeholder="🔍 Buscar moneda (Ej: Solana)..." onkeyup="searchCoins()">
+        <input type="text" id="coin-search" placeholder="🔍 Buscar moneda o sigla..." onkeyup="searchCoins()">
     </div>
 
     <div class="chart-container">
@@ -23,7 +23,7 @@
     </div>
 
     <div class="radar-header">
-        <span>📡 RADAR LIVE (<span id="coin-count-display">10</span> ACTIVOS)</span>
+        <span>📡 RADAR LIVE</span>
         <span id="timer-display">10:00</span>
     </div>
 
@@ -31,34 +31,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>Activo<br><small>Moneda</small></th>
-                    <th>Estado<br><small>Acción</small></th>
-                    <th>Flujo USD<br><small>Monto</small></th>
-                    <th>Wallet<br><small>ID</small></th>
-                    <th>Red<br><small>Blockchain</small></th>
-                    <th>Impacto<br><small>Volatilidad</small></th>
-                    <th>Tipo<br><small>Origen</small></th>
-                    <th>Liquidez<br><small>Respaldo</small></th>
-                    <th>Seguridad<br><small>Contrato</small></th>
-                    <th>Análisis<br><small>Detalles</small></th>
+                    <th>Activo</th>
+                    <th>Estado</th>
+                    <th>Flujo USD</th>
+                    <th>Wallet</th>
+                    <th>Red</th>
+                    <th>Impacto</th>
+                    <th>Tipo</th>
+                    <th>Liquidez</th>
+                    <th>Seguridad</th>
+                    <th>Análisis</th>
                 </tr>
             </thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
-    <button id="load-more-btn" class="btn-gold" style="display: none;" onclick="loadMoreCoins()">CARGAR 20 MÁS</button>
-    <button id="sub-btn" class="btn-gold" onclick="openSubscription()">ACCESO PRO (SUSCRIBIRSE)</button>
+    <button id="sub-btn" class="btn-gold" onclick="toggleProMode()">ACCESO TOTAL (SUSCRIBIRSE)</button>
 </div>
 
-<div id="modal" class="modal">
-    <div class="modal-content" id="modal-content"></div>
-</div>
+<button class="dev-mode-btn" onclick="toggleProMode()">DEBUG PRO</button>
 
 <script src="script.js"></script>
 </body>
-<button class="dev-mode-btn" onclick="toggleProMode()">DEBUG: ACTIVAR PRO</button>
-    <script src="script.js"></script>
-</body>
 </html>
-
