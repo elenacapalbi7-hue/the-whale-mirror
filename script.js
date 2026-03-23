@@ -1,13 +1,14 @@
 let IS_PRO = false;
 let timeLeft = 600;
 let itemsToShow = 10;
+let currentSearch = "";
 
-// Lista de referencia (Top Market)
+// Lista base de referencia
 const topCoins = [
     {id: 'BTC', name: 'Bitcoin'}, {id: 'ETH', name: 'Ethereum'}, {id: 'SOL', name: 'Solana'},
     {id: 'BNB', name: 'Binance Coin'}, {id: 'XRP', name: 'Ripple'}, {id: 'DOGE', name: 'Dogecoin'},
-    {id: 'ADA', name: 'Cardano'}, {id: 'AVAX', name: 'Avalanche'}, {id: 'DOT', name: 'Polkadot'},
-    {id: 'TRX', name: 'TRON'}, {id: 'LINK', name: 'Chainlink'}, {id: 'PEPE', name: 'Pepe'}
+    {id: 'ADA', name: 'Cardano'}, {id: 'AVAX', name: 'Avalanche'}, {id: 'PEPE', name: 'Pepe'},
+    {id: 'DOT', name: 'Polkadot'}, {id: 'LINK', name: 'Chainlink'}, {id: 'TRX', name: 'TRON'}
 ];
 
 const networks = ['Solana', 'Ethereum', 'BSC', 'Base', 'Arbitrum', 'Polygon'];
@@ -17,22 +18,22 @@ const securities = ['SAFE ✅', 'AUDITED 🛡️', 'VERIFIED 💎', 'UNVERIFIED 
 
 function renderTable() {
     const tbody = document.getElementById('table-body');
-    const filter = document.getElementById('coin-search').value.toUpperCase();
-    
-    // GENERADOR DE BASE DE DATOS MASIVA (Simula las 18,000 monedas)
-    let displayData = [...topCoins];
+    if(!tbody) return;
 
-    // Si el usuario busca algo que no está en el Top (ej: SIREN), lo agregamos dinámicamente
-    if (filter && !displayData.some(c => c.id === filter)) {
-        displayData.push({ id: filter, name: filter + " Token (Global Search)" });
+    // 1. Empezamos con las top
+    let dataPool = [...topCoins];
+
+    // 2. Lógica de "Todas las monedas": Si buscas algo que no está, lo creamos
+    if (currentSearch && !dataPool.some(c => c.id === currentSearch)) {
+        dataPool.push({ id: currentSearch, name: currentSearch + " Asset (Global Network)" });
     }
 
-    // Creamos los datos de "Ballena" para cada una
-    let data = displayData.map((coin, index) => {
+    // 3. Generar datos de ballenas para el pool actual
+    let processedData = dataPool.map((coin, index) => {
         return {
             ...coin,
             isBuy: Math.random() > 0.45,
-            volume: Math.floor(Math.random() * 15000000) + 2000,
+            volume: Math.floor(Math.random() * 20000000) + 5000,
             wallet: `0x${Math.random().toString(16).slice(2, 10)}...`,
             network: networks[index % networks.length],
             impact: (Math.random() * 15).toFixed(2),
@@ -42,14 +43,21 @@ function renderTable() {
         };
     });
 
-    // Ordenar por Volumen de mayor a menor (Capital de Ballena)
-    data.sort((a, b) => b.volume - a.volume);
+    // 4. Filtrar por lo que escribiste (buscador)
+    if(currentSearch) {
+        processedData = processedData.filter(c => 
+            c.id.includes(currentSearch) || c.name.toUpperCase().includes(currentSearch)
+        );
+    }
 
-    // Lógica de visualización
+    // 5. Ordenar por Volumen (Ballena más grande arriba)
+    processedData.sort((a, b) => b.volume - a.volume);
+
+    // 6. Límites de visualización
     const limit = IS_PRO ? itemsToShow : 10;
-    const list = data.slice(0, limit);
+    const list = processedData.slice(0, limit);
     
-    document.getElementById('count-text').innerText = IS_PRO ? "18,421+" : list.length;
+    document.getElementById('count-text').innerText = IS_PRO ? "18,542+" : list.length;
 
     tbody.innerHTML = list.map(c => `
         <tr>
@@ -67,25 +75,31 @@ function renderTable() {
     `).join('');
 }
 
-// BOTÓN VER MÁS: Simula cargar más de la base de datos de 18k
+// Esta función es la que llama el input con onkeyup
+function searchCoins() {
+    currentSearch = document.getElementById('coin-search').value.toUpperCase();
+    renderTable();
+}
+
 function loadMore() {
     itemsToShow += 20;
     renderTable();
 }
-
-function searchCoins() { renderTable(); }
 
 function toggleProMode() {
     IS_PRO = true;
     itemsToShow = 20;
     const search = document.getElementById('coin-search');
     search.disabled = false;
-    search.placeholder = "🔍 BUSCAR EN 18.000+ ACTIVOS...";
+    search.placeholder = "🔍 BUSCAR EN TODA LA BLOCKCHAIN...";
     document.getElementById('load-more-btn').style.display = 'block';
     document.getElementById('sub-btn').style.display = 'none';
     document.getElementById('timer-display').innerText = "LIVE (1s)";
-    setInterval(renderTable, 1000); // Actualización segundo a segundo
+    
+    // En PRO actualizamos cada segundo
+    setInterval(renderTable, 1000);
     renderTable();
+    alert("Buscador desbloqueado. Ahora puedes verificar cualquier moneda.");
 }
 
 function updateTimer() {
