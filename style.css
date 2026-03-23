@@ -1,33 +1,22 @@
-/* REFUERZO DE COLOR */
 html, body { background-color: #050505 !important; color: #e0e0e0 !important; min-height: 100vh; }
 :root { --gold: #d4af37; --bg: #050505; --card: #111; --green: #00ff88; --red: #ff4444; }
 * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
 .container { max-width: 500px; margin: auto; padding: 10px; }
 .brand-header { background: var(--card); padding: 20px; border-radius: 15px; border: 1px solid #222; text-align: center; margin-bottom: 15px; }
-.brand-header h1 { color: var(--gold); letter-spacing: 3px; }
+.brand-header h1 { color: var(--gold); letter-spacing: 3px; font-weight: bold; }
 
-/* BUSCADOR ESTILO TERMINAL */
 .search-container { margin: 15px 0; }
-#coin-search { 
-    width: 100%; 
-    padding: 12px; 
-    background: #151515; 
-    border: 1px solid var(--gold); 
-    border-radius: 8px; 
-    color: white;
-    font-size: 0.9rem;
-}
-#coin-search:disabled { border-color: #333; color: #555; cursor: not-allowed; }
+#coin-search { width: 100%; padding: 12px; background: #151515; border: 1px solid var(--gold); border-radius: 8px; color: white; }
 
 .chart-container { height: 250px; border-radius: 15px; border: 1px solid #333; margin-bottom: 15px; overflow: hidden; }
-.radar-header { display: flex; justify-content: space-between; color: var(--gold); font-weight: bold; font-size: 0.7rem; margin-bottom: 5px; }
+.radar-header { display: flex; justify-content: space-between; color: var(--gold); font-weight: bold; font-size: 0.75rem; margin-bottom: 8px; }
 
-.table-wrapper { width: 100%; height: 450px; overflow: auto; background: #000; border: 1px solid #222; border-radius: 12px; }
-table { width: 100%; border-collapse: collapse; min-width: 1100px; }
-th { background: #1a1a1a; color: var(--gold); padding: 10px; font-size: 0.6rem; text-align: left; position: sticky; top: 0; border-bottom: 1px solid #333; }
+.table-wrapper { width: 100%; height: 500px; overflow: auto; background: #000; border: 1px solid #222; border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; min-width: 1250px; } /* Más ancho para las descripciones */
+th { background: #1a1a1a; color: var(--gold); padding: 12px; font-size: 0.65rem; text-align: left; position: sticky; top: 0; border-bottom: 1px solid #333; }
 th small { color: #666; font-size: 0.55rem; display: block; }
-td { padding: 10px; border-bottom: 1px solid #111; font-size: 0.7rem; font-family: monospace; }
+td { padding: 12px; border-bottom: 1px solid #111; font-size: 0.75rem; font-family: monospace; }
 
-.btn-gold { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-.dev-mode-btn { position: fixed; bottom: 5px; right: 5px; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 5px; font-size: 0.5rem; z-index: 100; }
+.btn-gold { width: 100%; padding: 15px; background: var(--gold); border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; color: black; text-transform: uppercase; }
+.dev-mode-btn { position: fixed; bottom: 5px; right: 5px; background: #222; color: var(--gold); border: 1px solid var(--gold); padding: 5px; font-size: 0.5rem; }
