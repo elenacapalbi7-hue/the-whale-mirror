@@ -14,16 +14,16 @@
         <p class="tagline">SISTEMA DE AUDITORÍA BLOCKCHAIN NIVEL 4</p>
     </div>
 
-    <div class="search-container" id="search-bar-container" style="display: none;">
-        <input type="text" id="coin-search" placeholder="🔍 Buscar moneda o sigla..." onkeyup="searchCoins()">
-    </div>
-
     <div class="chart-container">
         <iframe src="https://s.tradingview.com/widgetembed/?symbol=BINANCE:BTCUSDT&interval=D&theme=dark" width="100%" height="250" frameborder="0"></iframe>
     </div>
 
+    <div class="search-container">
+        <input type="text" id="coin-search" placeholder="🔍 Buscador bloqueado (Solo PRO)" onkeyup="searchCoins()" disabled>
+    </div>
+
     <div class="radar-header">
-        <span>📡 RADAR LIVE</span>
+        <span>📡 RADAR LIVE (<span id="count-text">10</span> ACTIVOS)</span>
         <span id="timer-display">10:00</span>
     </div>
 
@@ -31,27 +31,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>Activo</th>
-                    <th>Estado</th>
-                    <th>Flujo USD</th>
-                    <th>Wallet</th>
-                    <th>Red</th>
-                    <th>Impacto</th>
-                    <th>Tipo</th>
-                    <th>Liquidez</th>
-                    <th>Seguridad</th>
-                    <th>Análisis</th>
+                    <th>Activo<br><small>Moneda/Par</small></th>
+                    <th>Estado<br><small>Acción Live</small></th>
+                    <th>Flujo USD<br><small>Monto total</small></th>
+                    <th>Wallet<br><small>ID Billetera</small></th>
+                    <th>Red<br><small>Blockchain</small></th>
+                    <th>Impacto<br><small>Volatilidad</small></th>
+                    <th>Tipo<br><small>Origen</small></th>
+                    <th>Liquidez<br><small>Respaldo</small></th>
+                    <th>Seguridad<br><small>Contrato</small></th>
+                    <th>Análisis<br><small>Ver detalles</small></th>
                 </tr>
             </thead>
             <tbody id="table-body"></tbody>
         </table>
     </div>
 
+    <button id="load-more-btn" class="btn-gold" style="display: none;" onclick="loadMore()">VER MÁS (CARGAR 20)</button>
     <button id="sub-btn" class="btn-gold" onclick="toggleProMode()">ACCESO TOTAL (SUSCRIBIRSE)</button>
 </div>
 
 <button class="dev-mode-btn" onclick="toggleProMode()">DEBUG PRO</button>
-
 <script src="script.js"></script>
 </body>
 </html>
