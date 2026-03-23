@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <div class="container">
     <div class="brand-header">
         <img src="ballena.png" width="80" alt="Logo" onerror="this.style.display='none'">
@@ -15,9 +14,8 @@
         <p class="tagline">SISTEMA DE AUDITORÍA BLOCKCHAIN NIVEL 4</p>
     </div>
 
-    <div class="about-box">
-        <h2>¿Qué es Whale Mirror?</h2>
-        <p>Terminal de inteligencia que monitorea nodos RPC en tiempo real para detectar ballenas.</p>
+    <div class="search-container" id="search-bar-container" style="display: none;">
+        <input type="text" id="coin-search" placeholder="🔍 Buscar moneda (Ej: Solana)..." onkeyup="searchCoins()">
     </div>
 
     <div class="chart-container">
@@ -25,18 +23,18 @@
     </div>
 
     <div class="radar-header">
-        <span>📡 RADAR LIVE (10 COLUMNAS PRO)</span>
-        <span>05:00</span>
+        <span>📡 RADAR LIVE (<span id="coin-count-display">10</span> ACTIVOS)</span>
+        <span id="timer-display">10:00</span>
     </div>
 
     <div class="table-wrapper">
         <table>
             <thead>
                 <tr>
-                    <th>Activo<br><small>Moneda/Par</small></th>
-                    <th>Estado<br><small>Acción Live</small></th>
-                    <th>Flujo USD<br><small>Monto total</small></th>
-                    <th>Wallet<br><small>ID Billetera</small></th>
+                    <th>Activo<br><small>Moneda</small></th>
+                    <th>Estado<br><small>Acción</small></th>
+                    <th>Flujo USD<br><small>Monto</small></th>
+                    <th>Wallet<br><small>ID</small></th>
                     <th>Red<br><small>Blockchain</small></th>
                     <th>Impacto<br><small>Volatilidad</small></th>
                     <th>Tipo<br><small>Origen</small></th>
@@ -49,15 +47,12 @@
         </table>
     </div>
 
-    <button class="btn-gold" onclick="openSubscription()">ACCESO TOTAL (SUSCRIBIRSE)</button>
+    <button id="load-more-btn" class="btn-gold" style="display: none;" onclick="loadMoreCoins()">CARGAR 20 MÁS</button>
+    <button id="sub-btn" class="btn-gold" onclick="openSubscription()">ACCESO PRO (SUSCRIBIRSE)</button>
 </div>
 
 <div id="modal" class="modal">
-    <div class="modal-content">
-        <h2 style="color:var(--gold);">WHALE MIRROR PRO</h2>
-        <p>Suscríbete para acceder a la terminal completa.</p>
-        <button class="btn-gold" onclick="closeModal()">CERRAR</button>
-    </div>
+    <div class="modal-content" id="modal-content"></div>
 </div>
 
 <script src="script.js"></script>
