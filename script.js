@@ -1,85 +1,77 @@
 let IS_PRO = false;
 let timeLeft = 600;
 let itemsToShow = 10;
-let currentSearch = "";
+let allRealCoins = []; // Aquí se guardarán las +18,000 monedas reales
 
-// Lista base de referencia
-const topCoins = [
-    {id: 'BTC', name: 'Bitcoin'}, {id: 'ETH', name: 'Ethereum'}, {id: 'SOL', name: 'Solana'},
-    {id: 'BNB', name: 'Binance Coin'}, {id: 'XRP', name: 'Ripple'}, {id: 'DOGE', name: 'Dogecoin'},
-    {id: 'ADA', name: 'Cardano'}, {id: 'AVAX', name: 'Avalanche'}, {id: 'PEPE', name: 'Pepe'},
-    {id: 'DOT', name: 'Polkadot'}, {id: 'LINK', name: 'Chainlink'}, {id: 'TRX', name: 'TRON'}
-];
-
-const networks = ['Solana', 'Ethereum', 'BSC', 'Base', 'Arbitrum', 'Polygon'];
-const origins = ['Institutional', 'Exchange Inflow', 'Private Whale', 'DEX LP', 'OTC Trade'];
-const liquidities = ['ULTRA-HIGH', 'HIGH', 'STABLE', 'MODERATE'];
-const securities = ['SAFE ✅', 'AUDITED 🛡️', 'VERIFIED 💎', 'UNVERIFIED ⚠️', 'HIGH RISK 🔥'];
+// 1. FUNCIÓN PARA CARGAR TODAS LAS MONEDAS REALES DEL MERCADO
+async function fetchAllCoins() {
+    try {
+        // Consultamos la lista oficial de CoinGecko (todas las criptos existentes)
+        const response = await fetch('https://api.coingecko.com/api/v3/coins/list');
+        allRealCoins = await response.json();
+        console.log("Mercado real cargado: " + allRealCoins.length + " monedas.");
+        renderTable();
+    } catch (error) {
+        console.error("Error conectando al mercado real:", error);
+    }
+}
 
 function renderTable() {
     const tbody = document.getElementById('table-body');
-    if(!tbody) return;
-
-    // 1. Empezamos con las top
-    let dataPool = [...topCoins];
-
-    // 2. Lógica de "Todas las monedas": Si buscas algo que no está, lo creamos
-    if (currentSearch && !dataPool.some(c => c.id === currentSearch)) {
-        dataPool.push({ id: currentSearch, name: currentSearch + " Asset (Global Network)" });
+    const filter = document.getElementById('coin-search').value.toLowerCase();
+    
+    // Si la lista aún no carga, mostramos un aviso
+    if (allRealCoins.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:20px;">Conectando con Nodos Blockchain...</td></tr>';
+        return;
     }
 
-    // 3. Generar datos de ballenas para el pool actual
-    let processedData = dataPool.map((coin, index) => {
-        return {
-            ...coin,
-            isBuy: Math.random() > 0.45,
-            volume: Math.floor(Math.random() * 20000000) + 5000,
-            wallet: `0x${Math.random().toString(16).slice(2, 10)}...`,
-            network: networks[index % networks.length],
-            impact: (Math.random() * 15).toFixed(2),
-            origin: origins[index % origins.length],
-            liquidity: liquidities[index % liquidities.length],
-            security: securities[index % securities.length]
-        };
-    });
-
-    // 4. Filtrar por lo que escribiste (buscador)
-    if(currentSearch) {
-        processedData = processedData.filter(c => 
-            c.id.includes(currentSearch) || c.name.toUpperCase().includes(currentSearch)
+    // FILTRADO REAL: Solo lo que existe en la lista oficial
+    let filtered = allRealCoins;
+    if (filter) {
+        filtered = allRealCoins.filter(c => 
+            c.symbol.toLowerCase() === filter || 
+            c.name.toLowerCase().includes(filter)
         );
     }
 
-    // 5. Ordenar por Volumen (Ballena más grande arriba)
-    processedData.sort((a, b) => b.volume - a.volume);
+    // Si buscas algo que NO EXISTE (como 'akdoodo'), no muestra nada
+    if (filtered.length === 0 && filter !== "") {
+        tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:red; padding:20px;">ERROR: Activo no encontrado en la red.</td></tr>';
+        return;
+    }
 
-    // 6. Límites de visualización
+    // PARÁMETROS DE SEGURIDAD Y RED (Simulamos la auditoría sobre la moneda real)
+    const networks = ['Solana', 'Ethereum', 'BSC', 'Base', 'Polygon'];
+    const securities = ['SAFE ✅', 'AUDITED 🛡️', 'VERIFIED 💎', 'HIGH RISK ⚠️'];
+
     const limit = IS_PRO ? itemsToShow : 10;
-    const list = processedData.slice(0, limit);
+    const displayList = filtered.slice(0, limit);
     
-    document.getElementById('count-text').innerText = IS_PRO ? "18,542+" : list.length;
+    document.getElementById('count-text').innerText = allRealCoins.length;
 
-    tbody.innerHTML = list.map(c => `
-        <tr>
-            <td><b style="color:var(--gold)">${c.id}</b><br><small style="color:#666">${c.name}</small></td>
-            <td style="color:${c.isBuy ? 'var(--green)' : 'var(--red)'}">${c.isBuy ? 'COMPRA' : 'VENTA'}</td>
-            <td style="font-weight:bold">$${c.volume.toLocaleString()}</td>
-            <td style="color:#888">${c.wallet}</td>
-            <td>${c.network}</td>
-            <td style="color:var(--green)">+${c.impact}%</td>
-            <td>${c.origin}</td>
-            <td>${c.liquidity}</td>
-            <td style="color:${c.security.includes('⚠️') || c.security.includes('🔥') ? 'var(--red)' : 'var(--green)'}">${c.security}</td>
-            <td><button onclick="alert('Abriendo Auditoría de Contrato...')" style="background:var(--gold); border:none; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.6rem; cursor:pointer;">VER DETALLES</button></td>
-        </tr>
-    `).join('');
+    tbody.innerHTML = displayList.map((c, i) => {
+        const isBuy = Math.random() > 0.45;
+        // El volumen se genera aleatoriamente para simular el movimiento de ballenas de ese momento
+        const vol = Math.floor(Math.random() * 5000000) + 1000; 
+        
+        return `
+            <tr>
+                <td><b style="color:var(--gold)">${c.symbol.toUpperCase()}</b><br><small style="color:#666">${c.name}</small></td>
+                <td style="color:${isBuy ? 'var(--green)' : 'var(--red)'}">${isBuy ? 'COMPRA' : 'VENTA'}</td>
+                <td style="font-weight:bold">$${vol.toLocaleString()}</td>
+                <td style="color:#888">0x${Math.random().toString(16).slice(2, 10)}...</td>
+                <td>${networks[i % networks.length]}</td>
+                <td style="color:var(--green)">+${(Math.random() * 8).toFixed(2)}%</td>
+                <td>Whale Wallet</td>
+                <td>HIGH</td>
+                <td style="color:${i % 4 === 3 ? 'var(--red)' : 'var(--green)'}">${securities[i % securities.length]}</td>
+                <td><button onclick="alert('Iniciando Auditoría de Contrato para ${c.id}...')" style="background:var(--gold); border:none; padding:5px 10px; border-radius:4px; font-weight:bold; font-size:0.6rem; cursor:pointer;">DETALLES</button></td>
+            </tr>`;
+    }).join('');
 }
 
-// Esta función es la que llama el input con onkeyup
-function searchCoins() {
-    currentSearch = document.getElementById('coin-search').value.toUpperCase();
-    renderTable();
-}
+function searchCoins() { renderTable(); }
 
 function loadMore() {
     itemsToShow += 20;
@@ -91,15 +83,12 @@ function toggleProMode() {
     itemsToShow = 20;
     const search = document.getElementById('coin-search');
     search.disabled = false;
-    search.placeholder = "🔍 BUSCAR EN TODA LA BLOCKCHAIN...";
+    search.placeholder = "🔍 BUSCAR EN +18.000 MONEDAS REALES...";
     document.getElementById('load-more-btn').style.display = 'block';
     document.getElementById('sub-btn').style.display = 'none';
     document.getElementById('timer-display').innerText = "LIVE (1s)";
-    
-    // En PRO actualizamos cada segundo
-    setInterval(renderTable, 1000);
+    setInterval(renderTable, 1000); 
     renderTable();
-    alert("Buscador desbloqueado. Ahora puedes verificar cualquier moneda.");
 }
 
 function updateTimer() {
@@ -111,5 +100,6 @@ function updateTimer() {
     document.getElementById('timer-display').innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
+// Carga inicial
+fetchAllCoins();
 setInterval(updateTimer, 1000);
-renderTable();
